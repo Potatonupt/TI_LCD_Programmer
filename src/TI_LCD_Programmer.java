@@ -144,7 +144,7 @@ public class TI_LCD_Programmer extends JFrame
         AddButton.addActionListener(e -> {
             if_operator = true;
             nowoperator = 1;
-            operator2 = "" + tmp;
+
             if (!operator2.isEmpty())
                 second = new BigDecimal(operator2);
             else
@@ -158,7 +158,7 @@ public class TI_LCD_Programmer extends JFrame
         SubButton.addActionListener(e -> {
             if_operator = true;
             nowoperator = 2;
-            operator2 = IOput.getText();
+            operator2 = "" + tmp;
             if (!operator2.isEmpty())
                 second = new BigDecimal(operator2);
             else
@@ -172,11 +172,11 @@ public class TI_LCD_Programmer extends JFrame
         MulButton.addActionListener(e -> {
             if_operator = true;
             nowoperator = 3;
-            operator2 = IOput.getText();
+            operator2 = "" + tmp;
             if (!operator2.isEmpty())
                 second = new BigDecimal(operator2);
             else
-                second = new BigDecimal(0);
+                second = new BigDecimal(1);
             calculate();
             IOput_display(answer.toString());
             tmp = "";
@@ -186,11 +186,11 @@ public class TI_LCD_Programmer extends JFrame
         DivButton.addActionListener(e -> {
             if_operator = true;
             nowoperator = 4;
-            operator2 = IOput.getText();
+            operator2 = "" + tmp;
             if (!operator2.isEmpty())
                 second = new BigDecimal(operator2);
             else
-                second = new BigDecimal(0);
+                second = new BigDecimal(1);
             calculate();
             IOput_display(answer.toString());
             tmp = "";
@@ -200,7 +200,7 @@ public class TI_LCD_Programmer extends JFrame
         EqualButton.addActionListener(e -> {
             if_operator = true;
             nowoperator = 0;
-            operator2 = IOput.getText();
+            operator2 = "" + tmp;
             if (!operator2.isEmpty())
                 second = new BigDecimal(operator2);
             else
