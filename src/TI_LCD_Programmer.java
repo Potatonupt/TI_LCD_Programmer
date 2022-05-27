@@ -319,14 +319,15 @@ public class TI_LCD_Programmer extends JFrame
                 second = new BigDecimal(operator2);
             else
                 second = new BigDecimal(0);
-            equaloptmp=lastoperator;
-            equaltmp=second;
+            if(lastoperator!=0)
+            {
+                equaloptmp=lastoperator;
+                equaltmp=second;
+            }
             if(lastoperator==0)
             {
                 lastoperator=equaloptmp;
                 second=equaltmp;
-                equaloptmp=lastoperator;
-                equaltmp=second;
             }
             calculate();
             IOput_display(answer.toString());
