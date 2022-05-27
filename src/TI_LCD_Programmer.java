@@ -3,10 +3,13 @@ import java.awt.*;
 import java.awt.event.*;
 import java.math.BigDecimal;
 import java.util.Stack;
+import java.util.Locale;
 
 
 public class TI_LCD_Programmer extends JFrame
 {
+
+
 
 
     private void initButton()
@@ -54,6 +57,43 @@ public class TI_LCD_Programmer extends JFrame
         a9Button.addActionListener(e -> {
             isOperator = false;
             displayIOput("9");
+        });
+        AButton.addActionListener(e->{
+            if(isHEX) {
+                isOperator = false;
+
+                displayIOput("A");
+            }
+        });
+        bButton.addActionListener(e->{
+            if(isHEX) {
+                isOperator = false;
+                displayIOput("B");
+            }
+        });
+        CButton.addActionListener(e->{
+            if(isHEX) {
+                isOperator = false;
+                displayIOput("C");
+            }
+        });
+        dButton.addActionListener(e->{
+            if(isHEX) {
+                isOperator = false;
+                displayIOput("D");
+            }
+        });
+        EButton.addActionListener(e->{
+            if(isHEX) {
+                isOperator = false;
+                displayIOput("E");
+            }
+        });
+        FButton.addActionListener(e->{
+            if(isHEX) {
+                isOperator = false;
+                displayIOput("F");
+            }
         });
         dotButton.addActionListener(e -> {
             isOperator = false;
@@ -199,11 +239,13 @@ public class TI_LCD_Programmer extends JFrame
             {
                 isONforCLR =true;  //转变开机键功能
                 IOput.setText("0");
+                OverFlow.setText("");
             }
             else
             {
                 clearall();
                 IOput.setText("0");
+                OverFlow.setText("");
             }
         });
         OFFButton.addActionListener(e -> {
@@ -212,6 +254,97 @@ public class TI_LCD_Programmer extends JFrame
             //清零 然后关机
             clearall();
             IOput.setText("");
+        });
+        HEXButton.addActionListener(e->{
+            if(isHEX==false) {
+                isDEC = false;
+                isHEX = true;
+                DECLabel.setText("");
+                HEXLabel.setText("HEX");
+                if (IOput.getText().length() > 0) {
+                    Integer temp = Integer.decode(IOput.getText());
+                    IOput.setText(temp.toHexString(temp).toUpperCase(Locale.ROOT));
+                }
+            }
+            else
+                return;
+        });
+        DECButton.addActionListener(e->{
+            if(isDEC==false) {
+                isDEC = true;
+                isHEX = false;
+                DECLabel.setText("DEC");
+                HEXLabel.setText("");
+//            if(IOput.getText().length()>0) {
+//                Integer temp = Integer.parseInt(IOput.getText(),10);
+//                IOput.setText(temp.toString(temp).toUpperCase(Locale.ROOT));
+//            }
+                BigDecimal DECcacluate = new BigDecimal(0);//保存10进制换算结果
+//            BigDecimal HEXcacluate=new BigDecimal(0);//保存16进制换算结果(以十进制模式表示)
+                String Text = IOput.getText();
+                for (int i = 0; i < IOput.getText().length(); i++) {
+                    char a = Text.charAt(i);
+                    int num = (int) Math.pow(16, (Text.length() - 1 - i));
+                    switch (a) {
+                        case '0':
+                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(0));
+                            break;
+                        case '1':
+                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(1 * num));
+                            break;
+                        case '2':
+                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(2 * num));
+                            break;
+                        case '3':
+                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(3 * num));
+                            break;
+                        case '4':
+                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(4 * num));
+                            break;
+                        case '5':
+                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(5 * num));
+                            break;
+                        case '6':
+                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(6 * num));
+                            break;
+                        case '7':
+                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(7 * num));
+                            break;
+                        case '8':
+                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(8 * num));
+                            break;
+                        case '9':
+                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(9 * num));
+                            break;
+                        case 'A':
+                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(10 * num));
+                            break;
+                        case 'B':
+                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(11 * num));
+                            break;
+                        case 'C':
+                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(12 * num));
+                            break;
+                        case 'D':
+                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(13 * num));
+                            break;
+                        case 'E':
+                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(14 * num));
+                            break;
+                        case 'F':
+                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(15 * num));
+                            break;
+                    }
+                    System.out.println(DECcacluate);
+
+                }
+
+                IOput.setText(DECcacluate.toString());
+                if (isOverflow())
+                    IOput.setText(IOput.getText().substring(IOput.getText().length() - 8, IOput.getText().length()));
+            }
+            else
+                return;
         });
     }
 
@@ -243,19 +376,29 @@ public class TI_LCD_Programmer extends JFrame
         first = answer;
         lastoperator = nowoperator;
     }
-
+    private boolean isOverflow()//判断运算溢出但并未区分正负上下溢出
+    {
+        if(IOput.getText().length()>8)
+        {
+            OverFlow.setText("Warning:Operation Overflow!");
+//            IOput.setText(tmp.substring(0,7));
+            return true;
+        }
+        return false;
+    }
     private void displayIOput(String s)
     {
         if(isON ==true)
         {
             if (isOperator == true)
-                tmp = "";
+                    tmp="";
             if(tmp.length()<8)
-                tmp = tmp + s;
+                tmp=tmp+s;
             IOput.setText(tmp);
+            if(isOverflow())
+                IOput.setText(tmp.substring(tmp.length()-8,tmp.length()));
         }
     }
-
     private void clearall()
     {
         isOperator = false;   //是否是运算符
@@ -566,6 +709,11 @@ public class TI_LCD_Programmer extends JFrame
         HEXLabel.setForeground(Color.BLACK);//设置字体颜色
         HEXLabel.setFont(BaseFont);
         HEXLabel.setBorder(BorderFactory.createEmptyBorder());
+        OverFlow.setFont(BaseFont);//设置字体样式
+        OverFlow.setText("");//设置默认的文本
+        OverFlow.setForeground(Color.BLACK);//设置字体颜色
+        OverFlow.setFont(BaseFont);
+        DECLabel.setBorder(BorderFactory.createEmptyBorder());
         TEXAS.setFont(labelFont1);
         TI.setFont(labelFont1);
         CM.setFont(labelFont);
@@ -694,6 +842,7 @@ public class TI_LCD_Programmer extends JFrame
     private JTextField EmptySpacer1;
     private JTextField EmptySpacer2;
     private JPanel TI_LCD_Programmer;
+    private JLabel OverFlow;
     private int symbol = 1;
     private boolean isOperator = false;   //是否是运算符
     private String operator1 = "";            //操作数1
@@ -712,4 +861,6 @@ public class TI_LCD_Programmer extends JFrame
     private int OperatingMode=0;           //工作模式 0表示标准 1表示带括号
     private String infix ="3+4*(4*5-6/2)";   //中缀表达式
     private String postfix ="";                //后缀表达式
+    private boolean isDEC;//是否是十进制模式
+    private boolean isHEX;//是否十六进制模式
 }
