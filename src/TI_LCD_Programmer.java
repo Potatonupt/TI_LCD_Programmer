@@ -46,6 +46,7 @@ public class TI_LCD_Programmer extends JFrame
 //        this.requestFocusInWindow();
         this.setLocation((int) (kit.getScreenSize().getWidth()/2-250), (int) (kit.getScreenSize().getHeight()/2-500));
         this.pack();
+        this.setFocusable(true);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -373,6 +374,7 @@ public class TI_LCD_Programmer extends JFrame
         MulButton.registerKeyboardAction(e -> MulButton.doClick(), KeyStroke.getKeyStroke("pressed MULTIPLY"), JComponent.WHEN_IN_FOCUSED_WINDOW);
         DivButton.registerKeyboardAction(e -> DivButton.doClick(), KeyStroke.getKeyStroke("pressed DIVIDE"), JComponent.WHEN_IN_FOCUSED_WINDOW);
         dotButton.registerKeyboardAction(e -> dotButton.doClick(), KeyStroke.getKeyStroke("pressed DECIMAL"), JComponent.WHEN_IN_FOCUSED_WINDOW);
+        dotButton.registerKeyboardAction(e -> dotButton.doClick(), KeyStroke.getKeyStroke("pressed PERIOD"), JComponent.WHEN_IN_FOCUSED_WINDOW);
         EqualButton.registerKeyboardAction(e -> EqualButton.doClick(), KeyStroke.getKeyStroke("pressed ENTER"), JComponent.WHEN_IN_FOCUSED_WINDOW);
         CEButton.registerKeyboardAction(e -> CEButton.doClick(), KeyStroke.getKeyStroke("pressed BACK_SPACE"), JComponent.WHEN_IN_FOCUSED_WINDOW);
         ONorCLRButton.registerKeyboardAction(e -> ONorCLRButton.doClick(), KeyStroke.getKeyStroke("pressed DELETE"), JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -601,4 +603,5 @@ public class TI_LCD_Programmer extends JFrame
     private boolean if_onon=false;
     private BigDecimal equaltmp=new BigDecimal(0);
     private int equaloptmp=-1;
+    private int numeral=10;             //表示当前输入的进制
 }
