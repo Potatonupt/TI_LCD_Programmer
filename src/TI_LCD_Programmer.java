@@ -35,6 +35,7 @@ public class TI_LCD_Programmer extends JFrame
 //        });
 
 
+
     }
 
     public void init()
@@ -184,20 +185,36 @@ public class TI_LCD_Programmer extends JFrame
             updateAnswer();
         });
 
-        CEButton.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
+        CEButton.addActionListener(e -> {
+            //clear error 清除一位
+            if(!tmp.isEmpty())
             {
-                //clear error 清除一位
-                if(!tmp.isEmpty())
-                {
-                    tmp=tmp.substring(0,tmp.length()-1);
-                    if(tmp.isEmpty())
-                        tmp="0";
-                    IOput.setText(tmp);
-                }
+                tmp=tmp.substring(0,tmp.length()-1);
+                if(tmp.isEmpty())
+                    tmp="0";
+                IOput.setText(tmp);
             }
+        });
+        ONorCLRButton.addActionListener(e -> {
+            if_on = true;
+            //开机后清零 然后显示0；
+            if(if_onon==false)
+            {
+                if_onon=true;  //转变开机键功能
+                IOput.setText("0");
+            }
+            else
+            {
+                clearall();
+                IOput.setText("0");
+            }
+        });
+        OFFButton.addActionListener(e -> {
+            if_on=false;
+            if_onon=false;
+            //清零 然后关机
+            clearall();
+            IOput.setText("");
         });
     }
 
@@ -359,6 +376,7 @@ public class TI_LCD_Programmer extends JFrame
         EqualButton.registerKeyboardAction(e -> EqualButton.doClick(), KeyStroke.getKeyStroke("pressed ENTER"), JComponent.WHEN_IN_FOCUSED_WINDOW);
         CEButton.registerKeyboardAction(e -> CEButton.doClick(), KeyStroke.getKeyStroke("pressed BACK_SPACE"), JComponent.WHEN_IN_FOCUSED_WINDOW);
         ONorCLRButton.registerKeyboardAction(e -> ONorCLRButton.doClick(), KeyStroke.getKeyStroke("pressed DELETE"), JComponent.WHEN_IN_FOCUSED_WINDOW);
+        OFFButton.registerKeyboardAction(e -> OFFButton.doClick(), KeyStroke.getKeyStroke("pressed ESCAPE"), JComponent.WHEN_IN_FOCUSED_WINDOW);
     }
 
     public void setToolButton()//非数字按钮的设置
