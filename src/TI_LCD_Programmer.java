@@ -35,6 +35,7 @@ public class TI_LCD_Programmer extends JFrame
                 else
                 {
                     clearall();
+                    IOput.setText("0");
                 }
             }
         });
