@@ -256,95 +256,97 @@ public class TI_LCD_Programmer extends JFrame
             IOput.setText("");
         });
         HEXButton.addActionListener(e->{
-            if(isHEX==false) {
-                isDEC = false;
-                isHEX = true;
-                DECLabel.setText("");
-                HEXLabel.setText("HEX");
-                if (IOput.getText().length() > 0) {
-                    Integer temp = Integer.decode(IOput.getText());
-                    IOput.setText(temp.toHexString(temp).toUpperCase(Locale.ROOT));
-                }
+            if(isON) {
+                if (isHEX == false) {
+                    isDEC = false;
+                    isHEX = true;
+                    DECLabel.setText("");
+                    HEXLabel.setText("HEX");
+                    if (IOput.getText().length() > 0) {
+                        Integer temp = Integer.decode(IOput.getText());
+                        IOput.setText(temp.toHexString(temp).toUpperCase(Locale.ROOT));
+                    }
+                } else
+                    return;
             }
-            else
-                return;
         });
         DECButton.addActionListener(e->{
-            if(isDEC==false) {
-                isDEC = true;
-                isHEX = false;
-                DECLabel.setText("DEC");
-                HEXLabel.setText("");
+            if(isON) {
+                if (isDEC == false) {
+                    isDEC = true;
+                    isHEX = false;
+                    DECLabel.setText("DEC");
+                    HEXLabel.setText("");
 //            if(IOput.getText().length()>0) {
 //                Integer temp = Integer.parseInt(IOput.getText(),10);
 //                IOput.setText(temp.toString(temp).toUpperCase(Locale.ROOT));
 //            }
-                BigDecimal DECcacluate = new BigDecimal(0);//保存10进制换算结果
+                    BigDecimal DECcacluate = new BigDecimal(0);//保存10进制换算结果
 //            BigDecimal HEXcacluate=new BigDecimal(0);//保存16进制换算结果(以十进制模式表示)
-                String Text = IOput.getText();
-                for (int i = 0; i < IOput.getText().length(); i++) {
-                    char a = Text.charAt(i);
-                    int num = (int) Math.pow(16, (Text.length() - 1 - i));
-                    switch (a) {
-                        case '0':
-                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(0));
-                            break;
-                        case '1':
-                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(1 * num));
-                            break;
-                        case '2':
-                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(2 * num));
-                            break;
-                        case '3':
-                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(3 * num));
-                            break;
-                        case '4':
-                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(4 * num));
-                            break;
-                        case '5':
-                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(5 * num));
-                            break;
-                        case '6':
-                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(6 * num));
-                            break;
-                        case '7':
-                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(7 * num));
-                            break;
-                        case '8':
-                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(8 * num));
-                            break;
-                        case '9':
-                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(9 * num));
-                            break;
-                        case 'A':
-                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(10 * num));
-                            break;
-                        case 'B':
-                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(11 * num));
-                            break;
-                        case 'C':
-                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(12 * num));
-                            break;
-                        case 'D':
-                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(13 * num));
-                            break;
-                        case 'E':
-                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(14 * num));
-                            break;
-                        case 'F':
-                            DECcacluate = DECcacluate.add(BigDecimal.valueOf(15 * num));
-                            break;
+                    String Text = IOput.getText();
+                    for (int i = 0; i < IOput.getText().length(); i++) {
+                        char a = Text.charAt(i);
+                        int num = (int) Math.pow(16, (Text.length() - 1 - i));
+                        switch (a) {
+                            case '0':
+                                DECcacluate = DECcacluate.add(BigDecimal.valueOf(0));
+                                break;
+                            case '1':
+                                DECcacluate = DECcacluate.add(BigDecimal.valueOf(1 * num));
+                                break;
+                            case '2':
+                                DECcacluate = DECcacluate.add(BigDecimal.valueOf(2 * num));
+                                break;
+                            case '3':
+                                DECcacluate = DECcacluate.add(BigDecimal.valueOf(3 * num));
+                                break;
+                            case '4':
+                                DECcacluate = DECcacluate.add(BigDecimal.valueOf(4 * num));
+                                break;
+                            case '5':
+                                DECcacluate = DECcacluate.add(BigDecimal.valueOf(5 * num));
+                                break;
+                            case '6':
+                                DECcacluate = DECcacluate.add(BigDecimal.valueOf(6 * num));
+                                break;
+                            case '7':
+                                DECcacluate = DECcacluate.add(BigDecimal.valueOf(7 * num));
+                                break;
+                            case '8':
+                                DECcacluate = DECcacluate.add(BigDecimal.valueOf(8 * num));
+                                break;
+                            case '9':
+                                DECcacluate = DECcacluate.add(BigDecimal.valueOf(9 * num));
+                                break;
+                            case 'A':
+                                DECcacluate = DECcacluate.add(BigDecimal.valueOf(10 * num));
+                                break;
+                            case 'B':
+                                DECcacluate = DECcacluate.add(BigDecimal.valueOf(11 * num));
+                                break;
+                            case 'C':
+                                DECcacluate = DECcacluate.add(BigDecimal.valueOf(12 * num));
+                                break;
+                            case 'D':
+                                DECcacluate = DECcacluate.add(BigDecimal.valueOf(13 * num));
+                                break;
+                            case 'E':
+                                DECcacluate = DECcacluate.add(BigDecimal.valueOf(14 * num));
+                                break;
+                            case 'F':
+                                DECcacluate = DECcacluate.add(BigDecimal.valueOf(15 * num));
+                                break;
+                        }
+//                        System.out.println(DECcacluate);
+
                     }
-                    System.out.println(DECcacluate);
 
-                }
-
-                IOput.setText(DECcacluate.toString());
-                if (isOverflow())
-                    IOput.setText(IOput.getText().substring(IOput.getText().length() - 8, IOput.getText().length()));
+                    IOput.setText(DECcacluate.toString());
+                    if (isOverflow())
+                        IOput.setText(IOput.getText().substring(IOput.getText().length() - 8, IOput.getText().length()));
+                } else
+                    return;
             }
-            else
-                return;
         });
     }
 
