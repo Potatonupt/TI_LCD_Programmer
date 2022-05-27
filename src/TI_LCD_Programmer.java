@@ -43,10 +43,9 @@ public class TI_LCD_Programmer extends JFrame
         this.setTitle("TI_LCD_Programmer");
         this.add(TI_LCD_Programmer);
         Toolkit kit = Toolkit.getDefaultToolkit();
-//        this.requestFocusInWindow();
         this.setLocation((int) (kit.getScreenSize().getWidth()/2-250), (int) (kit.getScreenSize().getHeight()/2-500));
         this.pack();
-        this.setFocusable(true);
+        this.setFocusable(true);      //要写在visible前面
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
