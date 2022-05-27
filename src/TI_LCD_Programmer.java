@@ -17,9 +17,9 @@ public class TI_LCD_Programmer extends JFrame
     public TI_LCD_Programmer()
     {
         ON_OFF_control();
-        layout_init();
+        initLayout();
         initKeyboard();
-        button_init();
+        initButton();
         a3Button.addKeyListener(new KeyAdapter()
         {
             @Override
@@ -48,7 +48,7 @@ public class TI_LCD_Programmer extends JFrame
     }
 
 
-    private void button_init()
+    private void initButton()
     {
 
         a0Button.addActionListener(e ->
@@ -252,7 +252,7 @@ public class TI_LCD_Programmer extends JFrame
         });
     }
     
-    private void layout_init()
+    private void initLayout()
     {
         setToolButton();
         setDigitalButton();
