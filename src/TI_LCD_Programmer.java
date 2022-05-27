@@ -37,7 +37,7 @@ public class TI_LCD_Programmer extends JFrame
         this.setTitle("TI_LCD_Programmer");
         this.add(TI_LCD_Programmer);
         Toolkit kit = Toolkit.getDefaultToolkit();
-        this.setLocation((int) (kit.getScreenSize().getWidth()/2-250), (int) (kit.getScreenSize().getHeight()/2-500));
+        this.setLocation((int) (kit.getScreenSize().getWidth() / 2 - 250), (int) (kit.getScreenSize().getHeight() / 2 - 500));
         this.pack();
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -217,92 +217,110 @@ public class TI_LCD_Programmer extends JFrame
     {
         switch (lastoperator)
         {
-            case 1:answer=first.add(second);break;
-            case 2:answer=first.subtract(second);break;
-            case 3:answer=first.multiply(second);break;
-            case 4:answer=first.divide(second);break;
-            case 0:answer=second;
+            case 1:
+                answer = first.add(second);
+                break;
+            case 2:
+                answer = first.subtract(second);
+                break;
+            case 3:
+                answer = first.multiply(second);
+                break;
+            case 4:
+                answer = first.divide(second);
+                break;
+            case 0:
+                answer = second;
         }
     }
 
     private void IOput_display(String s)
     {
-        if(if_operator==true)
-            tmp="";
+        if (if_operator == true)
+            tmp = "";
         tmp = tmp + s;
         IOput.setText(tmp);
     }
 
     public void setToolButton()//非数字按钮的设置
     {
-        JButton[] ToolButton={
-                DECButton,HEXButton,OCTButton,OFFButton,ONorCLRButton,
-                STOButton,RCLButton,SUMButton,OPButton,CPButton,
-                SHFButton,dButton,EButton,FButton,KButton,
-                a1SCButton,AButton,bButton,CButton,DivButton,
-                ORButton,MulButton,ANDButton,SubButton,XORButton,
-                AddButton,CEButton,EqualButton};
-        for(int i=0;i<ToolButton.length;i++)
+        JButton[] ToolButton = {
+                DECButton, HEXButton, OCTButton, OFFButton, ONorCLRButton,
+                STOButton, RCLButton, SUMButton, OPButton, CPButton,
+                SHFButton, dButton, EButton, FButton, KButton,
+                a1SCButton, AButton, bButton, CButton, DivButton,
+                ORButton, MulButton, ANDButton, SubButton, XORButton,
+                AddButton, CEButton, EqualButton};
+        for (int i = 0; i < ToolButton.length; i++)
         {
-            Font buttonFont=new Font("Times New Romans",Font.BOLD,25);//设置字体
+            Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
             ToolButton[i].setBorderPainted(false);//取消边框
             ToolButton[i].setBackground(new Color(62, 68, 79));//设置背景颜色
             ToolButton[i].setFocusPainted(false);//取消聚焦
-            ToolButton[i].setForeground(new Color(255,255,255));//设置按钮上的字体颜色
+            ToolButton[i].setForeground(new Color(255, 255, 255));//设置按钮上的字体颜色
             ToolButton[i].setFont(buttonFont);
             int finalI = i;
-            ToolButton[i].addMouseListener(new MouseAdapter() {
+            ToolButton[i].addMouseListener(new MouseAdapter()
+            {
                 @Override
-                public void mouseEntered(MouseEvent e) {
+                public void mouseEntered(MouseEvent e)
+                {
                     super.mouseEntered(e);
                     ToolButton[finalI].setBackground(new Color(32, 38, 49));
                 }
 
                 @Override
-                public void mouseExited(MouseEvent e) {
+                public void mouseExited(MouseEvent e)
+                {
                     super.mouseExited(e);
                     ToolButton[finalI].setBackground(new Color(62, 68, 79));
                 }
             });
         }
     }
+
     public void setDigitalButton()//对数字按钮进行设置
     {
-        JButton[] DigitalButton={
-                a7Button,a8Button,a9Button,
-                a4Button,a5Button,a6Button,
-                a1Button,a2Button,a3Button,
-                a0Button,dotButton,AddOrSubButton
+        JButton[] DigitalButton = {
+                a7Button, a8Button, a9Button,
+                a4Button, a5Button, a6Button,
+                a1Button, a2Button, a3Button,
+                a0Button, dotButton, AddOrSubButton
         };
-        Font buttonFont=new Font("Times New Romans",Font.BOLD,25);
-        for(int i=0;i<DigitalButton.length;i++) {
+        Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);
+        for (int i = 0; i < DigitalButton.length; i++)
+        {
             DigitalButton[i].setBorderPainted(false);
             DigitalButton[i].setBackground(new Color(188, 189, 194));
             DigitalButton[i].setFocusPainted(false);
             DigitalButton[i].setForeground(new Color(26, 23, 23));
             DigitalButton[i].setFont(buttonFont);
             int finalI = i;
-            DigitalButton[i].addMouseListener(new MouseAdapter() {
+            DigitalButton[i].addMouseListener(new MouseAdapter()
+            {
                 @Override
-                public void mouseEntered(MouseEvent e) {
+                public void mouseEntered(MouseEvent e)
+                {
                     super.mouseEntered(e);
                     DigitalButton[finalI].setBackground(new Color(138, 138, 138));
 
                 }
 
                 @Override
-                public void mouseExited(MouseEvent e) {
+                public void mouseExited(MouseEvent e)
+                {
                     super.mouseExited(e);
                     DigitalButton[finalI].setBackground(new Color(188, 189, 194));
                 }
             });
         }
     }
+
     public void setLabel()//对标签进行设置
     {
-        Font labelFont=new Font("Times New Romans",Font.BOLD,18);
-        Font labelFont1=new Font("Times New Romans",Font.BOLD,20);
-        Font BaseFont=new Font("Times New Romans",Font.BOLD,22);
+        Font labelFont = new Font("Times New Romans", Font.BOLD, 18);
+        Font labelFont1 = new Font("Times New Romans", Font.BOLD, 20);
+        Font BaseFont = new Font("Times New Romans", Font.BOLD, 22);
         DECLabel.setFont(BaseFont);//设置字体样式
         DECLabel.setText("DEC");//设置默认的文本
         DECLabel.setForeground(Color.BLACK);//设置字体颜色
@@ -316,21 +334,22 @@ public class TI_LCD_Programmer extends JFrame
         TEXAS.setFont(labelFont1);
         TI.setFont(labelFont1);
         CM.setFont(labelFont);
-        JLabel[] tempLabel={
-                B0001,B0010,B0011,B0100,B0101,
-                B0110,B0111,B1000,B1001,B1010,
-                B1011,B1100,B1101,B1110,B1111,
+        JLabel[] tempLabel = {
+                B0001, B0010, B0011, B0100, B0101,
+                B0110, B0111, B1000, B1001, B1010,
+                B1011, B1100, B1101, B1110, B1111,
                 a2sC
         };
-        for(int i=0;i< tempLabel.length;i++)
+        for (int i = 0; i < tempLabel.length; i++)
         {
             tempLabel[i].setFont(labelFont);
             tempLabel[i].setForeground(Color.BLACK);
         }
     }
+
     public void setText()//对文本域进行设置
     {
-        Font IOputFont=new Font("Times New Romans",Font.BOLD,65);
+        Font IOputFont = new Font("Times New Romans", Font.BOLD, 65);
         IOput.setFont(IOputFont);//设置字体样式
         IOput.setBackground(new Color(0xECECED));//设置背景颜色
         IOput.setDocument(new JTextFieldLimit(8));//设置JTextField输入文本长度不超过8位
@@ -341,42 +360,40 @@ public class TI_LCD_Programmer extends JFrame
 //        IOput.setText("12345678");
         Separator.setForeground(new Color(0xFFFFFF));
     }
+
     public void setPanel()//对面板进行设置
     {
 //        TextPanel1.setBackground(new Color(0xFFFFFF));
 //        TextPanel2.setBackground(new Color(0xFFFFFF));
 //        ButtonPanel.setBackground(new Color(0xFFFFFF));
     }
+
     public int getFrameWidth()
     {
-        return ButtonPanel.getWidth()+TextPanel2.getWidth()+TextPanel1.getWidth();
+        return ButtonPanel.getWidth() + TextPanel2.getWidth() + TextPanel1.getWidth();
     }
+
     public int getFrameHeight()
     {
-        return ButtonPanel.getHeight()+TextPanel2.getHeight()+TextPanel1.getHeight();
+        return ButtonPanel.getHeight() + TextPanel2.getHeight() + TextPanel1.getHeight();
     }
+
     class JTextFieldLimit extends PlainDocument//该类用来实现对JTextField输入文本长度的限制
     {
         private int limit;
+
         public JTextFieldLimit(int limit)
         {
             super();
-            this.limit=limit;//最大输入长度
+            this.limit = limit;//最大输入长度
         }
+
         public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException
         {
-            if(getLength()+str.length()<=limit)
+            if (getLength() + str.length() <= limit)
                 super.insertString(offset, str, attr);
         }
     }
-
-
-
-
-
-
-
-
 
 
     private JPanel TextPanel1;
@@ -454,10 +471,10 @@ public class TI_LCD_Programmer extends JFrame
     private String operator1 = "";            //操作数1
     private String operator2 = "";            //操作数2
     private String tmp = "";                  //用于在ioput中显示
-    private BigDecimal first=new BigDecimal(0);
-    private BigDecimal firstmul=new BigDecimal(1);
-    private BigDecimal second=new BigDecimal(0);
-    private BigDecimal answer=new BigDecimal(0);
-    private int lastoperator=0;               //上一运算符
-    private int nowoperator=0;                //本次运算符
+    private BigDecimal first = new BigDecimal(0);
+    private BigDecimal firstmul = new BigDecimal(1);
+    private BigDecimal second = new BigDecimal(0);
+    private BigDecimal answer = new BigDecimal(0);
+    private int lastoperator = 0;               //上一运算符
+    private int nowoperator = 0;                //本次运算符
 }
