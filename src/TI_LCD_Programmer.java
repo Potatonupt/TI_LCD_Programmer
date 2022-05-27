@@ -191,7 +191,7 @@ public class TI_LCD_Programmer extends JFrame
             IOput_display(".");
         });
         AddButton.addActionListener(e -> {
-            if(if_operator==true)
+            if(if_operator==true)               //如果上一个是运算符 直接切换
             {
                 nowoperator = 1;
                 operator2 = "" + tmp;
