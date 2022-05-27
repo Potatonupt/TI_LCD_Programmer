@@ -99,91 +99,126 @@ public class TI_LCD_Programmer extends JFrame
             displayIOput(".");
         });
         AddButton.addActionListener(e -> {
-            if(isOperator ==true)               //如果上一个是运算符 直接切换
+            if(OperatingMode==0)
             {
-                nowoperator = 1;
-                getOperator2();
+                if (isOperator == true)               //如果上一个是运算符 直接切换
+                {
+                    nowoperator = 1;
+                    getOperator2();
+                }
+                else
+                {
+                    isOperator = true;
+                    nowoperator = 1;
+                    getOperator2();
+                    calculate();
+                }
+                displayIOput(answer.toString());
+                updateAnswer();
             }
-            else
+            else if(OperatingMode==1)
             {
-                isOperator = true;
-                nowoperator = 1;
-                getOperator2();
-                calculate();
+
             }
-            displayIOput(answer.toString());
-            updateAnswer();
         });
         SubButton.addActionListener(e -> {
-            if(isOperator ==true)
+            if(OperatingMode==0)
             {
-                nowoperator = 2;
-                getOperator2();
+                if (isOperator == true)
+                {
+                    nowoperator = 2;
+                    getOperator2();
+                }
+                else
+                {
+                    isOperator = true;
+                    nowoperator = 2;
+                    getOperator2();
+                    calculate();
+                }
+                displayIOput(answer.toString());
+                updateAnswer();
             }
-            else
+            else if(OperatingMode==1)
             {
-                isOperator = true;
-                nowoperator = 2;
-                getOperator2();
-                calculate();
+
             }
-            displayIOput(answer.toString());
-            updateAnswer();
         });
         MulButton.addActionListener(e -> {
-            if(isOperator ==true)
+            if(OperatingMode==0)
             {
-                nowoperator = 3;
-                getOperator2();
+                if (isOperator == true)
+                {
+                    nowoperator = 3;
+                    getOperator2();
+                }
+                else
+                {
+                    isOperator = true;
+                    nowoperator = 3;
+                    getOperator2();
+                    calculate();
+                }
+                displayIOput(answer.toString());
+                updateAnswer();
             }
-            else
+            else if(OperatingMode==1)
             {
-                isOperator = true;
-                nowoperator = 3;
-                getOperator2();
-                calculate();
+
             }
-            displayIOput(answer.toString());
-            updateAnswer();
         });
         DivButton.addActionListener(e -> {
-            if(isOperator ==true)
+            if(OperatingMode==0)
             {
-                nowoperator = 4;
-                getOperator2();
+                if (isOperator == true)
+                {
+                    nowoperator = 4;
+                    getOperator2();
+                }
+                else
+                {
+                    isOperator = true;
+                    nowoperator = 4;
+                    getOperator2();
+                    calculate();
+                }
+                displayIOput(answer.toString());
+                updateAnswer();
             }
-            else
+            else if(OperatingMode==1)
             {
-                isOperator = true;
-                nowoperator = 4;
-                getOperator2();
-                calculate();
+
             }
-            displayIOput(answer.toString());
-            updateAnswer();
         });
         EqualButton.addActionListener(e -> {
-            isOperator = true;
-            nowoperator=0;
-            getOperator2();
-            if(lastoperator!=0)
+            if(OperatingMode==0)
             {
-                equaloptmp=lastoperator;
-                equaltmp=second;
+                isOperator = true;
+                nowoperator = 0;
+                getOperator2();
+                if (lastoperator != 0)
+                {
+                    equaloptmp = lastoperator;
+                    equaltmp = second;
+                }
+                if (lastoperator == 0 && equaloptmp == -1)
+                {
+                    if (answer.compareTo(new BigDecimal(0)) != 0)
+                        second = answer;
+                }
+                else if (lastoperator == 0)
+                {
+                    lastoperator = equaloptmp;
+                    second = equaltmp;
+                }
+                calculate();
+                displayIOput(answer.toString());
+                updateAnswer();
             }
-            if(lastoperator==0&&equaloptmp==-1)
+            else if(OperatingMode==1)
             {
-                if(answer.compareTo(new BigDecimal(0))!=0)
-                    second=answer;
+
             }
-            else if(lastoperator==0)
-            {
-                lastoperator=equaloptmp;
-                second=equaltmp;
-            }
-            calculate();
-            displayIOput(answer.toString());
-            updateAnswer();
         });
 
         CEButton.addActionListener(e -> {
@@ -603,5 +638,6 @@ public class TI_LCD_Programmer extends JFrame
     private boolean isONforCLR =false;
     private BigDecimal equaltmp=new BigDecimal(0);
     private int equaloptmp=-1;
-    private int numeral=10;             //表示当前输入的进制
+    private int numeral=10;                 //表示当前输入的进制
+    private int OperatingMode=0;           //工作模式 0表示标准 1表示带括号
 }
