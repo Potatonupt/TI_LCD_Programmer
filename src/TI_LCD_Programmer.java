@@ -291,46 +291,46 @@ public class TI_LCD_Programmer extends JFrame
     boolean translate()
     {
         Stack<Character> s = new Stack<>();
-        for (int i = 0; i < str.length(); i++)
+        for (int i = 0; i < infix.length(); i++)
         {
-            if (str.charAt(i) <= '9' && str.charAt(i) >= '0')
+            if (infix.charAt(i) <= '9' && infix.charAt(i) >= '0')
             {    //如果是数字，直接入栈
-                str1 += str.charAt(i);
+                postfix += infix.charAt(i);
             }
             else
             {                        //否则不是字母
                 if (s.empty())            //栈空则入站
-                    s.push(str.charAt(i));
-                else if (str.charAt(i) == '(')   //左括号入栈
-                    s.push(str.charAt(i));
-                else if (str.charAt(i) == ')')
+                    s.push(infix.charAt(i));
+                else if (infix.charAt(i) == '(')   //左括号入栈
+                    s.push(infix.charAt(i));
+                else if (infix.charAt(i) == ')')
                 {  //如果是右括号，只要栈顶不是左括号，就弹出并输出
                     while (s.peek() != '(')
                     {
-                        str1 += s.peek();
+                        postfix += s.peek();
                         s.pop();
                     }
                     s.pop();                 //弹出左括号，但不输出
                 }
                 else
                 {
-                    while (priority(str.charAt(i)) <= priority(s.peek()))
+                    while (priority(infix.charAt(i)) <= priority(s.peek()))
                     { //栈顶优先级大于等于当前运算符，则输出
-                        str1 += s.peek();
+                        postfix += s.peek();
                         s.pop();
                         if (s.empty())      //栈为空，停止
                             break;
                     }
-                    s.push(str.charAt(i));   //把当前运算符入栈
+                    s.push(infix.charAt(i));   //把当前运算符入栈
                 }
             }
         }
         while (!s.empty())
         {      //最后，如果栈不空，则弹出所有元素并输出
-            str1 += s.peek();
+            postfix += s.peek();
             s.pop();
         }
-        System.out.println(str1);
+        System.out.println(postfix);
         return true;
     }
 
@@ -710,6 +710,6 @@ public class TI_LCD_Programmer extends JFrame
     private int equaloptmp=-1;
     private int numeral=10;                 //表示当前输入的进制
     private int OperatingMode=0;           //工作模式 0表示标准 1表示带括号
-    private String str="3+4*(4*5-6/2)";
-    private String str1="";
+    private String infix ="3+4*(4*5-6/2)";   //中缀表达式
+    private String postfix ="";                //后缀表达式
 }
