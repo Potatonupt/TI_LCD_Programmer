@@ -9,9 +9,6 @@ import java.util.Locale;
 public class TI_LCD_Programmer extends JFrame
 {
 
-
-
-
     private void initButton()
     {
 
@@ -436,7 +433,7 @@ public class TI_LCD_Programmer extends JFrame
         Stack<Character> s = new Stack<>();
         for (int i = 0; i < infix.length(); i++)
         {
-            if (infix.charAt(i) <= '9' && infix.charAt(i) >= '0')
+            if ((infix.charAt(i) <= '9' && infix.charAt(i) >= '0') || infix.charAt(i) == '-')
             {    //如果是数字，直接入栈
                 postfix += infix.charAt(i);
             }
@@ -531,15 +528,17 @@ public class TI_LCD_Programmer extends JFrame
                 super.mouseClicked(e);
                 isON = true;
                 //开机后清零 然后显示0；
-                if(isONforCLR ==false)
+                if (isONforCLR == false)
                 {
-                    isONforCLR =true;  //转变开机键功能
+                    isONforCLR = true;  //转变开机键功能
                     IOput.setText("0");
+                    OverFlow.setText("");
                 }
                 else
                 {
                     clearall();
                     IOput.setText("0");
+                    OverFlow.setText("");
                 }
             }
         });
@@ -860,9 +859,10 @@ public class TI_LCD_Programmer extends JFrame
     private BigDecimal equaltmp=new BigDecimal(0);
     private int equaloptmp=-1;
     private int numeral=10;                 //表示当前输入的进制
-    private int OperatingMode=0;           //工作模式 0表示标准 1表示带括号
+    private int OperatingMode=1;           //工作模式 0表示标准 1表示带括号
     private String infix ="3+4*(4*5-6/2)";   //中缀表达式
     private String postfix ="";                //后缀表达式
+    private String tmpfix="";
     private boolean isDEC;//是否是十进制模式
     private boolean isHEX;//是否十六进制模式
 }
