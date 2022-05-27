@@ -1,7 +1,4 @@
 import javax.swing.*;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.PlainDocument;
 import java.awt.*;
 import java.awt.event.*;
 import java.math.BigDecimal;
@@ -21,7 +18,7 @@ public class TI_LCD_Programmer extends JFrame
     {
         ON_OFF_control();
         layout_init();
-        keyboard_init();
+        initKeyboard();
         button_init();
         a3Button.addKeyListener(new KeyAdapter()
         {
@@ -56,118 +53,118 @@ public class TI_LCD_Programmer extends JFrame
 
         a0Button.addActionListener(e ->
         {
-            if_operator = false;
-            IOput_display("0");
+            isOperator = false;
+            displayIOput("0");
         });
         a1Button.addActionListener(e ->
         {
-            if_operator = false;
-            IOput_display("1");
+            isOperator = false;
+            displayIOput("1");
         });
         a2Button.addActionListener(e ->
         {
-            if_operator = false;
-            IOput_display("2");
+            isOperator = false;
+            displayIOput("2");
         });
         a3Button.addActionListener(e -> {
-            if_operator = false;
-            IOput_display("3");
+            isOperator = false;
+            displayIOput("3");
         });
         a4Button.addActionListener(e -> {
-            if_operator = false;
-            IOput_display("4");
+            isOperator = false;
+            displayIOput("4");
         });
         a5Button.addActionListener(e -> {
-            if_operator = false;
-            IOput_display("5");
+            isOperator = false;
+            displayIOput("5");
         });
         a6Button.addActionListener(e -> {
-            if_operator = false;
-            IOput_display("6");
+            isOperator = false;
+            displayIOput("6");
         });
         a7Button.addActionListener(e -> {
-            if_operator = false;
-            IOput_display("7");
+            isOperator = false;
+            displayIOput("7");
         });
         a8Button.addActionListener(e -> {
-            if_operator = false;
-            IOput_display("8");
+            isOperator = false;
+            displayIOput("8");
         });
         a9Button.addActionListener(e -> {
-            if_operator = false;
-            IOput_display("9");
+            isOperator = false;
+            displayIOput("9");
         });
         dotButton.addActionListener(e -> {
-            if_operator = false;
-            IOput_display(".");
+            isOperator = false;
+            displayIOput(".");
         });
         AddButton.addActionListener(e -> {
-            if(if_operator==true)               //如果上一个是运算符 直接切换
+            if(isOperator ==true)               //如果上一个是运算符 直接切换
             {
                 nowoperator = 1;
                 getOperator2();
             }
             else
             {
-                if_operator = true;
+                isOperator = true;
                 nowoperator = 1;
                 getOperator2();
                 calculate();
             }
-            IOput_display(answer.toString());
+            displayIOput(answer.toString());
             updateAnswer();
         });
         SubButton.addActionListener(e -> {
-            if(if_operator==true)
+            if(isOperator ==true)
             {
                 nowoperator = 2;
                 getOperator2();
             }
             else
             {
-                if_operator = true;
+                isOperator = true;
                 nowoperator = 2;
                 getOperator2();
                 calculate();
             }
-            IOput_display(answer.toString());
+            displayIOput(answer.toString());
             updateAnswer();
         });
         MulButton.addActionListener(e -> {
-            if(if_operator==true)
+            if(isOperator ==true)
             {
                 nowoperator = 3;
                 getOperator2();
             }
             else
             {
-                if_operator = true;
+                isOperator = true;
                 nowoperator = 3;
                 getOperator2();
                 calculate();
             }
-            IOput_display(answer.toString());
+            displayIOput(answer.toString());
             updateAnswer();
         });
         DivButton.addActionListener(e -> {
-            if(if_operator==true)
+            if(isOperator ==true)
             {
                 nowoperator = 4;
                 getOperator2();
             }
             else
             {
-                if_operator = true;
+                isOperator = true;
                 nowoperator = 4;
                 getOperator2();
                 calculate();
             }
-            IOput_display(answer.toString());
+            displayIOput(answer.toString());
             updateAnswer();
         });
         EqualButton.addActionListener(e -> {
 
-            if_operator = true;
+            isOperator = true;
             nowoperator=0;
             getOperator2();
             if(lastoperator!=0)
@@ -181,7 +178,7 @@ public class TI_LCD_Programmer extends JFrame
                 second=equaltmp;
             }
             calculate();
-            IOput_display(answer.toString());
+            displayIOput(answer.toString());
             updateAnswer();
         });
 
@@ -196,11 +193,11 @@ public class TI_LCD_Programmer extends JFrame
             }
         });
         ONorCLRButton.addActionListener(e -> {
-            if_on = true;
+            isON = true;
             //开机后清零 然后显示0；
-            if(if_onon==false)
+            if(isONforCLR ==false)
             {
-                if_onon=true;  //转变开机键功能
+                isONforCLR =true;  //转变开机键功能
                 IOput.setText("0");
             }
             else
@@ -210,8 +207,8 @@ public class TI_LCD_Programmer extends JFrame
             }
         });
         OFFButton.addActionListener(e -> {
-            if_on=false;
-            if_onon=false;
+            isON =false;
+            isONforCLR =false;
             //清零 然后关机
             clearall();
             IOput.setText("");
@@ -226,11 +223,11 @@ public class TI_LCD_Programmer extends JFrame
             public void mouseClicked(MouseEvent e)
             {
                 super.mouseClicked(e);
-                if_on = true;
+                isON = true;
                 //开机后清零 然后显示0；
-                if(if_onon==false)
+                if(isONforCLR ==false)
                 {
-                    if_onon=true;  //转变开机键功能
+                    isONforCLR =true;  //转变开机键功能
                     IOput.setText("0");
                 }
                 else
@@ -246,8 +243,8 @@ public class TI_LCD_Programmer extends JFrame
             public void mouseClicked(MouseEvent e)
             {
                 super.mouseClicked(e);
-                if_on=false;
-                if_onon=false;
+                isON =false;
+                isONforCLR =false;
                 //清零 然后关机
                 clearall();
                 IOput.setText("");
@@ -293,20 +290,21 @@ public class TI_LCD_Programmer extends JFrame
         lastoperator = nowoperator;
     }
 
-    private void IOput_display(String s)
+    private void displayIOput(String s)
     {
-        if(if_on==true)
+        if(isON ==true)
         {
-            if (if_operator == true)
+            if (isOperator == true)
                 tmp = "";
-            tmp = tmp + s;
+            if(tmp.length()<8)
+                tmp = tmp + s;
             IOput.setText(tmp);
         }
     }
 
     private void clearall()
     {
-        if_operator = false;   //是否是运算符
+        isOperator = false;   //是否是运算符
         operator1 = "";            //操作数1
         operator2 = "";            //操作数2
         tmp = "";                  //用于在ioput中显示
@@ -317,7 +315,7 @@ public class TI_LCD_Programmer extends JFrame
         nowoperator=0;                //本次运算符
     }
 
-    private void keyboard_init()
+    private void initKeyboard()
     {
 
         JButton[] DIGIT={a0Button,a1Button,a2Button,a3Button,a4Button,a5Button,
@@ -493,20 +491,20 @@ public class TI_LCD_Programmer extends JFrame
 //        TextPanel2.setBackground(new Color(0xFFFFFF));
 //        ButtonPanel.setBackground(new Color(0xFFFFFF));
     }
-    class JTextFieldLimit extends PlainDocument//该类用来实现对JTextField输入文本长度的限制
-    {
-        private int limit;
-        public JTextFieldLimit(int limit)
-        {
-            super();
-            this.limit=limit;//最大输入长度
-        }
-        public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException
-        {
-            if(getLength()+str.length()<=limit)
-                super.insertString(offset, str, attr);
-        }
-    }
+//    class JTextFieldLimit extends PlainDocument//该类用来实现对JTextField输入文本长度的限制
+//    {
+//        private int limit;
+//        public JTextFieldLimit(int limit)
+//        {
+//            super();
+//            this.limit=limit;//最大输入长度
+//        }
+//        public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException
+//        {
+//            if(getLength()+str.length()<=limit)
+//                super.insertString(offset, str, attr);
+//        }
+//    }
 
 
 
@@ -588,7 +586,7 @@ public class TI_LCD_Programmer extends JFrame
     private JTextField EmptySpacer2;
     private JPanel TI_LCD_Programmer;
     private int symbol = 1;
-    private boolean if_operator = false;   //是否是运算符
+    private boolean isOperator = false;   //是否是运算符
     private String operator1 = "";            //操作数1
     private String operator2 = "";            //操作数2
     private String tmp = "";                  //用于在ioput中显示
@@ -597,8 +595,8 @@ public class TI_LCD_Programmer extends JFrame
     private BigDecimal answer=new BigDecimal(0);
     private int lastoperator=0;               //上一运算符
     private int nowoperator=0;                //本次运算符
-    private boolean if_on=false;
-    private boolean if_onon=false;
+    private boolean isON =false;
+    private boolean isONforCLR =false;
     private BigDecimal equaltmp=new BigDecimal(0);
     private int equaloptmp=-1;
     private int numeral=10;             //表示当前输入的进制
