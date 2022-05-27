@@ -26,7 +26,16 @@ public class TI_LCD_Programmer extends JFrame
             {
                 super.mouseClicked(e);
                 if_on = true;
-                IOput.setVisible(true);
+                //开机后清零 然后显示0；
+                if(if_onon==false)
+                {
+                    if_onon=true;  //转变开机键功能
+                    IOput.setText("0");
+                }
+                else
+                {
+                    clearall();
+                }
             }
         });
         OFFButton.addMouseListener(new MouseAdapter()
@@ -36,15 +45,13 @@ public class TI_LCD_Programmer extends JFrame
             {
                 super.mouseClicked(e);
                 if_on=false;
-                //清零 然后关机 清零是删除所有 初始化 然后显示0.
-                IOput.setVisible(false);
+                if_onon=false;
+                //清零 然后关机
+                clearall();
+                IOput.setText("");
             }
         });
-        setToolButton();
-        setDigitalButton();
-        setLabel();
-        setText();
-        setPanel();
+        layout_init();
         keyboard_init();
         button_init();
 //        a3Button.addKeyListener(new KeyAdapter()
@@ -57,8 +64,6 @@ public class TI_LCD_Programmer extends JFrame
 //                System.out.println(KeyStroke.getKeyStroke(keycode, 0, false));
 //            }
 //        });
-
-
 
     }
 
@@ -132,6 +137,7 @@ public class TI_LCD_Programmer extends JFrame
         dotButton.registerKeyboardAction(e -> dotButton.doClick(), KeyStroke.getKeyStroke("pressed DECIMAL"), JComponent.WHEN_IN_FOCUSED_WINDOW);
         EqualButton.registerKeyboardAction(e -> EqualButton.doClick(), KeyStroke.getKeyStroke("pressed ENTER"), JComponent.WHEN_IN_FOCUSED_WINDOW);
         CEButton.registerKeyboardAction(e -> CEButton.doClick(), KeyStroke.getKeyStroke("pressed DELETE"), JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ONorCLRButton.registerKeyboardAction(e -> ONorCLRButton.doClick(), KeyStroke.getKeyStroke("pressed BACK_SPACE"), JComponent.WHEN_IN_FOCUSED_WINDOW);
     }
 
     private void button_init()
@@ -185,75 +191,158 @@ public class TI_LCD_Programmer extends JFrame
             IOput_display(".");
         });
         AddButton.addActionListener(e -> {
-            if_operator = true;
-            nowoperator = 1;
-
-            if (!operator2.isEmpty())
-                second = new BigDecimal(operator2);
+            if(if_operator==true)
+            {
+                nowoperator = 1;
+                operator2 = "" + tmp;
+                if (!operator2.isEmpty())
+                    second = new BigDecimal(operator2);
+                else
+                    second = new BigDecimal(0);
+                IOput_display(answer.toString());
+                tmp = "";
+                first = answer;
+                lastoperator = nowoperator;
+            }
             else
-                second = new BigDecimal(0);
-            calculate();
-            IOput_display(answer.toString());
-            tmp = "";
-            first = answer;
-            lastoperator = nowoperator;
+            {
+                if_operator = true;
+                nowoperator = 1;
+                operator2 = "" + tmp;
+                if (!operator2.isEmpty())
+                    second = new BigDecimal(operator2);
+                else
+                    second = new BigDecimal(0);
+                calculate();
+                IOput_display(answer.toString());
+                tmp = "";
+                first = answer;
+                lastoperator = nowoperator;
+            }
         });
         SubButton.addActionListener(e -> {
-            if_operator = true;
-            nowoperator = 2;
-            operator2 = "" + tmp;
-            if (!operator2.isEmpty())
-                second = new BigDecimal(operator2);
+            if(if_operator==true)
+            {
+                nowoperator = 2;
+                operator2 = "" + tmp;
+                if (!operator2.isEmpty())
+                    second = new BigDecimal(operator2);
+                else
+                    second = new BigDecimal(0);
+                IOput_display(answer.toString());
+                tmp = "";
+                first = answer;
+                lastoperator = nowoperator;
+            }
             else
-                second = new BigDecimal(0);
-            calculate();
-            IOput_display(answer.toString());
-            tmp = "";
-            first = answer;
-            lastoperator = nowoperator;
+            {
+                if_operator = true;
+                nowoperator = 2;
+                operator2 = "" + tmp;
+                if (!operator2.isEmpty())
+                    second = new BigDecimal(operator2);
+                else
+                    second = new BigDecimal(0);
+                calculate();
+                IOput_display(answer.toString());
+                tmp = "";
+                first = answer;
+                lastoperator = nowoperator;
+            }
         });
         MulButton.addActionListener(e -> {
-            if_operator = true;
-            nowoperator = 3;
-            operator2 = "" + tmp;
-            if (!operator2.isEmpty())
-                second = new BigDecimal(operator2);
+            if(if_operator==true)
+            {
+                nowoperator = 3;
+                operator2 = "" + tmp;
+                if (!operator2.isEmpty())
+                    second = new BigDecimal(operator2);
+                else
+                    second = new BigDecimal(0);
+                IOput_display(answer.toString());
+                tmp = "";
+                first = answer;
+                lastoperator = nowoperator;
+            }
             else
-                second = new BigDecimal(1);
-            calculate();
-            IOput_display(answer.toString());
-            tmp = "";
-            first = answer;
-            lastoperator = nowoperator;
+            {
+                if_operator = true;
+                nowoperator = 3;
+                operator2 = "" + tmp;
+                if (!operator2.isEmpty())
+                    second = new BigDecimal(operator2);
+                else
+                    second = new BigDecimal(1);
+                calculate();
+                IOput_display(answer.toString());
+                tmp = "";
+                first = answer;
+                lastoperator = nowoperator;
+            }
         });
         DivButton.addActionListener(e -> {
-            if_operator = true;
-            nowoperator = 4;
-            operator2 = "" + tmp;
-            if (!operator2.isEmpty())
-                second = new BigDecimal(operator2);
+            if(if_operator==true)
+            {
+                nowoperator = 4;
+                operator2 = "" + tmp;
+                if (!operator2.isEmpty())
+                    second = new BigDecimal(operator2);
+                else
+                    second = new BigDecimal(0);
+                IOput_display(answer.toString());
+                tmp = "";
+                first = answer;
+                lastoperator = nowoperator;
+            }
             else
-                second = new BigDecimal(1);
-            calculate();
-            IOput_display(answer.toString());
-            tmp = "";
-            first = answer;
-            lastoperator = nowoperator;
+            {
+                if_operator = true;
+                nowoperator = 4;
+                operator2 = "" + tmp;
+                if (!operator2.isEmpty())
+                    second = new BigDecimal(operator2);
+                else
+                    second = new BigDecimal(1);
+                calculate();
+                IOput_display(answer.toString());
+                tmp = "";
+                first = answer;
+                lastoperator = nowoperator;
+            }
         });
         EqualButton.addActionListener(e -> {
+
             if_operator = true;
-            nowoperator = 0;
+            nowoperator=0;
             operator2 = "" + tmp;
             if (!operator2.isEmpty())
                 second = new BigDecimal(operator2);
             else
                 second = new BigDecimal(0);
+            equaloptmp=lastoperator;
+            equaltmp=second;
+            if(lastoperator==0)
+            {
+                lastoperator=equaloptmp;
+                second=equaltmp;
+                equaloptmp=lastoperator;
+                equaltmp=second;
+            }
             calculate();
             IOput_display(answer.toString());
             tmp = "";
             first = answer;
             lastoperator = nowoperator;
         });
+    }
+
+    private void layout_init()
+    {
+        setToolButton();
+        setDigitalButton();
+        setLabel();
+        setText();
+        setPanel();
     }
 
     private void calculate()
@@ -264,16 +353,33 @@ public class TI_LCD_Programmer extends JFrame
             case 2:answer=first.subtract(second);break;
             case 3:answer=first.multiply(second);break;
             case 4:answer=first.divide(second);break;
-            case 0:answer=second;
+            case 0:answer=second;break;
+
         }
     }
 
     private void IOput_display(String s)
     {
-        if(if_operator==true)
-            tmp="";
-        tmp = tmp + s;
-        IOput.setText(tmp);
+        if(if_on==true)
+        {
+            if (if_operator == true)
+                tmp = "";
+            tmp = tmp + s;
+            IOput.setText(tmp);
+        }
+    }
+
+    private void clearall()
+    {
+        if_operator = false;   //是否是运算符
+        operator1 = "";            //操作数1
+        operator2 = "";            //操作数2
+        tmp = "";                  //用于在ioput中显示
+        first=new BigDecimal(0);
+        second=new BigDecimal(0);
+        answer=new BigDecimal(0);
+        lastoperator=0;               //上一运算符
+        nowoperator=0;                //本次运算符
     }
 
     public void setToolButton()//非数字按钮的设置
@@ -490,10 +596,12 @@ public class TI_LCD_Programmer extends JFrame
     private String operator2 = "";            //操作数2
     private String tmp = "";                  //用于在ioput中显示
     private BigDecimal first=new BigDecimal(0);
-    private BigDecimal firstmul=new BigDecimal(1);
     private BigDecimal second=new BigDecimal(0);
     private BigDecimal answer=new BigDecimal(0);
     private int lastoperator=0;               //上一运算符
     private int nowoperator=0;                //本次运算符
     private boolean if_on=false;
+    private boolean if_onon=false;
+    private BigDecimal equaltmp=new BigDecimal(0);
+    private int equaloptmp=-1;
 }
