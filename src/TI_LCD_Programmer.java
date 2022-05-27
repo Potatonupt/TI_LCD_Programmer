@@ -2,50 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.math.BigDecimal;
-
+import java.util.Stack;
 
 
 public class TI_LCD_Programmer extends JFrame
 {
-//    public static void main(String[] args) {
-//        JFrame frame = new JFrame("TI_LCD_Programmer");
-//        frame.setContentPane(new TI_LCD_Programmer().TI_LCD_Programmer);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.pack();
-//        frame.setVisible(true);
-//    }
-    public TI_LCD_Programmer()
-    {
-        ON_OFF_control();
-        initLayout();
-        initKeyboard();
-        initButton();
-        a3Button.addKeyListener(new KeyAdapter()
-        {
-            @Override
-            public void keyReleased(KeyEvent e)
-            {
-                super.keyReleased(e);
-                int keycode = e.getKeyCode();
-                System.out.println(KeyStroke.getKeyStroke(keycode, 0, false));
-            }
-        });
-
-
-
-    }
-
-    public void init()
-    {
-        this.setTitle("TI_LCD_Programmer");
-        this.add(TI_LCD_Programmer);
-        Toolkit kit = Toolkit.getDefaultToolkit();
-        this.setLocation((int) (kit.getScreenSize().getWidth()/2-250), (int) (kit.getScreenSize().getHeight()/2-500));
-        this.pack();
-        this.setFocusable(true);      //要写在visible前面
-        this.setVisible(true);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
 
 
     private void initButton()
@@ -254,52 +215,6 @@ public class TI_LCD_Programmer extends JFrame
         });
     }
 
-    private void ON_OFF_control()
-    {
-        ONorCLRButton.addMouseListener(new MouseAdapter()
-        {
-            @Override
-            public void mouseClicked(MouseEvent e)
-            {
-                super.mouseClicked(e);
-                isON = true;
-                //开机后清零 然后显示0；
-                if(isONforCLR ==false)
-                {
-                    isONforCLR =true;  //转变开机键功能
-                    IOput.setText("0");
-                }
-                else
-                {
-                    clearall();
-                    IOput.setText("0");
-                }
-            }
-        });
-        OFFButton.addMouseListener(new MouseAdapter()
-        {
-            @Override
-            public void mouseClicked(MouseEvent e)
-            {
-                super.mouseClicked(e);
-                isON =false;
-                isONforCLR =false;
-                //清零 然后关机
-                clearall();
-                IOput.setText("");
-            }
-        });
-    }
-    
-    private void initLayout()
-    {
-        setToolButton();
-        setDigitalButton();
-        setLabel();
-        setText();
-        setPanel();
-    }
-
     private void calculate()
     {
         switch (lastoperator)
@@ -352,6 +267,161 @@ public class TI_LCD_Programmer extends JFrame
         answer=new BigDecimal(0);
         lastoperator=0;               //上一运算符
         nowoperator=0;                //本次运算符
+    }
+
+    private int priority(char op)
+    {
+        int priority=-1;
+        if (op == '*')
+            priority = 5;
+        if (op == '/')
+            priority = 5;
+        if (op == '+')
+            priority = 2;
+        if (op == '-')
+            priority = 2;
+        if (op == '(')
+            priority = 0;
+        return priority;
+    }
+    private void test()
+    {
+        translate();
+    }
+    boolean translate()
+    {
+        Stack<Character> s = new Stack<>();
+        for (int i = 0; i < str.length(); i++)
+        {
+            if (str.charAt(i) <= '9' && str.charAt(i) >= '0')
+            {    //如果是数字，直接入栈
+                str1 += str.charAt(i);
+            }
+            else
+            {                        //否则不是字母
+                if (s.empty())            //栈空则入站
+                    s.push(str.charAt(i));
+                else if (str.charAt(i) == '(')   //左括号入栈
+                    s.push(str.charAt(i));
+                else if (str.charAt(i) == ')')
+                {  //如果是右括号，只要栈顶不是左括号，就弹出并输出
+                    while (s.peek() != '(')
+                    {
+                        str1 += s.peek();
+                        s.pop();
+                    }
+                    s.pop();                 //弹出左括号，但不输出
+                }
+                else
+                {
+                    while (priority(str.charAt(i)) <= priority(s.peek()))
+                    { //栈顶优先级大于等于当前运算符，则输出
+                        str1 += s.peek();
+                        s.pop();
+                        if (s.empty())      //栈为空，停止
+                            break;
+                    }
+                    s.push(str.charAt(i));   //把当前运算符入栈
+                }
+            }
+        }
+        while (!s.empty())
+        {      //最后，如果栈不空，则弹出所有元素并输出
+            str1 += s.peek();
+            s.pop();
+        }
+        System.out.println(str1);
+        return true;
+    }
+
+
+
+
+
+
+
+
+
+//====================================================================================
+//====================================================================================
+    public void init()
+    {
+        this.setTitle("TI_LCD_Programmer");
+        this.add(TI_LCD_Programmer);
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        this.setLocation((int) (kit.getScreenSize().getWidth()/2-250), (int) (kit.getScreenSize().getHeight()/2-500));
+        this.pack();
+        this.setFocusable(true);      //要写在visible前面
+        this.setVisible(true);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public TI_LCD_Programmer()
+    {
+        ON_OFF_control();
+        initLayout();
+        initKeyboard();
+        initButton();
+        test();
+//        a3Button.addKeyListener(new KeyAdapter()
+//        {
+//            @Override
+//            public void keyReleased(KeyEvent e)
+//            {
+//                super.keyReleased(e);
+//                int keycode = e.getKeyCode();
+//                System.out.println(KeyStroke.getKeyStroke(keycode, 0, false));
+//            }
+//        });
+//
+//
+
+    }
+
+    private void ON_OFF_control()
+    {
+        ONorCLRButton.addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                super.mouseClicked(e);
+                isON = true;
+                //开机后清零 然后显示0；
+                if(isONforCLR ==false)
+                {
+                    isONforCLR =true;  //转变开机键功能
+                    IOput.setText("0");
+                }
+                else
+                {
+                    clearall();
+                    IOput.setText("0");
+                }
+            }
+        });
+        OFFButton.addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                super.mouseClicked(e);
+                isON =false;
+                isONforCLR =false;
+                //清零 然后关机
+                clearall();
+                IOput.setText("");
+            }
+        });
+    }
+    
+    private void initLayout()
+    {
+        setToolButton();
+        setDigitalButton();
+        setLabel();
+        setText();
+        setPanel();
     }
 
     private void initKeyboard()
@@ -640,4 +710,6 @@ public class TI_LCD_Programmer extends JFrame
     private int equaloptmp=-1;
     private int numeral=10;                 //表示当前输入的进制
     private int OperatingMode=0;           //工作模式 0表示标准 1表示带括号
+    private String str="3+4*(4*5-6/2)";
+    private String str1="";
 }
