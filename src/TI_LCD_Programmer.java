@@ -163,7 +163,6 @@ public class TI_LCD_Programmer extends JFrame
             updateAnswer();
         });
         EqualButton.addActionListener(e -> {
-
             isOperator = true;
             nowoperator=0;
             getOperator2();
@@ -172,7 +171,12 @@ public class TI_LCD_Programmer extends JFrame
                 equaloptmp=lastoperator;
                 equaltmp=second;
             }
-            if(lastoperator==0)
+            if(lastoperator==0&&equaloptmp==-1)
+            {
+                if(answer.compareTo(new BigDecimal(0))!=0)
+                    second=answer;
+            }
+            else if(lastoperator==0)
             {
                 lastoperator=equaloptmp;
                 second=equaltmp;
