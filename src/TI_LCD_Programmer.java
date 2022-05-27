@@ -190,9 +190,9 @@ public class TI_LCD_Programmer extends JFrame
             if(!tmp.isEmpty())
             {
                 tmp=tmp.substring(0,tmp.length()-1);
-                if(tmp.isEmpty())
-                    tmp="0";
                 IOput.setText(tmp);
+                if(tmp.isEmpty())
+                    IOput.setText("0");
             }
         });
         ONorCLRButton.addActionListener(e -> {
