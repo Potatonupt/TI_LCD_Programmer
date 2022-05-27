@@ -599,6 +599,8 @@ public class TI_LCD_Programmer extends JFrame
         CEButton.registerKeyboardAction(e -> CEButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE,0), JComponent.WHEN_IN_FOCUSED_WINDOW);
         ONorCLRButton.registerKeyboardAction(e -> ONorCLRButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_DELETE,0),JComponent.WHEN_IN_FOCUSED_WINDOW);
         OFFButton.registerKeyboardAction(e -> OFFButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+        DECButton.registerKeyboardAction(e->DECButton.doClick(),KeyStroke.getKeyStroke(KeyEvent.VK_D,InputEvent.SHIFT_MASK),JComponent.WHEN_IN_FOCUSED_WINDOW);
+        HEXButton.registerKeyboardAction(e->HEXButton.doClick(),KeyStroke.getKeyStroke(KeyEvent.VK_H,InputEvent.SHIFT_MASK),JComponent.WHEN_IN_FOCUSED_WINDOW);
 //        a0Button.registerKeyboardAction(e -> a0Button.doClick(), KeyStroke.getKeyStroke("pressed 0"), JComponent.WHEN_IN_FOCUSED_WINDOW);
 //        a0Button.registerKeyboardAction(e -> a0Button.doClick(), KeyStroke.getKeyStroke("pressed NUMPAD0"), JComponent.WHEN_IN_FOCUSED_WINDOW);
 //        a1Button.registerKeyboardAction(e -> a1Button.doClick(), KeyStroke.getKeyStroke("pressed 1"), JComponent.WHEN_IN_FOCUSED_WINDOW);
