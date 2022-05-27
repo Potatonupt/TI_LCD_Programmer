@@ -116,7 +116,8 @@ public class TI_LCD_Programmer extends JFrame
             }
             else if(OperatingMode==1)
             {
-
+                isOperator = true;
+                displayIOput("+");
             }
         });
         SubButton.addActionListener(e -> {
@@ -139,7 +140,8 @@ public class TI_LCD_Programmer extends JFrame
             }
             else if(OperatingMode==1)
             {
-
+                isOperator = true;
+                displayIOput("-");
             }
         });
         MulButton.addActionListener(e -> {
@@ -162,7 +164,8 @@ public class TI_LCD_Programmer extends JFrame
             }
             else if(OperatingMode==1)
             {
-
+                isOperator = true;
+                displayIOput("*");
             }
         });
         DivButton.addActionListener(e -> {
@@ -185,7 +188,8 @@ public class TI_LCD_Programmer extends JFrame
             }
             else if(OperatingMode==1)
             {
-
+                isOperator = true;
+                displayIOput("/");
             }
         });
         EqualButton.addActionListener(e -> {
@@ -215,7 +219,11 @@ public class TI_LCD_Programmer extends JFrame
             }
             else if(OperatingMode==1)
             {
-
+                if(tmpfix.charAt(tmpfix.length()-1)=='_')
+                    tmpfix=tmpfix.substring(0,tmpfix.length()-1);
+                infix=tmpfix;
+                translate();
+                System.out.println(infix);
             }
         });
 
@@ -343,6 +351,16 @@ public class TI_LCD_Programmer extends JFrame
             else
                 return;
         });
+        OPButton.addActionListener(e ->
+        {
+            isOperator = true;
+            displayIOput("(");
+        });
+        CPButton.addActionListener(e -> {
+            isOperator = true;
+            displayIOput(")");
+        });
+
     }
 
     private void calculate()
@@ -387,13 +405,32 @@ public class TI_LCD_Programmer extends JFrame
     {
         if(isON ==true)
         {
-            if (isOperator == true)
-                    tmp="";
-            if(tmp.length()<8)
-                tmp=tmp+s;
-            IOput.setText(tmp);
-            if(isOverflow())
-                IOput.setText(tmp.substring(tmp.length()-8,tmp.length()));
+            if(OperatingMode==0)
+            {
+                if (isOperator == true)
+                    tmp = "";
+                if (tmp.length() < 8)
+                    tmp = tmp + s;
+                IOput.setText(tmp);
+                if (isOverflow())
+                    IOput.setText(tmp.substring(tmp.length() - 8, tmp.length()));
+            }
+            else if(OperatingMode==1)
+            {
+                if (isOperator == false)
+                {
+                    tmpfix = tmpfix + s + "_";
+                }
+                else if (isOperator==true)
+                {
+                    if(!s.equals("("))
+                        tmpfix = tmpfix.substring(0, tmpfix.length() - 1);
+                    System.out.println(tmpfix);
+                    tmpfix = tmpfix + s;
+                }
+                tmp = tmp + s;
+                IOput.setText(tmp);
+            }
         }
     }
     private void clearall()
@@ -407,6 +444,9 @@ public class TI_LCD_Programmer extends JFrame
         answer=new BigDecimal(0);
         lastoperator=0;               //上一运算符
         nowoperator=0;                //本次运算符
+        tmpfix="";
+        infix="";
+        postfix="";
     }
 
     private int priority(char op)
@@ -424,16 +464,12 @@ public class TI_LCD_Programmer extends JFrame
             priority = 0;
         return priority;
     }
-    private void test()
-    {
-        translate();
-    }
-    boolean translate()
+    private boolean translate()
     {
         Stack<Character> s = new Stack<>();
         for (int i = 0; i < infix.length(); i++)
         {
-            if ((infix.charAt(i) <= '9' && infix.charAt(i) >= '0') || infix.charAt(i) == '-')
+            if ((infix.charAt(i) <= '9' && infix.charAt(i) >= '0') || infix.charAt(i) == '_')
             {    //如果是数字，直接入栈
                 postfix += infix.charAt(i);
             }
@@ -470,7 +506,6 @@ public class TI_LCD_Programmer extends JFrame
             postfix += s.peek();
             s.pop();
         }
-        System.out.println(postfix);
         return true;
     }
 
@@ -502,7 +537,6 @@ public class TI_LCD_Programmer extends JFrame
         initLayout();
         initKeyboard();
         initButton();
-        test();
 //        a3Button.addKeyListener(new KeyAdapter()
 //        {
 //            @Override
@@ -515,6 +549,7 @@ public class TI_LCD_Programmer extends JFrame
 //        });
 //
 //
+
 
     }
 
@@ -600,6 +635,8 @@ public class TI_LCD_Programmer extends JFrame
         OFFButton.registerKeyboardAction(e -> OFFButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0), JComponent.WHEN_IN_FOCUSED_WINDOW);
         DECButton.registerKeyboardAction(e->DECButton.doClick(),KeyStroke.getKeyStroke(KeyEvent.VK_D,InputEvent.SHIFT_MASK),JComponent.WHEN_IN_FOCUSED_WINDOW);
         HEXButton.registerKeyboardAction(e->HEXButton.doClick(),KeyStroke.getKeyStroke(KeyEvent.VK_H,InputEvent.SHIFT_MASK),JComponent.WHEN_IN_FOCUSED_WINDOW);
+        OPButton.registerKeyboardAction(e->OPButton.doClick(),KeyStroke.getKeyStroke(KeyEvent.VK_9,InputEvent.SHIFT_MASK),JComponent.WHEN_IN_FOCUSED_WINDOW);
+        OPButton.registerKeyboardAction(e->CPButton.doClick(),KeyStroke.getKeyStroke(KeyEvent.VK_0,InputEvent.SHIFT_MASK),JComponent.WHEN_IN_FOCUSED_WINDOW);
 //        a0Button.registerKeyboardAction(e -> a0Button.doClick(), KeyStroke.getKeyStroke("pressed 0"), JComponent.WHEN_IN_FOCUSED_WINDOW);
 //        a0Button.registerKeyboardAction(e -> a0Button.doClick(), KeyStroke.getKeyStroke("pressed NUMPAD0"), JComponent.WHEN_IN_FOCUSED_WINDOW);
 //        a1Button.registerKeyboardAction(e -> a1Button.doClick(), KeyStroke.getKeyStroke("pressed 1"), JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -724,10 +761,10 @@ public class TI_LCD_Programmer extends JFrame
                 B1011,B1100,B1101,B1110,B1111,
                 a2sC
         };
-        for(int i=0;i< tempLabel.length;i++)
+        for (JLabel jLabel : tempLabel)
         {
-            tempLabel[i].setFont(labelFont);
-            tempLabel[i].setForeground(Color.BLACK);
+            jLabel.setFont(labelFont);
+            jLabel.setForeground(Color.BLACK);
         }
     }
     public void setText()//对文本域进行设置
@@ -858,9 +895,8 @@ public class TI_LCD_Programmer extends JFrame
     private boolean isONforCLR =false;
     private BigDecimal equaltmp=new BigDecimal(0);
     private int equaloptmp=-1;
-    private int numeral=10;                 //表示当前输入的进制
     private int OperatingMode=1;           //工作模式 0表示标准 1表示带括号
-    private String infix ="3+4*(4*5-6/2)";   //中缀表达式
+    private String infix ="";   //中缀表达式
     private String postfix ="";                //后缀表达式
     private String tmpfix="";
     private boolean isDEC;//是否是十进制模式
