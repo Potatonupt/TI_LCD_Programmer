@@ -437,56 +437,58 @@ public class TI_LCD_Programmer extends JFrame
                     tmp_when_calculate = "";
                 }
             }
+            BigDecimal tmp1 = new BigDecimal(0);
+            BigDecimal tmp2 = new BigDecimal(0);
             if(postfix.charAt(i)=='+')
             {
-                tmp2=st.peek();
+                tmp2 =st.peek();
                 st.pop();
-                tmp1=st.peek();
+                tmp1 =st.peek();
                 st.pop();
-                result=tmp1.add(tmp2);
+                result= tmp1.add(tmp2);
                 st.push(result);
 
 
                 record_last_operator=1;
-                record_last_number=tmp2;
+                record_last_number= tmp2;
             }
             if(postfix.charAt(i)=='-')
             {
-                tmp2=st.peek();
+                tmp2 =st.peek();
                 st.pop();
-                tmp1=st.peek();
+                tmp1 =st.peek();
                 st.pop();
-                result=tmp1.subtract(tmp2);
+                result= tmp1.subtract(tmp2);
                 st.push(result);
 
 
                 record_last_operator=2;
-                record_last_number=tmp2;
+                record_last_number= tmp2;
             }
             if(postfix.charAt(i)=='*')
             {
-                tmp2=st.peek();
+                tmp2 =st.peek();
                 st.pop();
-                tmp1=st.peek();
+                tmp1 =st.peek();
                 st.pop();
-                result=tmp1.multiply(tmp2);
+                result= tmp1.multiply(tmp2);
                 st.push(result);
 
 
                 record_last_operator=3;
-                record_last_number=tmp2;
+                record_last_number= tmp2;
             }
             if(postfix.charAt(i)=='/')
             {
-                tmp2=st.peek();
+                tmp2 =st.peek();
                 st.pop();
-                tmp1=st.peek();
+                tmp1 =st.peek();
                 st.pop();
-                result=tmp1.divide(tmp2,2,RoundingMode.HALF_UP);
+                result= tmp1.divide(tmp2,2,RoundingMode.HALF_UP);
                 st.push(result);
 
                 record_last_operator=4;
-                record_last_number=tmp2;
+                record_last_number= tmp2;
             }
         }
         result=st.peek();
@@ -1015,8 +1017,6 @@ public class TI_LCD_Programmer extends JFrame
     private boolean isDEC;//是否是十进制模式
     private boolean isHEX;//是否十六进制模式
     private BigDecimal result=new BigDecimal(0);
-    private BigDecimal tmp1=new BigDecimal(0);
-    private BigDecimal tmp2=new BigDecimal(0);
     private int record_last_operator=0;
     private BigDecimal record_last_number=new BigDecimal(0);
     private boolean isEqualOperator=false;
