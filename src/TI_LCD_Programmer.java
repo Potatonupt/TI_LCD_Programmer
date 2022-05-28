@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Stack;
 import java.util.Locale;
 
@@ -205,7 +206,7 @@ public class TI_LCD_Programmer extends JFrame
                 getInfix();
                 translate();
                 calculate_with_Parentheses();
-                displayIOput(Double.toString(result));
+                displayIOput(result.toString());
             }
         });
 
@@ -394,7 +395,7 @@ public class TI_LCD_Programmer extends JFrame
             case 1:answer=first.add(second);break;
             case 2:answer=first.subtract(second);break;
             case 3:answer=first.multiply(second);break;
-            case 4:answer=first.divide(second);break;
+            case 4:answer=first.divide(second,2, RoundingMode.HALF_UP);break;
             case 0:answer=second;break;
 
         }
@@ -402,7 +403,7 @@ public class TI_LCD_Programmer extends JFrame
 
     private void calculate_with_Parentheses()
     {
-        Stack<Double> st=new Stack<>();
+        Stack<BigDecimal> st=new Stack<>();
         for(int i=0;i<postfix.length();i++)
         {
             if(postfix.charAt(i)>='0'&&postfix.charAt(i)<='9')
@@ -415,7 +416,7 @@ public class TI_LCD_Programmer extends JFrame
                 else
                 {
                     tmp_when_calculate += postfix.charAt(i);
-                    st.push(Double.valueOf(tmp_when_calculate));
+                    st.push(new BigDecimal(tmp_when_calculate));
                     tmp_when_calculate = "";
                 }
             }
@@ -425,7 +426,7 @@ public class TI_LCD_Programmer extends JFrame
                 st.pop();
                 tmp1=st.peek();
                 st.pop();
-                result=tmp1+tmp2;
+                result=tmp1.add(tmp2);
                 st.push(result);
             }
             if(postfix.charAt(i)=='-')
@@ -434,7 +435,7 @@ public class TI_LCD_Programmer extends JFrame
                 st.pop();
                 tmp1=st.peek();
                 st.pop();
-                result=tmp1-tmp2;
+                result=tmp1.subtract(tmp2);
                 st.push(result);
             }
             if(postfix.charAt(i)=='*')
@@ -443,7 +444,7 @@ public class TI_LCD_Programmer extends JFrame
                 st.pop();
                 tmp1=st.peek();
                 st.pop();
-                result=tmp1*tmp2;
+                result=tmp1.multiply(tmp2);
                 st.push(result);
             }
             if(postfix.charAt(i)=='/')
@@ -452,7 +453,7 @@ public class TI_LCD_Programmer extends JFrame
                 st.pop();
                 tmp1=st.peek();
                 st.pop();
-                result=tmp1/tmp2;
+                result=tmp1.divide(tmp2,2,RoundingMode.HALF_UP);
                 st.push(result);
             }
         }
@@ -980,7 +981,7 @@ public class TI_LCD_Programmer extends JFrame
     private String tmp_when_calculate="";
     private boolean isDEC;//是否是十进制模式
     private boolean isHEX;//是否十六进制模式
-    private double result=0;
-    private double tmp1=0;
-    private double tmp2=0;
+    private BigDecimal result=new BigDecimal(0);
+    private BigDecimal tmp1=new BigDecimal(0);
+    private BigDecimal tmp2=new BigDecimal(0);
 }
