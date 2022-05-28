@@ -219,19 +219,7 @@ public class TI_LCD_Programmer extends JFrame
             }
             else if(OperatingMode==1)
             {
-                for(int i=0;i<tmpfix.length();i++)
-                {
-                    if((tmpfix.charAt(i)>='0'&&tmpfix.charAt(i)<='9')||tmpfix.charAt(i)=='+'||tmpfix.charAt(i)=='-'||tmpfix.charAt(i)=='*'||tmpfix.charAt(i)=='/'||tmpfix.charAt(i)=='('||tmpfix.charAt(i)==')')
-                    {
-                        infix+=tmpfix.charAt(i);
-                        continue;
-                    }
-                    if(tmpfix.charAt(i)=='_'&&i+1<tmpfix.length() && tmpfix.charAt(i+1)>='0'&&tmpfix.charAt(i+1)<='9')
-                            infix+=tmpfix.charAt(i);
-                }
-                System.out.println(infix);
-                if(tmpfix.charAt(tmpfix.length()-1)=='_')
-                    tmpfix=tmpfix.substring(0,tmpfix.length()-1);
+                getInfix();
                 translate();
             }
         });
@@ -372,6 +360,26 @@ public class TI_LCD_Programmer extends JFrame
 
     }
 
+    private void getInfix()
+    {
+        tmpfix=tmp;
+        for (int i = 0; i < tmpfix.length(); i++)
+        {
+//            if ((tmpfix.charAt(i) >= '0' && tmpfix.charAt(i) <= '9') || tmpfix.charAt(i) == '+' || tmpfix.charAt(i) == '-' || tmpfix.charAt(i) == '*' || tmpfix.charAt(i) == '/' || tmpfix.charAt(i) == '(' || tmpfix.charAt(i) == ')')
+//            {
+//                infix += tmpfix.charAt(i);
+//                continue;
+//            }
+//            if (tmpfix.charAt(i) == '_' && i + 1 < tmpfix.length() && tmpfix.charAt(i + 1) >= '0' && tmpfix.charAt(i + 1) <= '9')
+//                infix += tmpfix.charAt(i);
+            if(i + 1 < tmpfix.length()&&tmpfix.charAt(i) >= '0' && tmpfix.charAt(i) <= '9'&&tmpfix.charAt(i+1) >= '0' && tmpfix.charAt(i+1) <= '9')
+                infix = infix + tmpfix.charAt(i) + "_";
+            else
+                infix = infix + tmpfix.charAt(i);
+        }
+        System.out.println(infix);
+    }
+
     private void calculate()
     {
         switch (lastoperator)
@@ -426,11 +434,10 @@ public class TI_LCD_Programmer extends JFrame
             }
             else if (OperatingMode == 1)
             {
-                if (isOperator == false)
-                    tmpfix = tmpfix + s + "_";
-                else
-                    tmpfix = tmpfix + s;
-
+//                if (isOperator == false)
+//                    tmpfix = tmpfix + s + "_";
+//                else
+//                    tmpfix = tmpfix + s;
                 tmp = tmp + s;
                 IOput.setText(tmp);
             }
