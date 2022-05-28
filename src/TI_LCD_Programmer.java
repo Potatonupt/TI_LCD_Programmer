@@ -288,6 +288,8 @@ public class TI_LCD_Programmer extends JFrame
                 {
                     isHEX = true;
                     isDEC = false;
+                    tmp=radixto16(IOput.getText());
+                    answer16=tmp;
                     DECLabel.setText("");
                     HEXLabel.setText("HEX");
                     IOput.setText(radixto16(IOput.getText()));
@@ -301,6 +303,8 @@ public class TI_LCD_Programmer extends JFrame
                 {
                     isDEC = true;
                     isHEX = false;
+                    tmp=radixto10(IOput.getText());
+                    answer= BigDecimal.valueOf(Integer.parseInt(tmp));
                     DECLabel.setText("DEC");
                     HEXLabel.setText("");
                     IOput.setText(radixto10(IOput.getText()));
@@ -481,7 +485,7 @@ public class TI_LCD_Programmer extends JFrame
     private String radixto10(String s)
     {
         int DECcacluate = 0;
-        System.out.println(s);
+//        System.out.println(s);
         for (int i = 0; i < s.length(); i++)
         {
             int num = (int) Math.pow(16, (s.length() - 1 - i));
@@ -560,7 +564,13 @@ public class TI_LCD_Programmer extends JFrame
 //            System.out.println(temp);
             String Text = radixto16(temp + "");
 //            System.out.println(Text);
+//            answer16=Text;
+            System.out.println(answer16);
+//            tmp=Text;
+            tmp=Text;
             IOput.setText(Text);
+//            getOperator2();
+//            calculate();
         }
     }
 
@@ -587,7 +597,7 @@ public class TI_LCD_Programmer extends JFrame
             }
             if (isHEX)
             {
-                if (answer != null)
+                if (answer16!=null)
                     second16 = answer16;
             }
         }
@@ -618,7 +628,7 @@ public class TI_LCD_Programmer extends JFrame
             else
                 infix = infix + tmpfix.charAt(i);
         }
-        System.out.println(infix);
+//        System.out.println(infix);
     }
 
     private void calculate()
@@ -649,9 +659,9 @@ public class TI_LCD_Programmer extends JFrame
         if (isHEX)
         {
             int tempfirst = Integer.parseInt(radixto10(first16));
-            System.out.println(tempfirst);
+//            System.out.println(tempfirst);
             int tempsecond = Integer.parseInt(radixto10(second16));
-            System.out.println(tempsecond);
+//            System.out.println(tempsecond);
             switch (lastoperator)
             {
 
@@ -1235,7 +1245,7 @@ public class TI_LCD_Programmer extends JFrame
     private static boolean isONforCLR = false;
     private BigDecimal equaltmp = new BigDecimal(0);
     private int equaloptmp = -1;
-    private int OperatingMode = 1;           //工作模式 0表示标准 1表示带括号
+    private int OperatingMode = 0;           //工作模式 0表示标准 1表示带括号
     private String infix = "";   //中缀表达式
     private String postfix = "";                //后缀表达式
     private String tmpfix = "";
