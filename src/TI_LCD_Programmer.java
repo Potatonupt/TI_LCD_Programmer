@@ -16,6 +16,13 @@ public class TI_LCD_Programmer extends JFrame
     private void initButton()
     {
         initNumberButton();
+        initControlButton();
+        initOperatorButton();
+
+    }
+
+    private void initOperatorButton()
+    {
         AddButton.addActionListener(e -> {
             if (OperatingMode == 0)
             {
@@ -271,16 +278,7 @@ public class TI_LCD_Programmer extends JFrame
             }
         });
 
-        CEButton.addActionListener(e -> {
-            //clear error 清除一位
-            if (!tmp.isEmpty())
-            {
-                tmp = tmp.substring(0, tmp.length() - 1);
-                IOput.setText(tmp);
-                if (tmp.isEmpty())
-                    IOput.setText("0");
-            }
-        });
+
 //        SHFButton.addActionListener(e->{
 //
 //        });
@@ -323,7 +321,6 @@ public class TI_LCD_Programmer extends JFrame
         SHFButton.addActionListener(e -> {
 
         });
-
     }
 
     private void initNumberButton()
@@ -904,14 +901,13 @@ public class TI_LCD_Programmer extends JFrame
 
     public TI_LCD_Programmer()
     {
-        ON_OFF_control();
         initLayout();
         initKeyboard();
         initButton();
 
     }
 
-    private void ON_OFF_control()
+    private void initControlButton()
     {
         ONorCLRButton.addActionListener(e -> {
             isON = true;
@@ -941,6 +937,16 @@ public class TI_LCD_Programmer extends JFrame
             DECLabel.setText("");
             HEXLabel.setText("");
             OverFlow.setText("");
+        });
+        CEButton.addActionListener(e -> {
+            //clear error 清除一位
+            if (!tmp.isEmpty())
+            {
+                tmp = tmp.substring(0, tmp.length() - 1);
+                IOput.setText(tmp);
+                if (tmp.isEmpty())
+                    IOput.setText("0");
+            }
         });
     }
 
