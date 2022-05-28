@@ -709,8 +709,7 @@ public class TI_LCD_Programmer extends JFrame
                     tmp_when_calculate = "";
                 }
             }
-            BigDecimal tmp1 = new BigDecimal(0);
-            BigDecimal tmp2 = new BigDecimal(0);
+
             if (postfix.charAt(i) == '+')
             {
                 tmp2 = st.peek();
@@ -923,6 +922,7 @@ public class TI_LCD_Programmer extends JFrame
             postfix += s.peek();
             s.pop();
         }
+        System.out.println(postfix);
         return true;
     }
 
@@ -1234,7 +1234,7 @@ public class TI_LCD_Programmer extends JFrame
     private static boolean isONforCLR = false;
     private BigDecimal equaltmp = new BigDecimal(0);
     private int equaloptmp = -1;
-    private int OperatingMode = 0;           //工作模式 0表示标准 1表示带括号
+    private int OperatingMode = 1;           //工作模式 0表示标准 1表示带括号
     private String infix = "";   //中缀表达式
     private String postfix = "";                //后缀表达式
     private String tmpfix = "";
@@ -1251,4 +1251,6 @@ public class TI_LCD_Programmer extends JFrame
     private String operator2_16;
     private String answer16;
     private String equaltmp16;
+    private BigDecimal tmp1 = new BigDecimal(0);
+    private BigDecimal tmp2 = new BigDecimal(0);
 }
