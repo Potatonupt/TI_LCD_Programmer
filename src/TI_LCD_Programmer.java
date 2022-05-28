@@ -156,7 +156,7 @@ public class TI_LCD_Programmer extends JFrame
             else if (OperatingMode == 1)
             {
                 isOperator = true;
-                displayIOput("×");
+                displayIOput("*");
             }
         });
         DivButton.addActionListener(e -> {
@@ -862,6 +862,7 @@ public class TI_LCD_Programmer extends JFrame
         tmpfix = "";
         infix = "";
         postfix = "";
+        isEqualOperator=false;
     }
 
     private int priority(char op)
