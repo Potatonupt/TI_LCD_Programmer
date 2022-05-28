@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Stack;
 import java.util.Locale;
 
@@ -195,32 +196,34 @@ public class TI_LCD_Programmer extends JFrame
         EqualButton.addActionListener(e -> {
             if(OperatingMode==0)
             {
-                isOperator = true;
-                nowoperator = 0;
-                getOperator2();
-                if (lastoperator != 0)
-                {
-                    equaloptmp = lastoperator;
-                    equaltmp = second;
-                }
-                if (lastoperator == 0 && equaloptmp == -1)
-                {
-                    if (answer.compareTo(new BigDecimal(0)) != 0)
-                        second = answer;
-                }
-                else if (lastoperator == 0)
-                {
-                    lastoperator = equaloptmp;
-                    second = equaltmp;
-                }
+                getCurrentText();
                 calculate();
                 displayIOput(answer.toString());
                 updateAnswer();
             }
             else if(OperatingMode==1)
             {
-                getInfix();
-                translate();
+                if(isEqualOperator==false)
+                {
+                    isEqualOperator = true;
+                    getInfix();
+                    translate();
+                    calculate_with_Parentheses();
+                    displayIOput(result.toString());
+                }
+                else
+                {
+                    if(record_last_operator==1)
+                        result=result.add(record_last_number);
+                    if(record_last_operator==2)
+                        result=result.subtract(record_last_number);
+                    if(record_last_operator==3)
+                        result=result.multiply(record_last_number);
+                    if(record_last_operator==4)
+                        result=result.divide(record_last_number,2,RoundingMode.HALF_UP);
+                    displayIOput(result.toString());
+                }
+
             }
         });
 
@@ -362,6 +365,28 @@ public class TI_LCD_Programmer extends JFrame
 
     }
 
+    private void getCurrentText()
+    {
+        isOperator = true;
+        nowoperator = 0;
+        getOperator2();
+        if (lastoperator != 0)
+        {
+            equaloptmp = lastoperator;
+            equaltmp = second;
+        }
+        if (lastoperator == 0 && equaloptmp == -1)
+        {
+            if (answer.compareTo(new BigDecimal(0)) != 0)
+                second = answer;
+        }
+        else if (lastoperator == 0)
+        {
+            lastoperator = equaloptmp;
+            second = equaltmp;
+        }
+    }
+
     private void getInfix()
     {
         tmpfix=tmp;
@@ -374,7 +399,7 @@ public class TI_LCD_Programmer extends JFrame
 //            }
 //            if (tmpfix.charAt(i) == '_' && i + 1 < tmpfix.length() && tmpfix.charAt(i + 1) >= '0' && tmpfix.charAt(i + 1) <= '9')
 //                infix += tmpfix.charAt(i);
-            if(i + 1 < tmpfix.length()&&tmpfix.charAt(i) >= '0' && tmpfix.charAt(i) <= '9'&&tmpfix.charAt(i+1) >= '0' && tmpfix.charAt(i+1) <= '9')
+            if (i + 1 < tmpfix.length() && tmpfix.charAt(i) >= '0' && tmpfix.charAt(i) <= '9' && tmpfix.charAt(i + 1) >= '0' && tmpfix.charAt(i + 1) <= '9')
                 infix = infix + tmpfix.charAt(i) + "_";
             else
                 infix = infix + tmpfix.charAt(i);
@@ -389,10 +414,87 @@ public class TI_LCD_Programmer extends JFrame
             case 1:answer=first.add(second);break;
             case 2:answer=first.subtract(second);break;
             case 3:answer=first.multiply(second);break;
-            case 4:answer=first.divide(second);break;
+            case 4:answer=first.divide(second,2, RoundingMode.HALF_UP);break;
             case 0:answer=second;break;
 
         }
+    }
+
+    private void calculate_with_Parentheses()
+    {
+        Stack<BigDecimal> st=new Stack<>();
+        for(int i=0;i<postfix.length();i++)
+        {
+            if(postfix.charAt(i)>='0'&&postfix.charAt(i)<='9')
+            {
+                if (postfix.charAt(i + 1) == '_')
+                {
+                    tmp_when_calculate += postfix.charAt(i);
+                    i++;
+                }
+                else
+                {
+                    tmp_when_calculate += postfix.charAt(i);
+                    st.push(new BigDecimal(tmp_when_calculate));
+                    tmp_when_calculate = "";
+                }
+            }
+            BigDecimal tmp1 = new BigDecimal(0);
+            BigDecimal tmp2 = new BigDecimal(0);
+            if(postfix.charAt(i)=='+')
+            {
+                tmp2 =st.peek();
+                st.pop();
+                tmp1 =st.peek();
+                st.pop();
+                result= tmp1.add(tmp2);
+                st.push(result);
+
+
+                record_last_operator=1;
+                record_last_number= tmp2;
+            }
+            if(postfix.charAt(i)=='-')
+            {
+                tmp2 =st.peek();
+                st.pop();
+                tmp1 =st.peek();
+                st.pop();
+                result= tmp1.subtract(tmp2);
+                st.push(result);
+
+
+                record_last_operator=2;
+                record_last_number= tmp2;
+            }
+            if(postfix.charAt(i)=='*')
+            {
+                tmp2 =st.peek();
+                st.pop();
+                tmp1 =st.peek();
+                st.pop();
+                result= tmp1.multiply(tmp2);
+                st.push(result);
+
+
+                record_last_operator=3;
+                record_last_number= tmp2;
+            }
+            if(postfix.charAt(i)=='/')
+            {
+                tmp2 =st.peek();
+                st.pop();
+                tmp1 =st.peek();
+                st.pop();
+                result= tmp1.divide(tmp2,2,RoundingMode.HALF_UP);
+                st.push(result);
+
+                record_last_operator=4;
+                record_last_number= tmp2;
+            }
+        }
+        result=st.peek();
+        tmp="";
     }
 
     private void getOperator2()           //获取当前操作数
@@ -440,6 +542,8 @@ public class TI_LCD_Programmer extends JFrame
 //                    tmpfix = tmpfix + s + "_";
 //                else
 //                    tmpfix = tmpfix + s;
+                if(isEqualOperator==true)
+                    tmp="";
                 tmp = tmp + s;
                 IOput.setText(tmp);
             }
@@ -911,6 +1015,11 @@ public class TI_LCD_Programmer extends JFrame
     private String infix ="";   //中缀表达式
     private String postfix ="";                //后缀表达式
     private String tmpfix="";
+    private String tmp_when_calculate="";
     private boolean isDEC;//是否是十进制模式
     private boolean isHEX;//是否十六进制模式
+    private BigDecimal result=new BigDecimal(0);
+    private int record_last_operator=0;
+    private BigDecimal record_last_number=new BigDecimal(0);
+    private boolean isEqualOperator=false;
 }
