@@ -195,24 +195,7 @@ public class TI_LCD_Programmer extends JFrame
         EqualButton.addActionListener(e -> {
             if(OperatingMode==0)
             {
-                isOperator = true;
-                nowoperator = 0;
-                getOperator2();
-                if (lastoperator != 0)
-                {
-                    equaloptmp = lastoperator;
-                    equaltmp = second;
-                }
-                if (lastoperator == 0 && equaloptmp == -1)
-                {
-                    if (answer.compareTo(new BigDecimal(0)) != 0)
-                        second = answer;
-                }
-                else if (lastoperator == 0)
-                {
-                    lastoperator = equaloptmp;
-                    second = equaltmp;
-                }
+                getCurrentText();
                 calculate();
                 displayIOput(answer.toString());
                 updateAnswer();
@@ -221,6 +204,8 @@ public class TI_LCD_Programmer extends JFrame
             {
                 getInfix();
                 translate();
+                calculate_with_Parentheses();
+                displayIOput(Double.toString(result));
             }
         });
 
@@ -360,6 +345,28 @@ public class TI_LCD_Programmer extends JFrame
 
     }
 
+    private void getCurrentText()
+    {
+        isOperator = true;
+        nowoperator = 0;
+        getOperator2();
+        if (lastoperator != 0)
+        {
+            equaloptmp = lastoperator;
+            equaltmp = second;
+        }
+        if (lastoperator == 0 && equaloptmp == -1)
+        {
+            if (answer.compareTo(new BigDecimal(0)) != 0)
+                second = answer;
+        }
+        else if (lastoperator == 0)
+        {
+            lastoperator = equaloptmp;
+            second = equaltmp;
+        }
+    }
+
     private void getInfix()
     {
         tmpfix=tmp;
@@ -391,6 +398,66 @@ public class TI_LCD_Programmer extends JFrame
             case 0:answer=second;break;
 
         }
+    }
+
+    private void calculate_with_Parentheses()
+    {
+        Stack<Double> st=new Stack<>();
+        for(int i=0;i<postfix.length();i++)
+        {
+            if(postfix.charAt(i)>='0'&&postfix.charAt(i)<='9')
+            {
+                if (postfix.charAt(i + 1) == '_')
+                {
+                    tmp_when_calculate += postfix.charAt(i);
+                    i++;
+                }
+                else
+                {
+                    tmp_when_calculate += postfix.charAt(i);
+                    st.push(Double.valueOf(tmp_when_calculate));
+                    tmp_when_calculate = "";
+                }
+            }
+            if(postfix.charAt(i)=='+')
+            {
+                tmp2=st.peek();
+                st.pop();
+                tmp1=st.peek();
+                st.pop();
+                result=tmp1+tmp2;
+                st.push(result);
+            }
+            if(postfix.charAt(i)=='-')
+            {
+                tmp2=st.peek();
+                st.pop();
+                tmp1=st.peek();
+                st.pop();
+                result=tmp1-tmp2;
+                st.push(result);
+            }
+            if(postfix.charAt(i)=='*')
+            {
+                tmp2=st.peek();
+                st.pop();
+                tmp1=st.peek();
+                st.pop();
+                result=tmp1*tmp2;
+                st.push(result);
+            }
+            if(postfix.charAt(i)=='/')
+            {
+                tmp2=st.peek();
+                st.pop();
+                tmp1=st.peek();
+                st.pop();
+                result=tmp1/tmp2;
+                st.push(result);
+            }
+        }
+        result=st.peek();
+        tmp="";
     }
 
     private void getOperator2()           //获取当前操作数
@@ -438,6 +505,7 @@ public class TI_LCD_Programmer extends JFrame
 //                    tmpfix = tmpfix + s + "_";
 //                else
 //                    tmpfix = tmpfix + s;
+
                 tmp = tmp + s;
                 IOput.setText(tmp);
             }
@@ -909,6 +977,10 @@ public class TI_LCD_Programmer extends JFrame
     private String infix ="";   //中缀表达式
     private String postfix ="";                //后缀表达式
     private String tmpfix="";
+    private String tmp_when_calculate="";
     private boolean isDEC;//是否是十进制模式
     private boolean isHEX;//是否十六进制模式
+    private double result=0;
+    private double tmp1=0;
+    private double tmp2=0;
 }
