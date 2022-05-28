@@ -219,11 +219,20 @@ public class TI_LCD_Programmer extends JFrame
             }
             else if(OperatingMode==1)
             {
+                for(int i=0;i<tmpfix.length();i++)
+                {
+                    if((tmpfix.charAt(i)>='0'&&tmpfix.charAt(i)<='9')||tmpfix.charAt(i)=='+'||tmpfix.charAt(i)=='-'||tmpfix.charAt(i)=='*'||tmpfix.charAt(i)=='/'||tmpfix.charAt(i)=='('||tmpfix.charAt(i)==')')
+                    {
+                        infix+=tmpfix.charAt(i);
+                        continue;
+                    }
+                    if(tmpfix.charAt(i)=='_'&&i+1<tmpfix.length() && tmpfix.charAt(i+1)>='0'&&tmpfix.charAt(i+1)<='9')
+                            infix+=tmpfix.charAt(i);
+                }
+                System.out.println(infix);
                 if(tmpfix.charAt(tmpfix.length()-1)=='_')
                     tmpfix=tmpfix.substring(0,tmpfix.length()-1);
-                infix=tmpfix;
                 translate();
-                System.out.println(infix);
             }
         });
 
@@ -405,7 +414,7 @@ public class TI_LCD_Programmer extends JFrame
     {
         if(isON ==true)
         {
-            if(OperatingMode==0)
+            if (OperatingMode == 0)
             {
                 if (isOperator == true)
                     tmp = "";
@@ -415,19 +424,13 @@ public class TI_LCD_Programmer extends JFrame
                 if (isOverflow())
                     IOput.setText(tmp.substring(tmp.length() - 8, tmp.length()));
             }
-            else if(OperatingMode==1)
+            else if (OperatingMode == 1)
             {
                 if (isOperator == false)
-                {
                     tmpfix = tmpfix + s + "_";
-                }
-                else if (isOperator==true)
-                {
-                    if(!s.equals("("))
-                        tmpfix = tmpfix.substring(0, tmpfix.length() - 1);
-                    System.out.println(tmpfix);
+                else
                     tmpfix = tmpfix + s;
-                }
+
                 tmp = tmp + s;
                 IOput.setText(tmp);
             }
