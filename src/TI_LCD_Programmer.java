@@ -18,7 +18,6 @@ public class TI_LCD_Programmer extends JFrame
         initNumberButton();
         initControlButton();
         initOperatorButton();
-
     }
 
     private void initOperatorButton()
@@ -422,6 +421,49 @@ public class TI_LCD_Programmer extends JFrame
         CPButton.addActionListener(e -> {
             isOperator = true;
             displayIOput(")");
+        });
+    }
+
+    private void initControlButton()
+    {
+        ONorCLRButton.addActionListener(e -> {
+            isON = true;
+            //开机后清零 然后显示0；
+            if (isONforCLR == false)
+            {
+                isONforCLR = true;  //转变开机键功能
+                isDEC = true;
+                IOput.setText("0");
+                OverFlow.setText("");
+                DECLabel.setText("DEC");
+                HEXLabel.setText("");
+            }
+            else
+            {
+                clearall();
+                IOput.setText("0");
+                OverFlow.setText("");
+            }
+        });
+        OFFButton.addActionListener(e -> {
+            isON = false;
+            isONforCLR = false;
+            //清零 然后关机
+            clearall();
+            IOput.setText("");
+            DECLabel.setText("");
+            HEXLabel.setText("");
+            OverFlow.setText("");
+        });
+        CEButton.addActionListener(e -> {
+            //clear error 清除一位
+            if (!tmp.isEmpty())
+            {
+                tmp = tmp.substring(0, tmp.length() - 1);
+                IOput.setText(tmp);
+                if (tmp.isEmpty())
+                    IOput.setText("0");
+            }
         });
     }
 
@@ -904,50 +946,6 @@ public class TI_LCD_Programmer extends JFrame
         initLayout();
         initKeyboard();
         initButton();
-
-    }
-
-    private void initControlButton()
-    {
-        ONorCLRButton.addActionListener(e -> {
-            isON = true;
-            //开机后清零 然后显示0；
-            if (isONforCLR == false)
-            {
-                isONforCLR = true;  //转变开机键功能
-                isDEC = true;
-                IOput.setText("0");
-                OverFlow.setText("");
-                DECLabel.setText("DEC");
-                HEXLabel.setText("");
-            }
-            else
-            {
-                clearall();
-                IOput.setText("0");
-                OverFlow.setText("");
-            }
-        });
-        OFFButton.addActionListener(e -> {
-            isON = false;
-            isONforCLR = false;
-            //清零 然后关机
-            clearall();
-            IOput.setText("");
-            DECLabel.setText("");
-            HEXLabel.setText("");
-            OverFlow.setText("");
-        });
-        CEButton.addActionListener(e -> {
-            //clear error 清除一位
-            if (!tmp.isEmpty())
-            {
-                tmp = tmp.substring(0, tmp.length() - 1);
-                IOput.setText(tmp);
-                if (tmp.isEmpty())
-                    IOput.setText("0");
-            }
-        });
     }
 
     private void initLayout()
