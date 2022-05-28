@@ -203,10 +203,27 @@ public class TI_LCD_Programmer extends JFrame
             }
             else if(OperatingMode==1)
             {
-                getInfix();
-                translate();
-                calculate_with_Parentheses();
-                displayIOput(result.toString());
+                if(isEqualOperator==false)
+                {
+                    isEqualOperator = true;
+                    getInfix();
+                    translate();
+                    calculate_with_Parentheses();
+                    displayIOput(result.toString());
+                }
+                else
+                {
+                    if(record_last_operator==1)
+                        result=result.add(record_last_number);
+                    if(record_last_operator==2)
+                        result=result.subtract(record_last_number);
+                    if(record_last_operator==3)
+                        result=result.multiply(record_last_number);
+                    if(record_last_operator==4)
+                        result=result.divide(record_last_number,2,RoundingMode.HALF_UP);
+                    displayIOput(result.toString());
+                }
+
             }
         });
 
@@ -380,7 +397,7 @@ public class TI_LCD_Programmer extends JFrame
 //            }
 //            if (tmpfix.charAt(i) == '_' && i + 1 < tmpfix.length() && tmpfix.charAt(i + 1) >= '0' && tmpfix.charAt(i + 1) <= '9')
 //                infix += tmpfix.charAt(i);
-            if(i + 1 < tmpfix.length()&&tmpfix.charAt(i) >= '0' && tmpfix.charAt(i) <= '9'&&tmpfix.charAt(i+1) >= '0' && tmpfix.charAt(i+1) <= '9')
+            if (i + 1 < tmpfix.length() && tmpfix.charAt(i) >= '0' && tmpfix.charAt(i) <= '9' && tmpfix.charAt(i + 1) >= '0' && tmpfix.charAt(i + 1) <= '9')
                 infix = infix + tmpfix.charAt(i) + "_";
             else
                 infix = infix + tmpfix.charAt(i);
@@ -428,6 +445,10 @@ public class TI_LCD_Programmer extends JFrame
                 st.pop();
                 result=tmp1.add(tmp2);
                 st.push(result);
+
+
+                record_last_operator=1;
+                record_last_number=tmp2;
             }
             if(postfix.charAt(i)=='-')
             {
@@ -437,6 +458,10 @@ public class TI_LCD_Programmer extends JFrame
                 st.pop();
                 result=tmp1.subtract(tmp2);
                 st.push(result);
+
+
+                record_last_operator=2;
+                record_last_number=tmp2;
             }
             if(postfix.charAt(i)=='*')
             {
@@ -446,6 +471,10 @@ public class TI_LCD_Programmer extends JFrame
                 st.pop();
                 result=tmp1.multiply(tmp2);
                 st.push(result);
+
+
+                record_last_operator=3;
+                record_last_number=tmp2;
             }
             if(postfix.charAt(i)=='/')
             {
@@ -455,6 +484,9 @@ public class TI_LCD_Programmer extends JFrame
                 st.pop();
                 result=tmp1.divide(tmp2,2,RoundingMode.HALF_UP);
                 st.push(result);
+
+                record_last_operator=4;
+                record_last_number=tmp2;
             }
         }
         result=st.peek();
@@ -506,7 +538,8 @@ public class TI_LCD_Programmer extends JFrame
 //                    tmpfix = tmpfix + s + "_";
 //                else
 //                    tmpfix = tmpfix + s;
-
+                if(isEqualOperator==true)
+                    tmp="";
                 tmp = tmp + s;
                 IOput.setText(tmp);
             }
@@ -984,4 +1017,7 @@ public class TI_LCD_Programmer extends JFrame
     private BigDecimal result=new BigDecimal(0);
     private BigDecimal tmp1=new BigDecimal(0);
     private BigDecimal tmp2=new BigDecimal(0);
+    private int record_last_operator=0;
+    private BigDecimal record_last_number=new BigDecimal(0);
+    private boolean isEqualOperator=false;
 }
