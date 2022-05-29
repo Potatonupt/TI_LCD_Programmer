@@ -212,6 +212,7 @@ public class TI_LCD_Programmer extends JFrame
             }
         });
 
+
         SHFButton.addActionListener(e -> {
             if (OperatingMode == 0)
             {
