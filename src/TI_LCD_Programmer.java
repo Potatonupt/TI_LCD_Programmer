@@ -295,6 +295,11 @@ public class TI_LCD_Programmer extends JFrame
                     DECLabel.setText("");
                     HEXLabel.setText("HEX");
 //                    IOput.setText(radixto16(IOput.getText()));
+//                    if(isOperator)
+//                    {
+                        IOput.setText(radixto16(IOput.getText()));
+//                    }
+
                 }
             }
         });
@@ -312,6 +317,8 @@ public class TI_LCD_Programmer extends JFrame
 //                    IOput.setText(radixto10(IOput.getText()));
 //                    if (isOverflow())
 //                        IOput.setText(IOput.getText().substring(IOput.getText().length() - 8, IOput.getText().length()));
+//                    if(isOperator)
+                        IOput.setText(radixto10(IOput.getText()));
                 }
 //                else
 //                    return;
