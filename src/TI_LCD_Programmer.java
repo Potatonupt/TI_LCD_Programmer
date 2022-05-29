@@ -22,23 +22,6 @@ public class TI_LCD_Programmer extends JFrame
 
     private void initOperatorButton()
     {
-        ModeButton.addActionListener(e->{
-            if(isON) {
-                System.out.println(OperatingMode);
-                if (OperatingMode == 0) {
-                    OperatingMode = 1;
-                    OperationModeLabel.setText("Mixed");
-                    OperationLabel.setText("");//混合运算不显示运算符
-                    clearall();//切换运算模式后清零
-                }
-                else
-                {
-                    OperatingMode = 0;
-                    OperationModeLabel.setText("Single");
-                    clearall();//切换运算模式后清零
-                }
-            }
-        });
         AddButton.addActionListener(e -> {
             if (OperatingMode == 0)
             {
@@ -46,14 +29,12 @@ public class TI_LCD_Programmer extends JFrame
                 if (isOperator)               //如果上一个是运算符 直接切换
                 {
                     nowoperator = 1;
-                    OperationLabel.setText("+");
                     getOperatorNumber();
                 }
                 else
                 {
                     isOperator = true;
                     nowoperator = 1;
-                    OperationLabel.setText("+");
                     getOperatorNumber();
                     calculate();
                 }
@@ -74,14 +55,12 @@ public class TI_LCD_Programmer extends JFrame
                 if (isOperator)               //如果上一个是运算符 直接切换
                 {
                     nowoperator = 2;
-                    OperationLabel.setText("-");
                     getOperatorNumber();
                 }
                 else
                 {
                     isOperator = true;
                     nowoperator = 2;
-                    OperationLabel.setText("-");
                     getOperatorNumber();
                     calculate();
                 }
@@ -102,14 +81,12 @@ public class TI_LCD_Programmer extends JFrame
                 if (isOperator)               //如果上一个是运算符 直接切换
                 {
                     nowoperator = 3;
-                    OperationLabel.setText("*");
                     getOperatorNumber();
                 }
                 else
                 {
                     isOperator = true;
                     nowoperator = 3;
-                    OperationLabel.setText("*");
                     getOperatorNumber();
                     calculate();
                 }
@@ -129,14 +106,12 @@ public class TI_LCD_Programmer extends JFrame
                 if (isOperator)               //如果上一个是运算符 直接切换
                 {
                     nowoperator = 4;
-                    OperationLabel.setText("/");
                     getOperatorNumber();
                 }
                 else
                 {
                     isOperator = true;
                     nowoperator = 4;
-                    OperationLabel.setText("/");
                     getOperatorNumber();
                     calculate();
                 }
@@ -181,7 +156,6 @@ public class TI_LCD_Programmer extends JFrame
         EqualButton.addActionListener(e -> {
             if (OperatingMode == 0)
             {
-                OperationLabel.setText("=");
                 getCurrentText();
                 calculate();
                 displayAnswer();
@@ -264,102 +238,20 @@ public class TI_LCD_Programmer extends JFrame
 
     private void SHIFT_DECtoHEX_DISPLAY()
     {
-        Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
         isHEX = true;
         isDEC = false;
         DECLabel.setText("");
         HEXLabel.setText("HEX");
-        showHEXrelatedButton();
     }
-    private void showHEXrelatedButton()
-    {
-        Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
-        JButton[]HexButton={AButton,bButton,CButton,dButton,EButton,FButton,a1SCButton,a2SCButton,ORButton,ANDButton,XORButton,SHFButton};
-        for (JButton hexBUtton : HexButton) {
-            hexBUtton.setBorderPainted(false);//取消边框
-            hexBUtton.setBackground(new Color(62, 68, 79));//设置背景颜色
-            hexBUtton.setFocusPainted(false);//取消聚焦
-            hexBUtton.setForeground(new Color(255, 255, 255));//设置按钮上的字体颜色
-            hexBUtton.setFont(buttonFont);
-            hexBUtton.addMouseListener(new MouseAdapter()
-            {
-                @Override
-                public void mouseEntered(MouseEvent e)
-                {
-                    super.mouseEntered(e);
-                    hexBUtton.setBackground(new Color(32, 38, 49));
-                }
 
-                @Override
-                public void mouseExited(MouseEvent e)
-                {
-                    super.mouseExited(e);
-                    hexBUtton.setBackground(new Color(62, 68, 79));
-                }
-            });
-//                hexBUtton.
-        }
-    }
     private void SHIFT_HEXtoDEC_DISPLAY()
     {
-        Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
         isDEC = true;
         isHEX = false;
         DECLabel.setText("DEC");
         HEXLabel.setText("");
-        hideHEXrelatedButton();
-//        JButton[]HexButton={AButton,bButton,CButton,dButton,EButton,FButton,a1SCButton,a2SCButton,ORButton,ANDButton,XORButton,SHFButton};
-//        for (JButton hexBUtton : HexButton) {
-//            hexBUtton.setBorderPainted(false);//取消边框
-//            hexBUtton.setBackground(new Color(62, 68, 79));//设置背景颜色
-//            hexBUtton.setFocusPainted(false);//取消聚焦
-//            hexBUtton.setForeground(new Color(62, 68, 79));//设置按钮上的字体颜色
-//            hexBUtton.setFont(buttonFont);
-//            hexBUtton.addMouseListener(new MouseAdapter()
-//            {
-//                @Override
-//                public void mouseEntered(MouseEvent e)
-//                {
-//                    super.mouseEntered(e);
-//                    hexBUtton.setBackground(new Color(62, 68, 79));
-//                }
-//
-//                @Override
-//                public void mouseExited(MouseEvent e)
-//                {
-//                    super.mouseExited(e);
-//                    hexBUtton.setBackground(new Color(62, 68, 79));
-//                }
-//            });
-//        }
     }
-    private void hideHEXrelatedButton() {
-        Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
-        JButton[] HexButton = {AButton, bButton, CButton, dButton, EButton, FButton, a1SCButton, SHFButton, a2SCButton, ORButton, ANDButton, XORButton};
-        for (JButton hexBUtton : HexButton) {
-            hexBUtton.setBorderPainted(false);//取消边框
-            hexBUtton.setBackground(new Color(62, 68, 79));//设置背景颜色
-            hexBUtton.setFocusPainted(false);//取消聚焦
-            hexBUtton.setForeground(new Color(62, 68, 79));//设置按钮上的字体颜色
-            hexBUtton.setFont(buttonFont);
-            hexBUtton.addMouseListener(new MouseAdapter()
-            {
-                @Override
-                public void mouseEntered(MouseEvent e)
-                {
-                    super.mouseEntered(e);
-                    hexBUtton.setBackground(new Color(62, 68, 79));
-                }
 
-                @Override
-                public void mouseExited(MouseEvent e)
-                {
-                    super.mouseExited(e);
-                    hexBUtton.setBackground(new Color(62, 68, 79));
-                }
-            });
-        }
-    }
     private void initNumberButton()
     {
         a0Button.addActionListener(e ->
@@ -453,16 +345,12 @@ public class TI_LCD_Programmer extends JFrame
         });
         OPButton.addActionListener(e ->
         {
-            if(OperatingMode!=0) {
-                isOperator = true;
-                displayIOput("(");
-            }
+            isOperator = true;
+            displayIOput("(");
         });
         CPButton.addActionListener(e -> {
-            if(OperatingMode!=0) {
-                isOperator = true;
-                displayIOput(")");
-            }
+            isOperator = true;
+            displayIOput(")");
         });
     }
 
@@ -470,10 +358,6 @@ public class TI_LCD_Programmer extends JFrame
     {
         ONorCLRButton.addActionListener(e -> {
             isON = true;
-            if(OperatingMode==0)
-                OperationModeLabel.setText("Single");
-            else
-                OperationModeLabel.setText("Mixed");
             //开机后清零 然后显示0；
             if (!isONforCLR)
             {
@@ -488,25 +372,18 @@ public class TI_LCD_Programmer extends JFrame
             {
                 clearall();
                 IOput.setText("0");
-                OperationLabel.setText("");
                 OverFlow.setText("");
             }
         });
         OFFButton.addActionListener(e -> {
-            isHEX=false;
-            isDEC=false;
             isON = false;
             isONforCLR = false;
             //清零 然后关机
             clearall();
-            OperationLabel.setText("");
-            OperationModeLabel.setText("");
             IOput.setText("");
             DECLabel.setText("");
             HEXLabel.setText("");
             OverFlow.setText("");
-            hideHEXrelatedButton();
-            shutCPandOPButton();
         });
         CEButton.addActionListener(e -> {
             //clear error 清除一位
@@ -518,10 +395,6 @@ public class TI_LCD_Programmer extends JFrame
                     IOput.setText("0");
             }
         });
-    }
-
-    private void shutCPandOPButton() {
-        
     }
 
     private String radixto16(String s)
@@ -599,20 +472,19 @@ public class TI_LCD_Programmer extends JFrame
 
     private void get1sC()
     {
-        if (isHEX&&OperatingMode==0)
+        if (isHEX)
         {
             int temp = -1 - Integer.parseInt(radixto10(IOput.getText()));
 //            System.out.println(temp);
             String Text = radixto16(temp + "");
 //            System.out.println(Text);
             IOput.setText(Text);
-            OperationLabel.setText("1sC");
         }
     }
 
     private void get2sC()
     {
-        if (isHEX&&OperatingMode==0)
+        if (isHEX)
         {
             int temp = -Integer.parseInt(radixto10(IOput.getText()));
 //            System.out.println(temp);
@@ -623,7 +495,6 @@ public class TI_LCD_Programmer extends JFrame
 //            tmp=Text;
             tmp = Text;
             IOput.setText(Text);
-            OperationLabel.setText("2sC");
 //            getOperator2();
 //            calculate();
         }
@@ -673,6 +544,9 @@ public class TI_LCD_Programmer extends JFrame
 
     private void calculate()
     {
+//        if (isDEC)
+//        {
+//            answer=IOput.getText()
         switch (lastoperator)
         {
             case 1:
@@ -692,6 +566,45 @@ public class TI_LCD_Programmer extends JFrame
                 break;
 
         }
+//        }
+//        if (isHEX)
+//        {
+//            int tempfirst = Integer.parseInt(radixto10(first16));
+////            System.out.println(tempfirst);
+//            int tempsecond = Integer.parseInt(radixto10(second16));
+////            System.out.println(tempsecond);
+//            switch (lastoperator)
+//            {
+//
+//                case 1:
+//                {
+//                    int tempanswer = tempfirst + tempsecond;
+//                    answer16 = radixto16(tempanswer + "");
+//                    break;
+//                }
+//                case 2:
+//                {
+//                    int tempanswer = tempfirst - tempsecond;
+//                    answer16 = radixto16(tempanswer + "");
+//                    break;
+//                }
+//                case 3:
+//                {
+//                    int tempanswer = tempfirst * tempsecond;
+//                    answer16 = radixto16(tempanswer + "");
+//                    break;
+//                }
+//                case 4:
+//                {
+//                    int tempanswer = tempfirst / tempsecond;
+//                    answer16 = radixto16(tempanswer + "");
+//                    break;
+//                }
+//                case 0:
+//                    answer16 = second16;
+//                    break;
+//            }
+//        }
     }
 
 
@@ -833,7 +746,6 @@ public class TI_LCD_Programmer extends JFrame
 
     private void clearall()
     {
-        IOput.setText("0");
         isOperator = false;   //是否是运算符
         operator1 = "";            //操作数1
         operatorNumber = "";            //操作数2
@@ -978,24 +890,25 @@ public class TI_LCD_Programmer extends JFrame
         EqualButton.registerKeyboardAction(e -> EqualButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
         CEButton.registerKeyboardAction(e -> CEButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
         ONorCLRButton.registerKeyboardAction(e -> ONorCLRButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ONorCLRButton.registerKeyboardAction(e -> ONorCLRButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
         OFFButton.registerKeyboardAction(e -> OFFButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
         DECButton.registerKeyboardAction(e -> DECButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
         HEXButton.registerKeyboardAction(e -> HEXButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
         OPButton.registerKeyboardAction(e -> OPButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_9, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
         OPButton.registerKeyboardAction(e -> CPButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_0, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ModeButton.registerKeyboardAction(e->ModeButton.doClick(),KeyStroke.getKeyStroke(KeyEvent.VK_M,InputEvent.SHIFT_MASK),JComponent.WHEN_IN_FOCUSED_WINDOW);
     }
 
     public void setToolButton()//非数字按钮的设置
     {
-        Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
         JButton[] ToolButton = {
                 DECButton, HEXButton, OCTButton, OFFButton, ONorCLRButton,
-                STOButton, RCLButton, SUMButton, OPButton, CPButton, KButton, DivButton,  MulButton,  SubButton,
-                AddButton, CEButton, EqualButton,ModeButton};
+                STOButton, RCLButton, SUMButton, OPButton, CPButton,
+                SHFButton, dButton, EButton, FButton, KButton,
+                a1SCButton, AButton, bButton, CButton, DivButton,
+                ORButton, MulButton, ANDButton, SubButton, XORButton,
+                AddButton, CEButton, EqualButton};
         for (int i = 0; i < ToolButton.length; i++)
         {
+            Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
             ToolButton[i].setBorderPainted(false);//取消边框
             ToolButton[i].setBackground(new Color(62, 68, 79));//设置背景颜色
             ToolButton[i].setFocusPainted(false);//取消聚焦
@@ -1019,15 +932,15 @@ public class TI_LCD_Programmer extends JFrame
                 }
             });
         }
-        hideHEXrelatedButton();
     }
+
     public void setDigitalButton()//对数字按钮进行设置
     {
         JButton[] DigitalButton = {
                 a7Button, a8Button, a9Button,
                 a4Button, a5Button, a6Button,
                 a1Button, a2Button, a3Button,
-                a0Button, dotButton
+                a0Button, dotButton, a2SCButton
         };
         Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);
         for (int i = 0; i < DigitalButton.length; i++)
@@ -1060,42 +973,24 @@ public class TI_LCD_Programmer extends JFrame
 
     public void setLabel()//对标签进行设置
     {
-        Font putFont = new Font("Times New Romans", Font.BOLD, 65);
         Font labelFont = new Font("Times New Romans", Font.BOLD, 18);
         Font labelFont1 = new Font("Times New Romans", Font.BOLD, 20);
         Font BaseFont = new Font("Times New Romans", Font.BOLD, 22);
-        JLabel[] TextLabel={DECLabel,HEXLabel,OverFlow, OperationModeLabel};
-        for(JLabel label:TextLabel)
-        {
-            label.setFont(BaseFont);
-            label.setForeground(Color.BLACK);
-            label.setBorder(BorderFactory.createEmptyBorder());
-        }
-//        if(isON)
-//        {
-//            switch (lastoperator)
-//            OperationLabel.setText();
-//        }
-        OperationLabel.setFont(putFont);
-        OperationLabel.setForeground(Color.BLACK);
-        OperationLabel.setBorder(BorderFactory.createEmptyBorder());
-//        if(OperatingMode==0)
-//            OperationModeLabel.setText("Singled");
-//        else
-//            OperationModeLabel.setText("Mixed");
-//        DECLabel.setFont(BaseFont);//设置字体样式
-////        DECLabel.setText("DEC");//设置默认的文本
-//        DECLabel.setForeground(Color.BLACK);//设置字体颜色
-//        DECLabel.setBorder(BorderFactory.createEmptyBorder());
-//        HEXLabel.setFont(BaseFont);//设置字体样式
-////        HEXLabel.setText("HEX");//设置默认的文本
-//        HEXLabel.setForeground(Color.BLACK);//设置字体颜色
-//        HEXLabel.setBorder(BorderFactory.createEmptyBorder());
-//        OverFlow.setFont(BaseFont);//设置字体样式
-////        OverFlow.setText("");//设置默认的文本
-//        OverFlow.setForeground(Color.BLACK);//设置字体颜色
-//        OverFlow.setBorder(BorderFactory.createEmptyBorder());
-
+        DECLabel.setFont(BaseFont);//设置字体样式
+//        DECLabel.setText("DEC");//设置默认的文本
+        DECLabel.setForeground(Color.BLACK);//设置字体颜色
+        DECLabel.setFont(BaseFont);
+        DECLabel.setBorder(BorderFactory.createEmptyBorder());
+        HEXLabel.setFont(BaseFont);//设置字体样式
+//        HEXLabel.setText("HEX");//设置默认的文本
+        HEXLabel.setForeground(Color.BLACK);//设置字体颜色
+        HEXLabel.setFont(BaseFont);
+        HEXLabel.setBorder(BorderFactory.createEmptyBorder());
+        OverFlow.setFont(BaseFont);//设置字体样式
+//        OverFlow.setText("");//设置默认的文本
+        OverFlow.setForeground(Color.BLACK);//设置字体颜色
+        OverFlow.setFont(BaseFont);
+        DECLabel.setBorder(BorderFactory.createEmptyBorder());
         TEXAS.setFont(labelFont1);
         TI.setFont(labelFont1);
         CM.setFont(labelFont);
@@ -1117,7 +1012,6 @@ public class TI_LCD_Programmer extends JFrame
         Font IOputFont = new Font("Times New Romans", Font.BOLD, 65);
         IOput.setFont(IOputFont);//设置字体样式
         IOput.setBackground(new Color(0xECECED));//设置背景颜色
-        IOput.setForeground(Color.BLACK);
 //        IOput.setDocument(new JTextFieldLimit(8));//设置JTextField输入文本长度不超过8位
         IOput.setBorder(BorderFactory.createEmptyBorder());//文本框不带边框
         EmptySpacer1.setBorder(BorderFactory.createEmptyBorder());
@@ -1220,9 +1114,6 @@ public class TI_LCD_Programmer extends JFrame
     private JTextField EmptySpacer2;
     private JPanel TI_LCD_Programmer;
     private JLabel OverFlow;
-    private JLabel OperationLabel;
-    private JLabel OperationModeLabel;
-    private JButton ModeButton;
     private int symbol = 1;
     private boolean isOperator = false;   //是否是运算符
     private String operator1 = "";            //操作数1
