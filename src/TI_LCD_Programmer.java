@@ -297,32 +297,34 @@ public class TI_LCD_Programmer extends JFrame
         HEXButton.addActionListener(e -> {
             if (isON)
             {
-                SHIFT_DECtoHEX_DISPLAY();
+//                SHIFT_DECtoHEX_DISPLAY();
                 //if(isEqualOperator==true)
-                if(OperatingMode==0)
-                {
+//                if(OperatingMode==0)
+//                {
                     if (!isHEX)
                     {
-
+                        SHIFT_DECtoHEX_DISPLAY();
                         if (OperatingMode == 0)
                             IOput.setText(radix10to16(IOput.getText()));
                     }
                 }
-                else if(OperatingMode==1)
-                {
-
-                }
-            }
+//                else if(OperatingMode==1)
+//                {
+//                    SHIFT_DECtoHEX_DISPLAY();
+//                }
+//            }
         });
         DECButton.addActionListener(e -> {
             if (isON)
             {
-                SHIFT_HEXtoDEC_DISPLAY();
+
                 if (!isDEC)
                 {
+                    SHIFT_HEXtoDEC_DISPLAY();
                     if (OperatingMode == 0)
                         IOput.setText(radix16to10(IOput.getText()));
                 }
+
             }
         });
         a1SCButton.addActionListener(e -> get1sC());
