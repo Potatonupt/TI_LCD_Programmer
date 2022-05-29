@@ -38,8 +38,7 @@ public class TI_LCD_Programmer extends JFrame
                     getOperator2();
                     calculate();
                 }
-                displayIOput(answer.toString());
-                SHIFT_HEXtoDEC_DISPLAY();
+                displayAnswer();
                 updateAnswer();
 
             }
@@ -65,8 +64,7 @@ public class TI_LCD_Programmer extends JFrame
                     getOperator2();
                     calculate();
                 }
-                displayIOput(answer.toString());
-                SHIFT_HEXtoDEC_DISPLAY();
+                displayAnswer();
                 updateAnswer();
 
             }
@@ -92,8 +90,7 @@ public class TI_LCD_Programmer extends JFrame
                     getOperator2();
                     calculate();
                 }
-                displayIOput(answer.toString());
-                SHIFT_HEXtoDEC_DISPLAY();
+                displayAnswer();
                 updateAnswer();
 
             }
@@ -118,8 +115,7 @@ public class TI_LCD_Programmer extends JFrame
                     getOperator2();
                     calculate();
                 }
-                displayIOput(answer.toString());
-                SHIFT_HEXtoDEC_DISPLAY();
+                displayAnswer();
                 updateAnswer();
             }
             else if (OperatingMode == 1)
@@ -162,10 +158,8 @@ public class TI_LCD_Programmer extends JFrame
             {
                 getCurrentText();
                 calculate();
-                System.out.println(second);
-                System.out.println(answer);
-                displayIOput(answer.toString());
-                SHIFT_HEXtoDEC_DISPLAY();
+                displayAnswer();
+//                SHIFT_HEXtoDEC_DISPLAY();
                 updateAnswer();
             }
             else if (OperatingMode == 1)
@@ -180,14 +174,7 @@ public class TI_LCD_Programmer extends JFrame
                 }
                 else
                 {
-                    if (record_last_operator == 1)
-                        result = result.add(record_last_number);
-                    if (record_last_operator == 2)
-                        result = result.subtract(record_last_number);
-                    if (record_last_operator == 3)
-                        result = result.multiply(record_last_number);
-                    if (record_last_operator == 4)
-                        result = result.divide(record_last_number, 2, RoundingMode.HALF_UP);
+                    calculateLastResult();
                     displayIOput(result.toString());
                 }
 
@@ -231,6 +218,26 @@ public class TI_LCD_Programmer extends JFrame
         SHFButton.addActionListener(e -> {
 
         });
+    }
+
+    private void displayAnswer()
+    {
+        if(isDEC)
+            displayIOput(answer.toString());
+        if(isHEX)
+            displayIOput(radixto16(answer.toString()));
+    }
+
+    private void calculateLastResult()
+    {
+        if (record_last_operator == 1)
+            result = result.add(record_last_number);
+        if (record_last_operator == 2)
+            result = result.subtract(record_last_number);
+        if (record_last_operator == 3)
+            result = result.multiply(record_last_number);
+        if (record_last_operator == 4)
+            result = result.divide(record_last_number, 0, RoundingMode.HALF_UP);
     }
 
     private void SHIFT_DECtoHEX_DISPLAY()
