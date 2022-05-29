@@ -31,13 +31,13 @@ public class TI_LCD_Programmer extends JFrame
 
                 if (isOperator)               //如果上一个是运算符 直接切换
                 {
-                    nowoperator = 1;
+                    nowOperator = 1;
                     getOperatorNumber();
                 }
                 else
                 {
                     isOperator = true;
-                    nowoperator = 1;
+                    nowOperator = 1;
                     getOperatorNumber();
                     calculate();
                 }
@@ -58,13 +58,13 @@ public class TI_LCD_Programmer extends JFrame
 
                 if (isOperator)               //如果上一个是运算符 直接切换
                 {
-                    nowoperator = 2;
+                    nowOperator = 2;
                     getOperatorNumber();
                 }
                 else
                 {
                     isOperator = true;
-                    nowoperator = 2;
+                    nowOperator = 2;
                     getOperatorNumber();
                     calculate();
                 }
@@ -85,13 +85,13 @@ public class TI_LCD_Programmer extends JFrame
 
                 if (isOperator)               //如果上一个是运算符 直接切换
                 {
-                    nowoperator = 3;
+                    nowOperator = 3;
                     getOperatorNumber();
                 }
                 else
                 {
                     isOperator = true;
-                    nowoperator = 3;
+                    nowOperator = 3;
                     getOperatorNumber();
                     calculate();
                 }
@@ -111,13 +111,13 @@ public class TI_LCD_Programmer extends JFrame
             {
                 if (isOperator)               //如果上一个是运算符 直接切换
                 {
-                    nowoperator = 4;
+                    nowOperator = 4;
                     getOperatorNumber();
                 }
                 else
                 {
                     isOperator = true;
-                    nowoperator = 4;
+                    nowOperator = 4;
                     getOperatorNumber();
                     calculate();
                 }
@@ -137,13 +137,13 @@ public class TI_LCD_Programmer extends JFrame
 
                 if (isOperator)               //如果上一个是运算符 直接切换
                 {
-                    nowoperator = 5;
+                    nowOperator = 5;
                     getOperatorNumber();
                 }
                 else
                 {
                     isOperator = true;
-                    nowoperator = 5;
+                    nowOperator = 5;
                     getOperatorNumber();
                     calculate();
                 }
@@ -151,11 +151,11 @@ public class TI_LCD_Programmer extends JFrame
                 updateAnswer();
 
             }
-//            else if (OperatingMode == 1)
-//            {
-//                isOperator = true;
-//                displayIOput("+");
-//            }
+            else if (OperatingMode == 1)
+            {
+                isOperator = true;
+                displayIOput("&");
+            }
         });
 
         ORButton.addActionListener(e -> {
@@ -164,13 +164,13 @@ public class TI_LCD_Programmer extends JFrame
 
                 if (isOperator)               //如果上一个是运算符 直接切换
                 {
-                    nowoperator = 6;
+                    nowOperator = 6;
                     getOperatorNumber();
                 }
                 else
                 {
                     isOperator = true;
-                    nowoperator = 6;
+                    nowOperator = 6;
                     getOperatorNumber();
                     calculate();
                 }
@@ -178,11 +178,11 @@ public class TI_LCD_Programmer extends JFrame
                 updateAnswer();
 
             }
-//            else if (OperatingMode == 1)
-//            {
-//                isOperator = true;
-//                displayIOput("+");
-//            }
+            else if (OperatingMode == 1)
+            {
+                isOperator = true;
+                displayIOput("|");
+            }
         });
 
         XORButton.addActionListener(e -> {
@@ -191,13 +191,13 @@ public class TI_LCD_Programmer extends JFrame
 
                 if (isOperator)               //如果上一个是运算符 直接切换
                 {
-                    nowoperator = 7;
+                    nowOperator = 7;
                     getOperatorNumber();
                 }
                 else
                 {
                     isOperator = true;
-                    nowoperator = 7;
+                    nowOperator = 7;
                     getOperatorNumber();
                     calculate();
                 }
@@ -205,11 +205,11 @@ public class TI_LCD_Programmer extends JFrame
                 updateAnswer();
 
             }
-//            else if (OperatingMode == 1)
-//            {
-//                isOperator = true;
-//                displayIOput("+");
-//            }
+            else if (OperatingMode == 1)
+            {
+                isOperator = true;
+                displayIOput("^");
+            }
         });
 
         SHFButton.addActionListener(e -> {
@@ -218,13 +218,13 @@ public class TI_LCD_Programmer extends JFrame
 
                 if (isOperator)               //如果上一个是运算符 直接切换
                 {
-                    nowoperator = 8;
+                    nowOperator = 8;
                     getOperatorNumber();
                 }
                 else
                 {
                     isOperator = true;
-                    nowoperator = 8;
+                    nowOperator = 8;
                     getOperatorNumber();
                     calculate();
                 }
@@ -232,11 +232,11 @@ public class TI_LCD_Programmer extends JFrame
                 updateAnswer();
 
             }
-//            else if (OperatingMode == 1)
-//            {
-//                isOperator = true;
-//                displayIOput("+");
-//            }
+            else if (OperatingMode == 1)
+            {
+                isOperator = true;
+                displayIOput("<");
+            }
         });
 
         EqualButton.addActionListener(e -> {
@@ -300,9 +300,9 @@ public class TI_LCD_Programmer extends JFrame
 
     private void displayAnswer()
     {
-        if(isDEC)
+        if (isDEC)
             displayIOput(answer.toString());
-        if(isHEX)
+        if (isHEX)
             displayIOput(radix10to16(answer.toString()));
     }
 
@@ -316,6 +316,32 @@ public class TI_LCD_Programmer extends JFrame
             result = result.multiply(record_last_number);
         if (record_last_operator == 4)
             result = result.divide(record_last_number, 0, RoundingMode.HALF_UP);
+        if (record_last_operator == 5)
+        {
+            tmp1=result;
+            tmp2=record_last_number;
+            result = new BigDecimal(ANDoperator());
+        }
+        if (record_last_operator == 6)
+        {
+            tmp1=result;
+            tmp2=record_last_number;
+            result = new BigDecimal(ORoperator());
+        }
+        if (record_last_operator == 7)
+        {
+            tmp1=result;
+            tmp2=record_last_number;
+            result = new BigDecimal(XORoperator());
+        }
+        if (record_last_operator == 8)
+        {
+
+            tmp1=result;
+            tmp2=record_last_number;
+            result = new BigDecimal(SHFoperator());
+        }
+
     }
 
     private void SHIFT_DECtoHEX_DISPLAY()
@@ -552,36 +578,36 @@ public class TI_LCD_Programmer extends JFrame
         return DECcacluate + "";
     }
 
-    private String radix2to10(String s)
-    {
-        int BINcacluate = 0;
-//        System.out.println(s);
-        for (int i = 0; i < s.length(); i++)
-        {
-            int num = (int) Math.pow(2, (s.length() - 1 - i));
-            switch (s.charAt(i))
-            {
-                case '0':
-                    BINcacluate += 0;
-                    break;
-                case '1':
-                    BINcacluate += num;
-                    break;
-            }
-        }
-        return BINcacluate + "";
-    }
-
-    private String radix10to2(String s)
-    {
-        if (s.length() > 0)
-        {
-            Integer temp = Integer.decode(s);
-            return Integer.toBinaryString(temp);
-        }
-        else
-            return "";
-    }
+//    private String radix2to10(String s)
+//    {
+//        int BINcacluate = 0;
+////        System.out.println(s);
+//        for (int i = 0; i < s.length(); i++)
+//        {
+//            int num = (int) Math.pow(2, (s.length() - 1 - i));
+//            switch (s.charAt(i))
+//            {
+//                case '0':
+//                    BINcacluate += 0;
+//                    break;
+//                case '1':
+//                    BINcacluate += num;
+//                    break;
+//            }
+//        }
+//        return BINcacluate + "";
+//    }
+//
+//    private String radix10to2(String s)
+//    {
+//        if (s.length() > 0)
+//        {
+//            Integer temp = Integer.decode(s);
+//            return Integer.toBinaryString(temp);
+//        }
+//        else
+//            return "";
+//    }
 
     private void get1sC()
     {
@@ -616,21 +642,21 @@ public class TI_LCD_Programmer extends JFrame
     private void getCurrentText()
     {
         isOperator = true;
-        nowoperator = 0;
+        nowOperator = 0;
         getOperatorNumber();
-        if (lastoperator != 0)
+        if (lastOperator != 0)
         {
-            equaloptmp = lastoperator;
+            equaloptmp = lastOperator;
             equaltmp = second;
         }
-        if (lastoperator == 0 && equaloptmp == -1)
+        if (lastOperator == 0 && equaloptmp == -1)
         {
             if (answer.compareTo(new BigDecimal(0)) != 0)
                 second = answer;
         }
-        else if (lastoperator == 0)
+        else if (lastOperator == 0)
         {
-            lastoperator = equaloptmp;
+            lastOperator = equaloptmp;
             second = equaltmp;
         }
     }
@@ -657,7 +683,7 @@ public class TI_LCD_Programmer extends JFrame
 
     private void calculate()
     {
-        switch (lastoperator)
+        switch (lastOperator)
         {
             case 1:
                 answer = first.add(second);
@@ -691,30 +717,70 @@ public class TI_LCD_Programmer extends JFrame
 
     private int ANDoperator()
     {
-        Integer int_first = Integer.parseInt(first.toString());
-        Integer int_second = Integer.parseInt(second.toString());
-        return int_first & int_second;
+        if(OperatingMode==0)
+        {
+            Integer int_first = Integer.parseInt(first.toString());
+            Integer int_second = Integer.parseInt(second.toString());
+            return int_first & int_second;
+        }
+        else if(OperatingMode==1)
+        {
+            Integer int_first = Integer.parseInt(tmp1.toString());
+            Integer int_second = Integer.parseInt(tmp2.toString());
+            return int_first & int_second;
+        }
+        return 0;
     }
 
     private int ORoperator()
     {
-        Integer int_first = Integer.parseInt(first.toString());
-        Integer int_second = Integer.parseInt(second.toString());
-        return int_first | int_second;
+        if(OperatingMode==0)
+        {
+            Integer int_first = Integer.parseInt(first.toString());
+            Integer int_second = Integer.parseInt(second.toString());
+            return int_first | int_second;
+        }
+        else if(OperatingMode==1)
+        {
+            Integer int_first = Integer.parseInt(tmp1.toString());
+            Integer int_second = Integer.parseInt(tmp2.toString());
+            return int_first | int_second;
+        }
+        return 0;
     }
 
     private int XORoperator()
     {
-        Integer int_first = Integer.parseInt(first.toString());
-        Integer int_second = Integer.parseInt(second.toString());
-        return int_first ^ int_second;
+        if(OperatingMode==0)
+        {
+            Integer int_first = Integer.parseInt(first.toString());
+            Integer int_second = Integer.parseInt(second.toString());
+            return int_first ^ int_second;
+        }
+        else if(OperatingMode==1)
+        {
+            Integer int_first = Integer.parseInt(tmp1.toString());
+            Integer int_second = Integer.parseInt(tmp2.toString());
+            return int_first ^ int_second;
+        }
+        return 0;
     }
 
     private int SHFoperator()
     {
-        Integer int_first = Integer.parseInt(first.toString());
-        Integer int_second = Integer.parseInt(second.toString());
-        return int_first << int_second;
+        if(OperatingMode==0)
+        {
+            Integer int_first = Integer.parseInt(first.toString());
+            Integer int_second = Integer.parseInt(second.toString());
+            return int_first << int_second;
+        }
+        else if(OperatingMode==1)
+        {
+            Integer int_first = Integer.parseInt(tmp1.toString());
+            Integer int_second = Integer.parseInt(tmp2.toString());
+            return int_first << int_second;
+        }
+        return 0;
     }
 
     private void calculate_with_Parentheses()
@@ -737,8 +803,6 @@ public class TI_LCD_Programmer extends JFrame
                 }
             }
 
-            BigDecimal tmp1;
-            BigDecimal tmp2;
             if (postfix.charAt(i) == '+')
             {
                 tmp2 = st.peek();
@@ -790,7 +854,56 @@ public class TI_LCD_Programmer extends JFrame
                 record_last_operator = 4;
                 record_last_number = tmp2;
             }
+            if (postfix.charAt(i) == '&')
+            {
+                tmp2 = st.peek();
+                st.pop();
+                tmp1 = st.peek();
+                st.pop();
+                result = new BigDecimal(ANDoperator());
+                st.push(result);
+
+                record_last_operator = 5;
+                record_last_number = tmp2;
+            }
+            if (postfix.charAt(i) == '|')
+            {
+                tmp2 = st.peek();
+                st.pop();
+                tmp1 = st.peek();
+                st.pop();
+                result = new BigDecimal(ORoperator());
+                st.push(result);
+
+                record_last_operator = 6;
+                record_last_number = tmp2;
+            }
+            if (postfix.charAt(i) == '^')
+            {
+                tmp2 = st.peek();
+                st.pop();
+                tmp1 = st.peek();
+                st.pop();
+                result = new BigDecimal(XORoperator());
+                st.push(result);
+
+                record_last_operator = 7;
+                record_last_number = tmp2;
+            }
+            if (postfix.charAt(i) == '<')
+            {
+                tmp2 = st.peek();
+                st.pop();
+                tmp1 = st.peek();
+                st.pop();
+                result = new BigDecimal(SHFoperator());
+                st.push(result);
+
+                record_last_operator = 8;
+                record_last_number = tmp2;
+            }
         }
+
         result = st.peek();
         tmp = "";
     }
@@ -817,8 +930,9 @@ public class TI_LCD_Programmer extends JFrame
     {
         tmp = "";
         first = answer;
-        lastoperator = nowoperator;
+        lastOperator = nowOperator;
     }
+
     private boolean isOverflow()//判断运算溢出但并未区分正负上下溢出
     {
         if (IOput.getText().length() > 8)
@@ -856,33 +970,64 @@ public class TI_LCD_Programmer extends JFrame
     private void clearall()
     {
         isOperator = false;   //是否是运算符
-        operator1 = "";            //操作数1
         operatorNumber = "";            //操作数2
         tmp = "";                  //用于在ioput中显示
         first = new BigDecimal(0);
         second = new BigDecimal(0);
         answer = new BigDecimal(0);
-        lastoperator = 0;               //上一运算符
-        nowoperator = 0;                //本次运算符
+        lastOperator = 0;               //上一运算符
+        nowOperator = 0;                //本次运算符
         tmpfix = "";
         infix = "";
         postfix = "";
+        tmp_when_calculate = "";
         isEqualOperator = false;
+        record_last_number = new BigDecimal(0);
+        record_last_operator = 0;
+        equaloptmp = -1;
+        equaltmp = new BigDecimal(0);
+        tmp1 = new BigDecimal(0);
+        tmp2 = new BigDecimal(0);
     }
 
     private int priority(char op)
     {
         int priority = -1;
+        //1	括号	()
+        //2	正负号	        +、-	          从右到左
+        //3	一元运算符	    ++、--、!	      从右到左
+        //4	乘除	            *、/、%	          从左到右
+        //5	加减	            +、-	          从左到右
+        //6	移位运算	        >>、>>>、<<	      从左到右
+        //7	比较大小	        >、<、>=、<=	      从左到右
+        //8	比较是否相等	    ==、!=	          从左到右
+        //9	按位与运算	    &	              从左到右
+        //10按位异或运算	    ^	              从左到右
+        //11按位或运算	    |	              从左到右
+        //12逻辑与运算	    &&(简洁逻辑与)、&(非简洁逻辑与)	    从左到右
+        //13逻辑或运算	    ||(简洁逻辑或)、|(非简洁逻辑或)	    从左到右
+        //14三元运算符	    ? :	              从右到左
+        //15赋值运算符	    =	              从右到左
+
         if (op == '*')
-            priority = 5;
+            priority = 6;
         if (op == '/')
-            priority = 5;
+            priority = 6;
         if (op == '+')
-            priority = 2;
+            priority = 5;
         if (op == '-')
+            priority = 5;
+        if (op == '<')
+            priority = 4;
+        if (op == '&')
+            priority = 3;
+        if (op == '^')
             priority = 2;
+        if (op == '|')
+            priority = 1;
         if (op == '(')
             priority = 0;
+
         return priority;
     }
 
@@ -1225,7 +1370,6 @@ public class TI_LCD_Programmer extends JFrame
     private JLabel OverFlow;
     private int symbol = 1;
     private boolean isOperator = false;   //是否是运算符
-    private String operator1 = "";            //操作数1
     private String operatorNumber = "";            //操作数2
     private String SHFOperator = "";
     private String tmp = "";                  //用于在ioput中显示
@@ -1233,8 +1377,8 @@ public class TI_LCD_Programmer extends JFrame
     private BigDecimal first = new BigDecimal(0);
     private BigDecimal second = new BigDecimal(0);
     private BigDecimal answer = new BigDecimal(0);
-    private int lastoperator = 0;               //上一运算符
-    private int nowoperator = 0;                //本次运算符
+    private int lastOperator = 0;               //上一运算符
+    private int nowOperator = 0;                //本次运算符
     private static boolean isON = false;
     private static boolean isONforCLR = false;
     private BigDecimal equaltmp = new BigDecimal(0);
@@ -1250,6 +1394,8 @@ public class TI_LCD_Programmer extends JFrame
     private int record_last_operator = 0;
     private BigDecimal record_last_number = new BigDecimal(0);
     private boolean isEqualOperator = false;
+    BigDecimal tmp1 = new BigDecimal(0);
+    BigDecimal tmp2 = new BigDecimal(0);
     private boolean isSHF;//移位功能
     private String first16 = "";//十六进制操作数
     private String second16 = "";
