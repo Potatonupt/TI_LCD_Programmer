@@ -25,7 +25,7 @@ public class TI_LCD_Programmer extends JFrame
         AddButton.addActionListener(e -> {
             if (OperatingMode == 0)
             {
-                SHIFT_HEXtoDEC_DISPLAY();
+
                 if (isOperator == true)               //如果上一个是运算符 直接切换
                 {
                     nowoperator = 1;
@@ -39,6 +39,7 @@ public class TI_LCD_Programmer extends JFrame
                     calculate();
                 }
                 displayIOput(answer.toString());
+                SHIFT_HEXtoDEC_DISPLAY();
                 updateAnswer();
 
             }
@@ -51,7 +52,7 @@ public class TI_LCD_Programmer extends JFrame
         SubButton.addActionListener(e -> {
             if (OperatingMode == 0)
             {
-                SHIFT_HEXtoDEC_DISPLAY();
+
                 if (isOperator == true)               //如果上一个是运算符 直接切换
                 {
                     nowoperator = 2;
@@ -65,6 +66,7 @@ public class TI_LCD_Programmer extends JFrame
                     calculate();
                 }
                 displayIOput(answer.toString());
+                SHIFT_HEXtoDEC_DISPLAY();
                 updateAnswer();
 
             }
@@ -77,7 +79,7 @@ public class TI_LCD_Programmer extends JFrame
         MulButton.addActionListener(e -> {
             if (OperatingMode == 0)
             {
-                SHIFT_HEXtoDEC_DISPLAY();
+
                 if (isOperator == true)               //如果上一个是运算符 直接切换
                 {
                     nowoperator = 3;
@@ -91,6 +93,7 @@ public class TI_LCD_Programmer extends JFrame
                     calculate();
                 }
                 displayIOput(answer.toString());
+                SHIFT_HEXtoDEC_DISPLAY();
                 updateAnswer();
 
             }
@@ -103,7 +106,6 @@ public class TI_LCD_Programmer extends JFrame
         DivButton.addActionListener(e -> {
             if (OperatingMode == 0)
             {
-                SHIFT_HEXtoDEC_DISPLAY();
                 if (isOperator == true)               //如果上一个是运算符 直接切换
                 {
                     nowoperator = 4;
@@ -117,6 +119,7 @@ public class TI_LCD_Programmer extends JFrame
                     calculate();
                 }
                 displayIOput(answer.toString());
+                SHIFT_HEXtoDEC_DISPLAY();
                 updateAnswer();
             }
             else if (OperatingMode == 1)
@@ -157,10 +160,12 @@ public class TI_LCD_Programmer extends JFrame
         EqualButton.addActionListener(e -> {
             if (OperatingMode == 0)
             {
-                SHIFT_HEXtoDEC_DISPLAY();
                 getCurrentText();
                 calculate();
+                System.out.println(second);
+                System.out.println(answer);
                 displayIOput(answer.toString());
+                SHIFT_HEXtoDEC_DISPLAY();
                 updateAnswer();
             }
             else if (OperatingMode == 1)
@@ -203,7 +208,6 @@ public class TI_LCD_Programmer extends JFrame
                     SHIFT_DECtoHEX_DISPLAY();
                     if (OperatingMode == 0)
                         IOput.setText(radixto16(IOput.getText()));
-
                 }
             }
         });
@@ -212,21 +216,10 @@ public class TI_LCD_Programmer extends JFrame
             {
                 if (isDEC == false)
                 {
-                    isDEC = true;
-                    isHEX = false;
-//                    tmp=radixto10(IOput.getText());
-//                    answer= BigDecimal.valueOf(Integer.parseInt(tmp));
-                    DECLabel.setText("DEC");
-                    HEXLabel.setText("");
-//                    IOput.setText(radixto10(IOput.getText()));
-//                    if (isOverflow())
-//                        IOput.setText(IOput.getText().substring(IOput.getText().length() - 8, IOput.getText().length()));
-//                    if(isOperator)
+                    SHIFT_HEXtoDEC_DISPLAY();
                     if (OperatingMode == 0)
                         IOput.setText(radixto10(IOput.getText()));
                 }
-//                else
-//                    return;
             }
         });
         a1SCButton.addActionListener(e -> {
@@ -512,33 +505,17 @@ public class TI_LCD_Programmer extends JFrame
         if (lastoperator != 0)
         {
             equaloptmp = lastoperator;
-//            if (isDEC)
             equaltmp = second;
-//            if (isHEX)
-//                equaltmp16 = second16;
-//                equaltmp=new BigDecimal(radixto10(second16))
         }
-//        if(isDEC) {
         if (lastoperator == 0 && equaloptmp == -1)
         {
-//            if (isDEC)
-//            {
             if (answer.compareTo(new BigDecimal(0)) != 0)
                 second = answer;
-//            }
-//            if (isHEX)
-//            {
-//                if (!answer16.isEmpty())
-//                    second16 = answer16;
-//            }
         }
         else if (lastoperator == 0)
         {
             lastoperator = equaloptmp;
-//            if (isDEC)
             second = equaltmp;
-//            if (isHEX)
-//                second16 = equaltmp16;
         }
     }
 
