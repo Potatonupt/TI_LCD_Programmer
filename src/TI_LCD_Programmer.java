@@ -272,6 +272,8 @@ public class TI_LCD_Programmer extends JFrame
             }
             else if (OperatingMode == 1)
             {
+                DECLabel.setText("DEC");
+                HEXLabel.setText("");
                 if (!isEqualOperator)
                 {
                     isEqualOperator = true;
@@ -333,7 +335,7 @@ public class TI_LCD_Programmer extends JFrame
                     {
                         DECLabel.setText("DEC");
                         HEXLabel.setText("");
-                        IOput.setText(radix16to10(result.toString()));
+                        IOput.setText(result.toString());
                     }
                 }
             }
