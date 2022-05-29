@@ -284,6 +284,8 @@ public class TI_LCD_Programmer extends JFrame
         HEXButton.addActionListener(e -> {
             if (isON)
             {
+                //if(isEqualOperator==true)
+
                 if (isHEX == false)
                 {
                     isHEX = true;
@@ -597,7 +599,7 @@ public class TI_LCD_Programmer extends JFrame
             }
             if (isHEX)
             {
-                if (answer16!=null)
+                if (!answer16.isEmpty())
                     second16 = answer16;
             }
         }
@@ -633,8 +635,8 @@ public class TI_LCD_Programmer extends JFrame
 
     private void calculate()
     {
-        if (isDEC)
-        {
+//        if (isDEC)
+//        {
 //            answer=IOput.getText()
             switch (lastoperator)
             {
@@ -655,45 +657,45 @@ public class TI_LCD_Programmer extends JFrame
                     break;
 
             }
-        }
-        if (isHEX)
-        {
-            int tempfirst = Integer.parseInt(radixto10(first16));
-//            System.out.println(tempfirst);
-            int tempsecond = Integer.parseInt(radixto10(second16));
-//            System.out.println(tempsecond);
-            switch (lastoperator)
-            {
-
-                case 1:
-                {
-                    int tempanswer = tempfirst + tempsecond;
-                    answer16 = radixto16(tempanswer + "");
-                    break;
-                }
-                case 2:
-                {
-                    int tempanswer = tempfirst - tempsecond;
-                    answer16 = radixto16(tempanswer + "");
-                    break;
-                }
-                case 3:
-                {
-                    int tempanswer = tempfirst * tempsecond;
-                    answer16 = radixto16(tempanswer + "");
-                    break;
-                }
-                case 4:
-                {
-                    int tempanswer = tempfirst / tempsecond;
-                    answer16 = radixto16(tempanswer + "");
-                    break;
-                }
-                case 0:
-                    answer16 = second16;
-                    break;
-            }
-        }
+//        }
+//        if (isHEX)
+//        {
+//            int tempfirst = Integer.parseInt(radixto10(first16));
+////            System.out.println(tempfirst);
+//            int tempsecond = Integer.parseInt(radixto10(second16));
+////            System.out.println(tempsecond);
+//            switch (lastoperator)
+//            {
+//
+//                case 1:
+//                {
+//                    int tempanswer = tempfirst + tempsecond;
+//                    answer16 = radixto16(tempanswer + "");
+//                    break;
+//                }
+//                case 2:
+//                {
+//                    int tempanswer = tempfirst - tempsecond;
+//                    answer16 = radixto16(tempanswer + "");
+//                    break;
+//                }
+//                case 3:
+//                {
+//                    int tempanswer = tempfirst * tempsecond;
+//                    answer16 = radixto16(tempanswer + "");
+//                    break;
+//                }
+//                case 4:
+//                {
+//                    int tempanswer = tempfirst / tempsecond;
+//                    answer16 = radixto16(tempanswer + "");
+//                    break;
+//                }
+//                case 0:
+//                    answer16 = second16;
+//                    break;
+//            }
+//        }
     }
 //    private void calculate16()
 //    {
@@ -793,6 +795,7 @@ public class TI_LCD_Programmer extends JFrame
                 second16 = operator2_16;
             else
                 second16 = "";
+            //second=radio(10)second16;
         }
     }
 
