@@ -10,7 +10,6 @@ import java.util.Locale;
 //附上readme
 //附上键盘和计算器按钮对应表
 //
-//================================================
 public class TI_LCD_Programmer extends JFrame
 {
 
