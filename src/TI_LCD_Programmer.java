@@ -10,6 +10,7 @@ import java.util.Locale;
 //附上readme
 //附上键盘和计算器按钮对应表
 //
+//================================================
 public class TI_LCD_Programmer extends JFrame
 {
 
@@ -27,7 +28,7 @@ public class TI_LCD_Programmer extends JFrame
     {
         ModeButton.addActionListener(e->{
             if(isON) {
-                System.out.println(OperatingMode);
+//                System.out.println(OperatingMode);
                 if (OperatingMode == 0) {
                     OperatingMode = 1;
                     OperationModeLabel.setText("Mixed");
@@ -296,28 +297,29 @@ public class TI_LCD_Programmer extends JFrame
         HEXButton.addActionListener(e -> {
             if (isON)
             {
+                SHIFT_DECtoHEX_DISPLAY();
                 //if(isEqualOperator==true)
                 if(OperatingMode==0)
                 {
                     if (!isHEX)
                     {
-                        SHIFT_DECtoHEX_DISPLAY();
+
                         if (OperatingMode == 0)
                             IOput.setText(radix10to16(IOput.getText()));
                     }
                 }
                 else if(OperatingMode==1)
                 {
-                    
+
                 }
             }
         });
         DECButton.addActionListener(e -> {
             if (isON)
             {
+                SHIFT_HEXtoDEC_DISPLAY();
                 if (!isDEC)
                 {
-                    SHIFT_HEXtoDEC_DISPLAY();
                     if (OperatingMode == 0)
                         IOput.setText(radix16to10(IOput.getText()));
                 }
@@ -378,7 +380,6 @@ public class TI_LCD_Programmer extends JFrame
 
     private void SHIFT_DECtoHEX_DISPLAY()
     {
-        Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
         isHEX = true;
         isDEC = false;
         DECLabel.setText("");
@@ -411,41 +412,15 @@ public class TI_LCD_Programmer extends JFrame
                     hexBUtton.setBackground(new Color(62, 68, 79));
                 }
             });
-//                hexBUtton.
         }
     }
     private void SHIFT_HEXtoDEC_DISPLAY()
     {
-        Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
         isDEC = true;
         isHEX = false;
         DECLabel.setText("DEC");
         HEXLabel.setText("");
         hideHEXrelatedButton();
-//        JButton[]HexButton={AButton,bButton,CButton,dButton,EButton,FButton,a1SCButton,a2SCButton,ORButton,ANDButton,XORButton,SHFButton};
-//        for (JButton hexBUtton : HexButton) {
-//            hexBUtton.setBorderPainted(false);//取消边框
-//            hexBUtton.setBackground(new Color(62, 68, 79));//设置背景颜色
-//            hexBUtton.setFocusPainted(false);//取消聚焦
-//            hexBUtton.setForeground(new Color(62, 68, 79));//设置按钮上的字体颜色
-//            hexBUtton.setFont(buttonFont);
-//            hexBUtton.addMouseListener(new MouseAdapter()
-//            {
-//                @Override
-//                public void mouseEntered(MouseEvent e)
-//                {
-//                    super.mouseEntered(e);
-//                    hexBUtton.setBackground(new Color(62, 68, 79));
-//                }
-//
-//                @Override
-//                public void mouseExited(MouseEvent e)
-//                {
-//                    super.mouseExited(e);
-//                    hexBUtton.setBackground(new Color(62, 68, 79));
-//                }
-//            });
-//        }
     }
     private void hideHEXrelatedButton() {
         Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
@@ -620,7 +595,7 @@ public class TI_LCD_Programmer extends JFrame
             HEXLabel.setText("");
             OverFlow.setText("");
             hideHEXrelatedButton();
-            shutCPandOPButton();
+//            shutCPandOPButton();
         });
         CEButton.addActionListener(e -> {
             //clear error 清除一位
@@ -1540,7 +1515,7 @@ public class TI_LCD_Programmer extends JFrame
     private static boolean isONforCLR = false;
     private BigDecimal equaltmp = new BigDecimal(0);
     private int equaloptmp = -1;
-    private int OperatingMode = 1;           //工作模式 0表示标准 1表示带括号
+    private int OperatingMode = 0;           //工作模式 0表示标准 1表示带括号
     private String infix = "";   //中缀表达式
     private String postfix = "";                //后缀表达式
     private String tmpfix = "";
