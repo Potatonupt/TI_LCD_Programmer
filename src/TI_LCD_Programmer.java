@@ -194,7 +194,7 @@ public class TI_LCD_Programmer extends JFrame
                 else
                 {
                     isOperator = true;
-                    nowoperator = 1;
+                    nowoperator = 6;
                     getOperatorNumber();
                     calculate();
                 }
@@ -220,7 +220,7 @@ public class TI_LCD_Programmer extends JFrame
                 else
                 {
                     isOperator = true;
-                    nowoperator = 1;
+                    nowoperator = 7;
                     getOperatorNumber();
                     calculate();
                 }
