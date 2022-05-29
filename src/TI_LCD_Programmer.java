@@ -51,6 +51,7 @@ public class TI_LCD_Programmer extends JFrame
                 displayIOput("+");
             }
         });
+
         SubButton.addActionListener(e -> {
             if (OperatingMode == 0)
             {
@@ -77,6 +78,7 @@ public class TI_LCD_Programmer extends JFrame
                 displayIOput("-");
             }
         });
+
         MulButton.addActionListener(e -> {
             if (OperatingMode == 0)
             {
@@ -103,6 +105,7 @@ public class TI_LCD_Programmer extends JFrame
                 displayIOput("*");
             }
         });
+
         DivButton.addActionListener(e -> {
             if (OperatingMode == 0)
             {
@@ -127,35 +130,7 @@ public class TI_LCD_Programmer extends JFrame
                 displayIOput("/");
             }
         });
-//        SHFButton.addActionListener(e -> {
-//            if(isHEX)
-////            IOput.setText(SHF(IOput.getText()));
-//            {
-//                if(OperatingMode==0)
-//                {
-//                    if (isOperator == true)
-//                    {
-//                        nowoperator = 5;
-//                        getOperator2();
-//                    }
-//                    else
-//                    {
-//                        isOperator = true;
-//                        nowoperator = 5;
-//                        getOperator2();
-//                        calculate();
-//                    }
-//                    displayIOput(answer.toString());
-//                    updateAnswer();
-//                }
-//                else if(OperatingMode==1)
-//                {
-//                    isOperator = true;
-//                    displayIOput("<<");
-//                }
-//            }
-//
-//        });
+
         ANDButton.addActionListener(e -> {
             if (OperatingMode == 0)
             {
@@ -182,6 +157,7 @@ public class TI_LCD_Programmer extends JFrame
 //                displayIOput("+");
 //            }
         });
+
         ORButton.addActionListener(e -> {
             if (OperatingMode == 0)
             {
@@ -208,6 +184,7 @@ public class TI_LCD_Programmer extends JFrame
 //                displayIOput("+");
 //            }
         });
+
         XORButton.addActionListener(e -> {
             if (OperatingMode == 0)
             {
@@ -234,6 +211,34 @@ public class TI_LCD_Programmer extends JFrame
 //                displayIOput("+");
 //            }
         });
+
+        SHFButton.addActionListener(e -> {
+            if (OperatingMode == 0)
+            {
+
+                if (isOperator)               //如果上一个是运算符 直接切换
+                {
+                    nowoperator = 8;
+                    getOperatorNumber();
+                }
+                else
+                {
+                    isOperator = true;
+                    nowoperator = 8;
+                    getOperatorNumber();
+                    calculate();
+                }
+                displayAnswer();
+                updateAnswer();
+
+            }
+//            else if (OperatingMode == 1)
+//            {
+//                isOperator = true;
+//                displayIOput("+");
+//            }
+        });
+
         EqualButton.addActionListener(e -> {
             if (OperatingMode == 0)
             {
@@ -262,10 +267,6 @@ public class TI_LCD_Programmer extends JFrame
             }
         });
 
-
-//        SHFButton.addActionListener(e->{
-//
-//        });
         HEXButton.addActionListener(e -> {
             if (isON)
             {
@@ -682,28 +683,38 @@ public class TI_LCD_Programmer extends JFrame
             case 7:
                 answer = new BigDecimal(XORoperator());
                 break;
+            case 8:
+                answer = new BigDecimal(SHFoperator());
+                break;
         }
     }
 
     private int ANDoperator()
     {
-        Integer int_first = Integer.parseInt(radix10to2(first.toString()), 2);
-        Integer int_second = Integer.parseInt(radix10to2(second.toString()), 2);
+        Integer int_first = Integer.parseInt(first.toString());
+        Integer int_second = Integer.parseInt(second.toString());
         return int_first & int_second;
     }
 
     private int ORoperator()
     {
-        Integer int_first = Integer.parseInt(radix10to2(first.toString()), 2);
-        Integer int_second = Integer.parseInt(radix10to2(second.toString()), 2);
+        Integer int_first = Integer.parseInt(first.toString());
+        Integer int_second = Integer.parseInt(second.toString());
         return int_first | int_second;
     }
 
     private int XORoperator()
     {
-        Integer int_first = Integer.parseInt(radix10to2(first.toString()), 2);
-        Integer int_second = Integer.parseInt(radix10to2(second.toString()), 2);
+        Integer int_first = Integer.parseInt(first.toString());
+        Integer int_second = Integer.parseInt(second.toString());
         return int_first ^ int_second;
+    }
+
+    private int SHFoperator()
+    {
+        Integer int_first = Integer.parseInt(first.toString());
+        Integer int_second = Integer.parseInt(second.toString());
+        return int_first << int_second;
     }
 
     private void calculate_with_Parentheses()
