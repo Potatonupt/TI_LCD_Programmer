@@ -6,7 +6,10 @@ import java.math.RoundingMode;
 import java.util.Stack;
 import java.util.Locale;
 
-
+//javadoc!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//附上readme
+//附上键盘和计算器按钮对应表
+//
 public class TI_LCD_Programmer extends JFrame
 {
 
@@ -153,6 +156,84 @@ public class TI_LCD_Programmer extends JFrame
 //            }
 //
 //        });
+        ANDButton.addActionListener(e -> {
+            if (OperatingMode == 0)
+            {
+
+                if (isOperator)               //如果上一个是运算符 直接切换
+                {
+                    nowoperator = 5;
+                    getOperatorNumber();
+                }
+                else
+                {
+                    isOperator = true;
+                    nowoperator = 1;
+                    getOperatorNumber();
+                    calculate();
+                }
+                displayAnswer();
+                updateAnswer();
+
+            }
+//            else if (OperatingMode == 1)
+//            {
+//                isOperator = true;
+//                displayIOput("+");
+//            }
+        });
+        ORButton.addActionListener(e -> {
+            if (OperatingMode == 0)
+            {
+
+                if (isOperator)               //如果上一个是运算符 直接切换
+                {
+                    nowoperator = 6;
+                    getOperatorNumber();
+                }
+                else
+                {
+                    isOperator = true;
+                    nowoperator = 1;
+                    getOperatorNumber();
+                    calculate();
+                }
+                displayAnswer();
+                updateAnswer();
+
+            }
+//            else if (OperatingMode == 1)
+//            {
+//                isOperator = true;
+//                displayIOput("+");
+//            }
+        });
+        XORButton.addActionListener(e -> {
+            if (OperatingMode == 0)
+            {
+
+                if (isOperator)               //如果上一个是运算符 直接切换
+                {
+                    nowoperator = 7;
+                    getOperatorNumber();
+                }
+                else
+                {
+                    isOperator = true;
+                    nowoperator = 1;
+                    getOperatorNumber();
+                    calculate();
+                }
+                displayAnswer();
+                updateAnswer();
+
+            }
+//            else if (OperatingMode == 1)
+//            {
+//                isOperator = true;
+//                displayIOput("+");
+//            }
+        });
         EqualButton.addActionListener(e -> {
             if (OperatingMode == 0)
             {
@@ -194,7 +275,7 @@ public class TI_LCD_Programmer extends JFrame
                 {
                     SHIFT_DECtoHEX_DISPLAY();
                     if (OperatingMode == 0)
-                        IOput.setText(radixto16(IOput.getText()));
+                        IOput.setText(radix10to16(IOput.getText()));
                 }
             }
         });
@@ -205,7 +286,7 @@ public class TI_LCD_Programmer extends JFrame
                 {
                     SHIFT_HEXtoDEC_DISPLAY();
                     if (OperatingMode == 0)
-                        IOput.setText(radixto10(IOput.getText()));
+                        IOput.setText(radix16to10(IOput.getText()));
                 }
             }
         });
@@ -221,7 +302,7 @@ public class TI_LCD_Programmer extends JFrame
         if(isDEC)
             displayIOput(answer.toString());
         if(isHEX)
-            displayIOput(radixto16(answer.toString()));
+            displayIOput(radix10to16(answer.toString()));
     }
 
     private void calculateLastResult()
@@ -397,7 +478,7 @@ public class TI_LCD_Programmer extends JFrame
         });
     }
 
-    private String radixto16(String s)
+    private String radix10to16(String s)
     {
         if (s.length() > 0)
         {
@@ -408,7 +489,7 @@ public class TI_LCD_Programmer extends JFrame
             return "";
     }
 
-    private String radixto10(String s)
+    private String radix16to10(String s)
     {
         int DECcacluate = 0;
 //        System.out.println(s);
@@ -470,13 +551,23 @@ public class TI_LCD_Programmer extends JFrame
         return DECcacluate + "";
     }
 
+//    private String radix2to16(String s)
+//    {
+//
+//    }
+//
+//    private String radix16to2(String s)
+//    {
+//
+//    }
+
     private void get1sC()
     {
         if (isHEX)
         {
-            int temp = -1 - Integer.parseInt(radixto10(IOput.getText()));
+            int temp = -1 - Integer.parseInt(radix16to10(IOput.getText()));
 //            System.out.println(temp);
-            String Text = radixto16(temp + "");
+            String Text = radix10to16(temp + "");
 //            System.out.println(Text);
             IOput.setText(Text);
         }
@@ -486,9 +577,9 @@ public class TI_LCD_Programmer extends JFrame
     {
         if (isHEX)
         {
-            int temp = -Integer.parseInt(radixto10(IOput.getText()));
+            int temp = -Integer.parseInt(radix16to10(IOput.getText()));
 //            System.out.println(temp);
-            String Text = radixto16(temp + "");
+            String Text = radix10to16(temp + "");
 //            System.out.println(Text);
 //            answer16=Text;
             System.out.println(answer16);
@@ -694,10 +785,10 @@ public class TI_LCD_Programmer extends JFrame
             if (isDEC)
                 second = new BigDecimal(operatorNumber);
             else if (isHEX)
-                second = new BigDecimal(radixto10(operatorNumber));
-            else
-                second = new BigDecimal(0);
+                second = new BigDecimal(radix16to10(operatorNumber));
         }
+        else
+            second = new BigDecimal(0);
     }
 
     //    private void getOperator2_16()
