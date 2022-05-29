@@ -1251,11 +1251,11 @@ public class TI_LCD_Programmer extends JFrame
     private BigDecimal record_last_number = new BigDecimal(0);
     private boolean isEqualOperator = false;
     private boolean isSHF;//移位功能
-    private String first16 = "";//十六进制操作数
-    private String second16 = "";
-    private String operator2_16;
-    private String answer16;
-    private String equaltmp16;
+//    private String first16 = "";//十六进制操作数
+//    private String second16 = "";
+//    private String operator2_16;
+//    private String answer16;
+//    private String equaltmp16;
     private BigDecimal tmp1 = new BigDecimal(0);
     private BigDecimal tmp2 = new BigDecimal(0);
 }
