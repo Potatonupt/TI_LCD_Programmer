@@ -391,7 +391,7 @@ public class TI_LCD_Programmer extends JFrame
     private void showHEXrelatedButton()
     {
         Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
-        JButton[]HexButton={AButton,bButton,CButton,dButton,EButton,FButton,a1SCButton,a2SCButton,ORButton,ANDButton,XORButton,SHFButton};
+        JButton[]HexButton={AButton,bButton,CButton,dButton,EButton,FButton};//a1SCButton,a2SCButton,ORButton,ANDButton,XORButton,SHFButton
         for (JButton hexBUtton : HexButton) {
             hexBUtton.setBorderPainted(false);//取消边框
             hexBUtton.setBackground(new Color(62, 68, 79));//设置背景颜色
@@ -426,7 +426,7 @@ public class TI_LCD_Programmer extends JFrame
     }
     private void hideHEXrelatedButton() {
         Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
-        JButton[] HexButton = {AButton, bButton, CButton, dButton, EButton, FButton, a1SCButton, SHFButton, a2SCButton, ORButton, ANDButton, XORButton};
+        JButton[] HexButton = {AButton, bButton, CButton, dButton, EButton, FButton};
         for (JButton hexBUtton : HexButton) {
             hexBUtton.setBorderPainted(false);//取消边框
             hexBUtton.setBackground(new Color(62, 68, 79));//设置背景颜色
@@ -1269,7 +1269,7 @@ public class TI_LCD_Programmer extends JFrame
         JButton[] ToolButton = {
                 DECButton, HEXButton, OCTButton, OFFButton, ONorCLRButton,
                 STOButton, RCLButton, SUMButton, OPButton, CPButton, KButton, DivButton,  MulButton,  SubButton,
-                AddButton, CEButton, EqualButton,ModeButton};
+                AddButton, CEButton, EqualButton,ModeButton,a1SCButton,a2SCButton,ORButton,ANDButton,XORButton,SHFButton};
         for (int i = 0; i < ToolButton.length; i++)
         {
             //Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
