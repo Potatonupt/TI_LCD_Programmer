@@ -168,7 +168,7 @@ public class TI_LCD_Programmer extends JFrame
                 else
                 {
                     isOperator = true;
-                    nowoperator = 1;
+                    nowoperator = 5;
                     getOperatorNumber();
                     calculate();
                 }
@@ -551,15 +551,36 @@ public class TI_LCD_Programmer extends JFrame
         return DECcacluate + "";
     }
 
-//    private String radix2to16(String s)
-//    {
-//
-//    }
-//
-//    private String radix16to2(String s)
-//    {
-//
-//    }
+    private String radix2to10(String s)
+    {
+        int BINcacluate = 0;
+//        System.out.println(s);
+        for (int i = 0; i < s.length(); i++)
+        {
+            int num = (int) Math.pow(2, (s.length() - 1 - i));
+            switch (s.charAt(i))
+            {
+                case '0':
+                    BINcacluate += 0;
+                    break;
+                case '1':
+                    BINcacluate += num;
+                    break;
+            }
+        }
+        return BINcacluate + "";
+    }
+
+    private String radix10to2(String s)
+    {
+        if (s.length() > 0)
+        {
+            Integer temp = Integer.decode(s);
+            return Integer.toBinaryString(temp);
+        }
+        else
+            return "";
+    }
 
     private void get1sC()
     {
@@ -635,9 +656,6 @@ public class TI_LCD_Programmer extends JFrame
 
     private void calculate()
     {
-//        if (isDEC)
-//        {
-//            answer=IOput.getText()
         switch (lastoperator)
         {
             case 1:
@@ -655,49 +673,38 @@ public class TI_LCD_Programmer extends JFrame
             case 0:
                 answer = second;
                 break;
-
+            case 5:
+                answer = new BigDecimal(ANDoperator());
+                break;
+            case 6:
+                answer = new BigDecimal(ORoperator());
+                break;
+            case 7:
+                answer = new BigDecimal(XORoperator());
+                break;
         }
-//        }
-//        if (isHEX)
-//        {
-//            int tempfirst = Integer.parseInt(radixto10(first16));
-////            System.out.println(tempfirst);
-//            int tempsecond = Integer.parseInt(radixto10(second16));
-////            System.out.println(tempsecond);
-//            switch (lastoperator)
-//            {
-//
-//                case 1:
-//                {
-//                    int tempanswer = tempfirst + tempsecond;
-//                    answer16 = radixto16(tempanswer + "");
-//                    break;
-//                }
-//                case 2:
-//                {
-//                    int tempanswer = tempfirst - tempsecond;
-//                    answer16 = radixto16(tempanswer + "");
-//                    break;
-//                }
-//                case 3:
-//                {
-//                    int tempanswer = tempfirst * tempsecond;
-//                    answer16 = radixto16(tempanswer + "");
-//                    break;
-//                }
-//                case 4:
-//                {
-//                    int tempanswer = tempfirst / tempsecond;
-//                    answer16 = radixto16(tempanswer + "");
-//                    break;
-//                }
-//                case 0:
-//                    answer16 = second16;
-//                    break;
-//            }
-//        }
     }
 
+    private int ANDoperator()
+    {
+        Integer int_first = Integer.parseInt(radix10to2(first.toString()), 2);
+        Integer int_second = Integer.parseInt(radix10to2(second.toString()), 2);
+        return int_first & int_second;
+    }
+
+    private int ORoperator()
+    {
+        Integer int_first = Integer.parseInt(radix10to2(first.toString()), 2);
+        Integer int_second = Integer.parseInt(radix10to2(second.toString()), 2);
+        return int_first | int_second;
+    }
+
+    private int XORoperator()
+    {
+        Integer int_first = Integer.parseInt(radix10to2(first.toString()), 2);
+        Integer int_second = Integer.parseInt(radix10to2(second.toString()), 2);
+        return int_first ^ int_second;
+    }
 
     private void calculate_with_Parentheses()
     {
