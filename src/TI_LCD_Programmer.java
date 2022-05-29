@@ -632,6 +632,8 @@ public class TI_LCD_Programmer extends JFrame
                 }
             }
 
+            BigDecimal tmp1 = new BigDecimal(0);
+            BigDecimal tmp2 = new BigDecimal(0);
             if (postfix.charAt(i) == '+')
             {
                 tmp2 = st.peek();
@@ -708,24 +710,10 @@ public class TI_LCD_Programmer extends JFrame
 //    }
     private void updateAnswer()    //将结果保存到first
     {
-//        if (isDEC)
-//        {
         tmp = "";
         first = answer;
         lastoperator = nowoperator;
-//        }
-//        if (isHEX)
-//        {
-//            tmp = "";
-//            first16 = answer16;
-//            lastoperator = nowoperator;
-//        }
     }
-
-    //    private void updateAnswer16()
-//    {
-//
-//    }
     private boolean isOverflow()//判断运算溢出但并未区分正负上下溢出
     {
         if (IOput.getText().length() > 8)
@@ -752,10 +740,6 @@ public class TI_LCD_Programmer extends JFrame
             }
             else if (OperatingMode == 1)
             {
-//                if (isOperator == false)
-//                    tmpfix = tmpfix + s + "_";
-//                else
-//                    tmpfix = tmpfix + s;
                 if (isEqualOperator == true)
                     tmp = "";
                 tmp = tmp + s;
@@ -1168,6 +1152,4 @@ public class TI_LCD_Programmer extends JFrame
     private String operator2_16;
     private String answer16;
     private String equaltmp16;
-    private BigDecimal tmp1 = new BigDecimal(0);
-    private BigDecimal tmp2 = new BigDecimal(0);
 }
