@@ -1131,7 +1131,6 @@ public class TI_LCD_Programmer extends JFrame
     {
         IOput.setText("0");
         isOperator = false;   //是否是运算符
-        operator1 = "";            //操作数1
         operatorNumber = "";            //操作数2
         tmp = "";                  //用于在ioput中显示
         first = new BigDecimal(0);
@@ -1554,13 +1553,9 @@ public class TI_LCD_Programmer extends JFrame
     private JLabel OperationLabel;
     private JLabel OperationModeLabel;
     private JButton ModeButton;
-    private int symbol = 1;
     private boolean isOperator = false;   //是否是运算符
-    private String operator1 = "";            //操作数1
     private String operatorNumber = "";            //操作数2
-    private String SHFOperator = "";
     private String tmp = "";                  //用于在ioput中显示
-    //    private String tmp16="";
     private BigDecimal first = new BigDecimal(0);
     private BigDecimal second = new BigDecimal(0);
     private BigDecimal answer = new BigDecimal(0);
@@ -1583,10 +1578,4 @@ public class TI_LCD_Programmer extends JFrame
     private boolean isEqualOperator = false;
     BigDecimal tmp1 = new BigDecimal(0);
     BigDecimal tmp2 = new BigDecimal(0);
-    private boolean isSHF;//移位功能
-    private String first16 = "";//十六进制操作数
-    private String second16 = "";
-    private String operator2_16;
-    private String answer16;
-    private String equaltmp16;
 }
