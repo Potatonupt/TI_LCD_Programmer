@@ -926,13 +926,19 @@ public class TI_LCD_Programmer extends JFrame
         {
             Integer int_first = Integer.parseInt(first.toString());
             Integer int_second = Integer.parseInt(second.toString());
-            return int_first << int_second;
+            if (int_second.compareTo(0) > 0)
+                return int_first << int_second;
+            else
+                return int_first >> -int_second;
         }
         else if(OperatingMode==1)
         {
             Integer int_first = Integer.parseInt(tmp1.toString());
             Integer int_second = Integer.parseInt(tmp2.toString());
-            return int_first << int_second;
+            if (int_second.compareTo(0) > 0)
+                return int_first << int_second;
+            else
+                return int_first >> -int_second;
         }
         return 0;
     }
