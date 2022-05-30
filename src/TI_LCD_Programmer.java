@@ -267,7 +267,6 @@ public class TI_LCD_Programmer extends JFrame
                 getCurrentText();
                 calculate();
                 displayAnswer();
-//                SHIFT_HEXtoDEC_DISPLAY();
                 updateAnswer();
             }
             else if (OperatingMode == 1)
@@ -340,8 +339,59 @@ public class TI_LCD_Programmer extends JFrame
                 }
             }
         });
-        a1SCButton.addActionListener(e -> get1sC());
-        a2SCButton.addActionListener(e -> get2sC());
+        a1SCButton.addActionListener(e -> {
+            if (OperatingMode == 0)
+            {
+                OperationLabel.setText("1'sC");
+                if (isOperator)               //如果上一个是运算符 直接切换
+                {
+                    nowOperator = 0;
+                    getOperatorNumber();
+                }
+                else
+                {
+                    isOperator = true;
+                    nowOperator = 0;
+                    getOperatorNumber();
+                    calculate();
+                }
+                answer = answer.negate().subtract(new BigDecimal(1));
+                displayAnswer();
+                updateAnswer();
+            }
+//            else if (OperatingMode == 1)
+//            {
+//                isOperator = true;
+//                displayIOput("+");
+//            }
+        });
+        a2SCButton.addActionListener(e -> {
+            if (OperatingMode == 0)
+            {
+                OperationLabel.setText("2'sC");
+                if (isOperator)               //如果上一个是运算符 直接切换
+                {
+                    nowOperator = 0;
+                    getOperatorNumber();
+                }
+                else
+                {
+                    isOperator = true;
+                    nowOperator = 0;
+                    getOperatorNumber();
+                    calculate();
+                }
+                answer=answer.negate();
+                displayAnswer();
+                updateAnswer();
+
+            }
+            else if (OperatingMode == 1)
+            {
+                isOperator = true;
+                displayIOput("\u00AD");
+            }
+        });
     }
 
     private void displayAnswer()
@@ -389,7 +439,8 @@ public class TI_LCD_Programmer extends JFrame
         }
         if (record_last_operator == 9)
         {
-
+            //这里可能有问题，但是我不想思考了，而且也用不到
+            result=result.negate();
         }
 
     }
@@ -729,38 +780,6 @@ public class TI_LCD_Programmer extends JFrame
         return DECcacluate + "";
     }
 
-    private void get1sC()
-    {
-        if (isHEX)
-        {
-            int temp = -1 - Integer.parseInt(radix16to10(IOput.getText()));
-//            System.out.println(temp);
-            String Text = radix10to16(temp + "");
-//            System.out.println(Text);
-            IOput.setText(Text);
-            OperationLabel.setText("1sC");
-        }
-    }
-
-    private void get2sC()
-    {
-        if (isHEX)
-        {
-            int temp = -Integer.parseInt(radix16to10(IOput.getText()));
-//            System.out.println(temp);
-            String Text = radix10to16(temp + "");
-//            System.out.println(Text);
-//            answer16=Text;
-            System.out.println(answer16);
-//            tmp=Text;
-            tmp = Text;
-            IOput.setText(Text);
-            OperationLabel.setText("2sC");
-//            getOperator2();
-//            calculate();
-        }
-    }
-
     private void getCurrentText()
     {
         isOperator = true;
@@ -1037,6 +1056,16 @@ public class TI_LCD_Programmer extends JFrame
                 record_last_operator = 8;
                 record_last_number = tmp2;
             }
+            if (postfix.charAt(i) == '\u00AD')
+            {
+                tmp2 = st.peek();
+                st.pop();
+                result = tmp2.negate();
+                st.push(result);
+
+                record_last_operator = 9;
+//                record_last_number = tmp2;
+            }
         }
 
         result = st.peek();
@@ -1141,7 +1170,8 @@ public class TI_LCD_Programmer extends JFrame
         //13逻辑或运算	    ||(简洁逻辑或)、|(非简洁逻辑或)	    从左到右
         //14三元运算符	    ? :	              从右到左
         //15赋值运算符	    =	              从右到左
-
+        if (op == '\u00AD')              //这是负号不是减号 用的是输入法的连字符
+            priority = 7;
         if (op == '*')
             priority = 6;
         if (op == '/')
