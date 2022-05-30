@@ -265,12 +265,10 @@ public class TI_LCD_Programmer extends JFrame
             if (OperatingMode == 0)
             {
                 OperationLabel.setText("=");
-
                 getCurrentText();
                 calculate();
                 displayAnswer();
                 updateAnswer();
-                System.out.println(first);
             }
             else if (OperatingMode == 1)
             {
@@ -393,11 +391,20 @@ public class TI_LCD_Programmer extends JFrame
                 }
                 else
                 {
-                    nowOperator=0;
+                    nowOperator = 0;
                     getOperatorNumber();
-                    second=second.negate();
-                    IOput.setText(second.toString());
-                    tmp=""+second.toString();
+                    second = second.negate();
+                    if (isDEC)
+                    {
+                        IOput.setText(second.toString());
+                        tmp = "" + second.toString();
+                    }
+                    else if (isHEX)
+                    {
+                        IOput.setText(radix10to16(second.toString()));
+                        tmp = "" + radix10to16(second.toString());
+                    }
+                    isLastOperatorSHF = false;
                 }
 
             }
