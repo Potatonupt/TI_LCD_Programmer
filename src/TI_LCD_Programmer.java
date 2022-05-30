@@ -1,3 +1,5 @@
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -237,6 +239,7 @@ public class TI_LCD_Programmer extends JFrame
             if (OperatingMode == 0)
             {
                 OperationLabel.setText("<<");
+                isLastOperatorSHF=true;
                 if (isOperator)               //如果上一个是运算符 直接切换
                 {
                     nowOperator = 8;
@@ -264,10 +267,12 @@ public class TI_LCD_Programmer extends JFrame
             if (OperatingMode == 0)
             {
                 OperationLabel.setText("=");
+
                 getCurrentText();
                 calculate();
                 displayAnswer();
                 updateAnswer();
+                System.out.println(first);
             }
             else if (OperatingMode == 1)
             {
@@ -369,21 +374,33 @@ public class TI_LCD_Programmer extends JFrame
             if (OperatingMode == 0)
             {
                 OperationLabel.setText("2'sC");
-                if (isOperator)               //如果上一个是运算符 直接切换
+                if(!isLastOperatorSHF)
                 {
-                    nowOperator = 0;
-                    getOperatorNumber();
+
+                    if (isOperator)               //如果上一个是运算符 直接切换
+                    {
+                        nowOperator = 0;
+                        getOperatorNumber();
+                    }
+                    else
+                    {
+                        isOperator = true;
+                        nowOperator = 0;
+                        getOperatorNumber();
+                        calculate();
+                    }
+                    answer = answer.negate();
+                    displayAnswer();
+                    updateAnswer();
                 }
                 else
                 {
-                    isOperator = true;
-                    nowOperator = 0;
+                    nowOperator=0;
                     getOperatorNumber();
-                    calculate();
+                    second=second.negate();
+                    IOput.setText(second.toString());
+                    tmp=""+second.toString();
                 }
-                answer=answer.negate();
-                displayAnswer();
-                updateAnswer();
 
             }
             else if (OperatingMode == 1)
@@ -816,7 +833,6 @@ public class TI_LCD_Programmer extends JFrame
                     hextmp += tmpfix.charAt(i);
                     i++;
                 }
-                System.out.println(hextmp);
                 String inttmp = radix16to10(hextmp);
                 for (int j = 0; j < inttmp.length(); j++)
                 {
@@ -832,7 +848,6 @@ public class TI_LCD_Programmer extends JFrame
             else
                 infix = infix + tmpfix.charAt(i);
         }
-        System.out.println(infix);
     }
 
     private void calculate()
@@ -1155,6 +1170,7 @@ public class TI_LCD_Programmer extends JFrame
         equaltmp = new BigDecimal(0);
         tmp1 = new BigDecimal(0);
         tmp2 = new BigDecimal(0);
+        isLastOperatorSHF=false;
     }
 
     private int priority(char op)
@@ -1584,4 +1600,5 @@ public class TI_LCD_Programmer extends JFrame
     private boolean isEqualOperator = false;
     BigDecimal tmp1 = new BigDecimal(0);
     BigDecimal tmp2 = new BigDecimal(0);
+    private boolean isLastOperatorSHF=false;
 }
