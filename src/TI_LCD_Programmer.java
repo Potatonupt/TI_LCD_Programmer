@@ -49,6 +49,7 @@ public class TI_LCD_Programmer extends JFrame
             if (OperatingMode == 0)
             {
                 OperationLabel.setText("+");
+                isNotEqualOperator =true;
                 if (isOperator)               //如果上一个是运算符 直接切换
                 {
                     nowOperator = 1;
@@ -76,6 +77,7 @@ public class TI_LCD_Programmer extends JFrame
             if (OperatingMode == 0)
             {
                 OperationLabel.setText("-");
+                isNotEqualOperator =true;
                 if (isOperator)               //如果上一个是运算符 直接切换
                 {
                     nowOperator = 2;
@@ -103,6 +105,7 @@ public class TI_LCD_Programmer extends JFrame
             if (OperatingMode == 0)
             {
                 OperationLabel.setText("×");
+                isNotEqualOperator =true;
                 if (isOperator)               //如果上一个是运算符 直接切换
                 {
                     nowOperator = 3;
@@ -130,6 +133,7 @@ public class TI_LCD_Programmer extends JFrame
             if (OperatingMode == 0)
             {
                 OperationLabel.setText("÷");
+                isNotEqualOperator =true;
                 if (isOperator)               //如果上一个是运算符 直接切换
                 {
                     nowOperator = 4;
@@ -156,6 +160,7 @@ public class TI_LCD_Programmer extends JFrame
             if (OperatingMode == 0)
             {
                 OperationLabel.setText("&");
+                isNotEqualOperator =true;
                 if (isOperator)               //如果上一个是运算符 直接切换
                 {
                     nowOperator = 5;
@@ -183,6 +188,7 @@ public class TI_LCD_Programmer extends JFrame
             if (OperatingMode == 0)
             {
                 OperationLabel.setText("|");
+                isNotEqualOperator =true;
                 if (isOperator)               //如果上一个是运算符 直接切换
                 {
                     nowOperator = 6;
@@ -210,6 +216,7 @@ public class TI_LCD_Programmer extends JFrame
             if (OperatingMode == 0)
             {
                 OperationLabel.setText("^");
+                isNotEqualOperator =true;
                 if (isOperator)               //如果上一个是运算符 直接切换
                 {
                     nowOperator = 7;
@@ -237,7 +244,7 @@ public class TI_LCD_Programmer extends JFrame
             if (OperatingMode == 0)
             {
                 OperationLabel.setText("<<");
-                isLastOperatorSHF=true;
+                isNotEqualOperator =true;
                 if (isOperator)               //如果上一个是运算符 直接切换
                 {
                     nowOperator = 8;
@@ -265,6 +272,7 @@ public class TI_LCD_Programmer extends JFrame
             if (OperatingMode == 0)
             {
                 OperationLabel.setText("=");
+                isNotEqualOperator=false;
                 getCurrentText();
                 calculate();
                 displayAnswer();
@@ -370,7 +378,7 @@ public class TI_LCD_Programmer extends JFrame
             if (OperatingMode == 0)
             {
                 OperationLabel.setText("2'sC");
-                if(!isLastOperatorSHF)
+                if(!isNotEqualOperator)
                 {
 
                     if (isOperator)               //如果上一个是运算符 直接切换
@@ -404,7 +412,7 @@ public class TI_LCD_Programmer extends JFrame
                         IOput.setText(radix10to16(second.toString()));
                         tmp = "" + radix10to16(second.toString());
                     }
-                    isLastOperatorSHF = false;
+                    isNotEqualOperator = false;
                 }
 
             }
@@ -461,7 +469,7 @@ public class TI_LCD_Programmer extends JFrame
         }
         if (record_last_operator == 9)
         {
-            //这里可能有问题，但是我不想思考了，而且也用不到
+            //这里可能有问题，但是我不想思考了，而且也用不到 测试了一个-1并没有什么问题
             result=result.negate();
         }
 
@@ -1175,7 +1183,7 @@ public class TI_LCD_Programmer extends JFrame
         equaltmp = new BigDecimal(0);
         tmp1 = new BigDecimal(0);
         tmp2 = new BigDecimal(0);
-        isLastOperatorSHF=false;
+        isNotEqualOperator =false;
     }
 
     private int priority(char op)
@@ -1605,5 +1613,5 @@ public class TI_LCD_Programmer extends JFrame
     private boolean isEqualOperator = false;
     BigDecimal tmp1 = new BigDecimal(0);
     BigDecimal tmp2 = new BigDecimal(0);
-    private boolean isLastOperatorSHF=false;
+    private boolean isNotEqualOperator =false;
 }
