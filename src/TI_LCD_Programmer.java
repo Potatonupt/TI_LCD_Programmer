@@ -1,10 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Stack;
 import java.util.Locale;
+import java.util.Stack;
 
 //javadoc!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //附上readme
@@ -12,10 +15,25 @@ import java.util.Locale;
 //
 public class TI_LCD_Programmer extends JFrame
 {
+    public TI_LCD_Programmer()
+    {
+        initLayout();
+        initKeyboard();
+        initButton();
+    }
 
+    public void init()
+    {
+        this.setTitle("TI_LCD_Programmer");
+        this.add(TI_LCD_Programmer);
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        this.setLocation((int) (kit.getScreenSize().getWidth() / 2 - 250), (int) (kit.getScreenSize().getHeight() / 2 - 500));
+        this.pack();
+        this.setFocusable(true);      //要写在visible前面
+        this.setVisible(true);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
 
-    //    private String lastoperator16;
-    //clear 没做！！！
     private void initButton()
     {
         initNumberButton();
@@ -424,130 +442,6 @@ public class TI_LCD_Programmer extends JFrame
         });
     }
 
-    private void displayAnswer()
-    {
-        if (isDEC)
-            displayIOput(answer.toString());
-        if (isHEX)
-            displayIOput(radix10to16(answer.toString()));
-    }
-
-    private void calculateLastResult()
-    {
-        if (record_last_operator == 1)
-            result = result.add(record_last_number);
-        if (record_last_operator == 2)
-            result = result.subtract(record_last_number);
-        if (record_last_operator == 3)
-            result = result.multiply(record_last_number);
-        if (record_last_operator == 4)
-            result = result.divide(record_last_number, 0, RoundingMode.HALF_UP);
-        if (record_last_operator == 5)
-        {
-            tmp1 = result;
-            tmp2 = record_last_number;
-            result = new BigDecimal(ANDoperator());
-        }
-        if (record_last_operator == 6)
-        {
-            tmp1 = result;
-            tmp2 = record_last_number;
-            result = new BigDecimal(ORoperator());
-        }
-        if (record_last_operator == 7)
-        {
-            tmp1 = result;
-            tmp2 = record_last_number;
-            result = new BigDecimal(XORoperator());
-        }
-        if (record_last_operator == 8)
-        {
-
-            tmp1 = result;
-            tmp2 = record_last_number;
-            result = new BigDecimal(SHFoperator());
-        }
-        if (record_last_operator == 9)
-        {
-            //这里可能有问题，但是我不想思考了，而且也用不到 测试了一个-1并没有什么问题
-            result=result.negate();
-        }
-
-    }
-
-    private void SHIFT_DECtoHEX_DISPLAY()
-    {
-        isHEX = true;
-        isDEC = false;
-        DECLabel.setText("");
-        HEXLabel.setText("HEX");
-        showHEXrelatedButton();
-    }
-    private void showHEXrelatedButton()
-    {
-        Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
-        JButton[] HexButton = {AButton, bButton, CButton, dButton, EButton, FButton};//a1SCButton,a2SCButton,ORButton,ANDButton,XORButton,SHFButton
-        for (JButton hexBUtton : HexButton)
-        {
-            hexBUtton.setBorderPainted(false);//取消边框
-            hexBUtton.setBackground(new Color(62, 68, 79));//设置背景颜色
-            hexBUtton.setFocusPainted(false);//取消聚焦
-            hexBUtton.setForeground(new Color(255, 255, 255));//设置按钮上的字体颜色
-            hexBUtton.setFont(buttonFont);
-            hexBUtton.addMouseListener(new MouseAdapter()
-            {
-                @Override
-                public void mouseEntered(MouseEvent e)
-                {
-                    super.mouseEntered(e);
-                    hexBUtton.setBackground(new Color(32, 38, 49));
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e)
-                {
-                    super.mouseExited(e);
-                    hexBUtton.setBackground(new Color(62, 68, 79));
-                }
-            });
-        }
-    }
-    private void SHIFT_HEXtoDEC_DISPLAY()
-    {
-        isDEC = true;
-        isHEX = false;
-        DECLabel.setText("DEC");
-        HEXLabel.setText("");
-        hideHEXrelatedButton();
-    }
-    private void hideHEXrelatedButton() {
-        Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
-        JButton[] HexButton = {AButton, bButton, CButton, dButton, EButton, FButton};
-        for (JButton hexBUtton : HexButton) {
-            hexBUtton.setBorderPainted(false);//取消边框
-            hexBUtton.setBackground(new Color(62, 68, 79));//设置背景颜色
-            hexBUtton.setFocusPainted(false);//取消聚焦
-            hexBUtton.setForeground(new Color(62, 68, 79));//设置按钮上的字体颜色
-            hexBUtton.setFont(buttonFont);
-            hexBUtton.addMouseListener(new MouseAdapter()
-            {
-                @Override
-                public void mouseEntered(MouseEvent e)
-                {
-                    super.mouseEntered(e);
-                    hexBUtton.setBackground(new Color(62, 68, 79));
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e)
-                {
-                    super.mouseExited(e);
-                    hexBUtton.setBackground(new Color(62, 68, 79));
-                }
-            });
-        }
-    }
-
     private void initNumberButton()
     {
         a0Button.addActionListener(e ->
@@ -737,6 +631,57 @@ public class TI_LCD_Programmer extends JFrame
         });
     }
 
+    private void displayAnswer()
+    {
+        if (isDEC)
+            displayIOput(answer.toString());
+        if (isHEX)
+            displayIOput(radix10to16(answer.toString()));
+    }
+
+    private void calculateLastResult()
+    {
+        if (record_last_operator == 1)
+            result = result.add(record_last_number);
+        if (record_last_operator == 2)
+            result = result.subtract(record_last_number);
+        if (record_last_operator == 3)
+            result = result.multiply(record_last_number);
+        if (record_last_operator == 4)
+            result = result.divide(record_last_number, 0, RoundingMode.HALF_UP);
+        if (record_last_operator == 5)
+        {
+            tmp1 = result;
+            tmp2 = record_last_number;
+            result = new BigDecimal(ANDoperator());
+        }
+        if (record_last_operator == 6)
+        {
+            tmp1 = result;
+            tmp2 = record_last_number;
+            result = new BigDecimal(ORoperator());
+        }
+        if (record_last_operator == 7)
+        {
+            tmp1 = result;
+            tmp2 = record_last_number;
+            result = new BigDecimal(XORoperator());
+        }
+        if (record_last_operator == 8)
+        {
+
+            tmp1 = result;
+            tmp2 = record_last_number;
+            result = new BigDecimal(SHFoperator());
+        }
+        if (record_last_operator == 9)
+        {
+            //这里可能有问题，但是我不想思考了，而且也用不到 测试了一个-1并没有什么问题
+            result=result.negate();
+        }
+
+    }
+
     private String radix10to16(String s)
     {
         if (s.length() > 0)
@@ -810,6 +755,82 @@ public class TI_LCD_Programmer extends JFrame
         return DECcacluate + "";
     }
 
+    private void SHIFT_DECtoHEX_DISPLAY()
+    {
+        isHEX = true;
+        isDEC = false;
+        DECLabel.setText("");
+        HEXLabel.setText("HEX");
+        showHEXrelatedButton();
+    }
+
+    private void SHIFT_HEXtoDEC_DISPLAY()
+    {
+        isDEC = true;
+        isHEX = false;
+        DECLabel.setText("DEC");
+        HEXLabel.setText("");
+        hideHEXrelatedButton();
+    }
+
+    private void showHEXrelatedButton()
+    {
+        Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
+        JButton[] HexButton = {AButton, bButton, CButton, dButton, EButton, FButton};//a1SCButton,a2SCButton,ORButton,ANDButton,XORButton,SHFButton
+        for (JButton hexBUtton : HexButton)
+        {
+            hexBUtton.setBorderPainted(false);//取消边框
+            hexBUtton.setBackground(new Color(62, 68, 79));//设置背景颜色
+            hexBUtton.setFocusPainted(false);//取消聚焦
+            hexBUtton.setForeground(new Color(255, 255, 255));//设置按钮上的字体颜色
+            hexBUtton.setFont(buttonFont);
+            hexBUtton.addMouseListener(new MouseAdapter()
+            {
+                @Override
+                public void mouseEntered(MouseEvent e)
+                {
+                    super.mouseEntered(e);
+                    hexBUtton.setBackground(new Color(32, 38, 49));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e)
+                {
+                    super.mouseExited(e);
+                    hexBUtton.setBackground(new Color(62, 68, 79));
+                }
+            });
+        }
+    }
+
+    private void hideHEXrelatedButton() {
+        Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
+        JButton[] HexButton = {AButton, bButton, CButton, dButton, EButton, FButton};
+        for (JButton hexBUtton : HexButton) {
+            hexBUtton.setBorderPainted(false);//取消边框
+            hexBUtton.setBackground(new Color(62, 68, 79));//设置背景颜色
+            hexBUtton.setFocusPainted(false);//取消聚焦
+            hexBUtton.setForeground(new Color(62, 68, 79));//设置按钮上的字体颜色
+            hexBUtton.setFont(buttonFont);
+            hexBUtton.addMouseListener(new MouseAdapter()
+            {
+                @Override
+                public void mouseEntered(MouseEvent e)
+                {
+                    super.mouseEntered(e);
+                    hexBUtton.setBackground(new Color(62, 68, 79));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e)
+                {
+                    super.mouseExited(e);
+                    hexBUtton.setBackground(new Color(62, 68, 79));
+                }
+            });
+        }
+    }
+
     private void getCurrentText()
     {
         isOperator = true;
@@ -832,35 +853,18 @@ public class TI_LCD_Programmer extends JFrame
         }
     }
 
-    private void getInfix()
+    private void getOperatorNumber()           //获取当前操作数
     {
-        tmpfix = tmp;
-        for (int i = 0; i < tmpfix.length(); i++)
+        operatorNumber = "" + tmp;
+        if (!operatorNumber.isEmpty())
         {
-            if(tmpfix.charAt(i)=='H')
-            {
-                i++;
-                String hextmp = "";
-                while (i<tmpfix.length()&&((tmpfix.charAt(i)>='0'&&tmpfix.charAt(i)<='9')||(tmpfix.charAt(i)>='A'&&tmpfix.charAt(i)<='F')))
-                {
-                    hextmp += tmpfix.charAt(i);
-                    i++;
-                }
-                String inttmp = radix16to10(hextmp);
-                for (int j = 0; j < inttmp.length(); j++)
-                {
-                    infix = infix + inttmp.charAt(j) + "_";
-                }
-                infix = infix.substring(0, infix.length() - 1);
-                continue;
-            }
-            if (i + 1 < tmpfix.length()
-                    && (tmpfix.charAt(i) >= '0' && tmpfix.charAt(i) <= '9')
-                    && (tmpfix.charAt(i + 1) >= '0' && tmpfix.charAt(i + 1) <= '9'))
-                infix = infix + tmpfix.charAt(i) + "_";
-            else
-                infix = infix + tmpfix.charAt(i);
+            if (isDEC)
+                second = new BigDecimal(operatorNumber);
+            else if (isHEX)
+                second = new BigDecimal(radix16to10(operatorNumber));
         }
+        else
+            second = new BigDecimal(0);
     }
 
     private void calculate()
@@ -894,6 +898,44 @@ public class TI_LCD_Programmer extends JFrame
             case 8:
                 answer = new BigDecimal(SHFoperator());
                 break;
+        }
+    }
+
+    private void updateAnswer()    //将结果保存到first
+    {
+        tmp = "";
+        first = answer;
+        lastOperator = nowOperator;
+    }
+
+    private void getInfix()
+    {
+        tmpfix = tmp;
+        for (int i = 0; i < tmpfix.length(); i++)
+        {
+            if(tmpfix.charAt(i)=='H')
+            {
+                i++;
+                String hextmp = "";
+                while (i<tmpfix.length()&&((tmpfix.charAt(i)>='0'&&tmpfix.charAt(i)<='9')||(tmpfix.charAt(i)>='A'&&tmpfix.charAt(i)<='F')))
+                {
+                    hextmp += tmpfix.charAt(i);
+                    i++;
+                }
+                String inttmp = radix16to10(hextmp);
+                for (int j = 0; j < inttmp.length(); j++)
+                {
+                    infix = infix + inttmp.charAt(j) + "_";
+                }
+                infix = infix.substring(0, infix.length() - 1);
+                continue;
+            }
+            if (i + 1 < tmpfix.length()
+                    && (tmpfix.charAt(i) >= '0' && tmpfix.charAt(i) <= '9')
+                    && (tmpfix.charAt(i + 1) >= '0' && tmpfix.charAt(i + 1) <= '9'))
+                infix = infix + tmpfix.charAt(i) + "_";
+            else
+                infix = infix + tmpfix.charAt(i);
         }
     }
 
@@ -1106,86 +1148,6 @@ public class TI_LCD_Programmer extends JFrame
         tmp = "";
     }
 
-    private void getOperatorNumber()           //获取当前操作数
-    {
-        operatorNumber = "" + tmp;
-        if (!operatorNumber.isEmpty())
-        {
-            if (isDEC)
-                second = new BigDecimal(operatorNumber);
-            else if (isHEX)
-                second = new BigDecimal(radix16to10(operatorNumber));
-        }
-        else
-            second = new BigDecimal(0);
-    }
-
-    private void updateAnswer()    //将结果保存到first
-    {
-        tmp = "";
-        first = answer;
-        lastOperator = nowOperator;
-    }
-
-    private boolean isOverflow()//判断运算溢出但并未区分正负上下溢出
-    {
-        if (IOput.getText().length() > 8)
-        {
-            OverFlow.setText("Warning:Operation Overflow!");
-            return true;
-        }
-        return false;
-    }
-
-    private void displayIOput(String s)
-    {
-        if (isON)
-        {
-            if (OperatingMode == 0)
-            {
-                if (isOperator)
-                    tmp = "";
-                if (tmp.length() < 8)
-                    tmp = tmp + s;
-                IOput.setText(tmp);
-                if (isOverflow())
-                    IOput.setText(tmp.substring(tmp.length() - 8));
-            }
-            else if (OperatingMode == 1)
-            {
-                if (isEqualOperator)
-                    tmp = "";
-                tmp = tmp + s;
-                IOput.setText(tmp);
-            }
-        }
-    }
-
-    private void clearall()
-    {
-        IOput.setText("0");
-        isOperator = false;   //是否是运算符
-        operatorNumber = "";            //操作数2
-        tmp = "";                  //用于在ioput中显示
-        first = new BigDecimal(0);
-        second = new BigDecimal(0);
-        answer = new BigDecimal(0);
-        lastOperator = 0;               //上一运算符
-        nowOperator = 0;                //本次运算符
-        tmpfix = "";
-        infix = "";
-        postfix = "";
-        tmp_when_calculate = "";
-        isEqualOperator = false;
-        record_last_number = new BigDecimal(0);
-        record_last_operator = 0;
-        equaloptmp = -1;
-        equaltmp = new BigDecimal(0);
-        tmp1 = new BigDecimal(0);
-        tmp2 = new BigDecimal(0);
-        isNotEqualOperator =false;
-    }
-
     private int priority(char op)
     {
         int priority = -1;
@@ -1273,26 +1235,63 @@ public class TI_LCD_Programmer extends JFrame
         System.out.println(postfix);
     }
 
-
-    //====================================================================================
-    //====================================================================================
-    public void init()
+    private boolean isOverflow()//判断运算溢出但并未区分正负上下溢出
     {
-        this.setTitle("TI_LCD_Programmer");
-        this.add(TI_LCD_Programmer);
-        Toolkit kit = Toolkit.getDefaultToolkit();
-        this.setLocation((int) (kit.getScreenSize().getWidth() / 2 - 250), (int) (kit.getScreenSize().getHeight() / 2 - 500));
-        this.pack();
-        this.setFocusable(true);      //要写在visible前面
-        this.setVisible(true);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        if (IOput.getText().length() > 8)
+        {
+            OverFlow.setText("Warning:Operation Overflow!");
+            return true;
+        }
+        return false;
     }
 
-    public TI_LCD_Programmer()
+    private void displayIOput(String s)
     {
-        initLayout();
-        initKeyboard();
-        initButton();
+        if (isON)
+        {
+            if (OperatingMode == 0)
+            {
+                if (isOperator)
+                    tmp = "";
+                if (tmp.length() < 8)
+                    tmp = tmp + s;
+                IOput.setText(tmp);
+                if (isOverflow())
+                    IOput.setText(tmp.substring(tmp.length() - 8));
+            }
+            else if (OperatingMode == 1)
+            {
+                if (isEqualOperator)
+                    tmp = "";
+                tmp = tmp + s;
+                IOput.setText(tmp);
+            }
+        }
+    }
+
+    private void clearall()
+    {
+        IOput.setText("0");
+        isOperator = false;   //是否是运算符
+        operatorNumber = "";            //操作数2
+        tmp = "";                  //用于在ioput中显示
+        first = new BigDecimal(0);
+        second = new BigDecimal(0);
+        answer = new BigDecimal(0);
+        lastOperator = 0;               //上一运算符
+        nowOperator = 0;                //本次运算符
+        tmpfix = "";
+        infix = "";
+        postfix = "";
+        tmp_when_calculate = "";
+        isEqualOperator = false;
+        record_last_number = new BigDecimal(0);
+        record_last_operator = 0;
+        equaloptmp = -1;
+        equaltmp = new BigDecimal(0);
+        tmp1 = new BigDecimal(0);
+        tmp2 = new BigDecimal(0);
+        isNotEqualOperator =false;
     }
 
     private void initLayout()
@@ -1611,7 +1610,7 @@ public class TI_LCD_Programmer extends JFrame
     private int record_last_operator = 0;
     private BigDecimal record_last_number = new BigDecimal(0);
     private boolean isEqualOperator = false;
-    BigDecimal tmp1 = new BigDecimal(0);
-    BigDecimal tmp2 = new BigDecimal(0);
+    private BigDecimal tmp1 = new BigDecimal(0);
+    private BigDecimal tmp2 = new BigDecimal(0);
     private boolean isNotEqualOperator =false;
 }
