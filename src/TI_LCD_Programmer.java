@@ -1156,7 +1156,15 @@ public class TI_LCD_Programmer extends JFrame
                 if (isEqualOperator)
                     tmp = "";
                 tmp = tmp + s;
-                IOput.setText(tmp);
+                if(!resetIndex)
+                    index=0;
+                if(tmp.length()<=8)
+                    IOput.setText(tmp);
+                else
+                {
+                    IOput.setText(tmp.substring(tmp.length()-8-index,tmp.length()-index));
+                }
+                resetIndex=false;
             }
         }
     }
@@ -1347,7 +1355,22 @@ public class TI_LCD_Programmer extends JFrame
         HEXButton.registerKeyboardAction(e -> HEXButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
         OPButton.registerKeyboardAction(e -> OPButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_9, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
         OPButton.registerKeyboardAction(e -> CPButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_0, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ModeButton.registerKeyboardAction(e->ModeButton.doClick(),KeyStroke.getKeyStroke(KeyEvent.VK_M,InputEvent.SHIFT_MASK),JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ModeButton.registerKeyboardAction(e -> ModeButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
+        IOput.registerKeyboardAction(e ->
+        {
+            if (tmp.length() - 8 - index > 0)
+                index++;
+            resetIndex=true;
+            displayIOput("");
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+        IOput.registerKeyboardAction(e ->
+        {
+            if (index > 0)
+                index--;
+            resetIndex=true;
+            displayIOput("");
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+
     }
 
     public void setToolButton()//非数字按钮的设置
@@ -1611,7 +1634,9 @@ public class TI_LCD_Programmer extends JFrame
     private int record_last_operator = 0;
     private BigDecimal record_last_number = new BigDecimal(0);
     private boolean isEqualOperator = false;
-    BigDecimal tmp1 = new BigDecimal(0);
-    BigDecimal tmp2 = new BigDecimal(0);
+    private BigDecimal tmp1 = new BigDecimal(0);
+    private BigDecimal tmp2 = new BigDecimal(0);
     private boolean isNotEqualOperator =false;
+    private int index=0;
+    private boolean resetIndex=false;
 }
