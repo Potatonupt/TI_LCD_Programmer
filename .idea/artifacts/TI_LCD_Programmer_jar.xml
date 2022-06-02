@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="TI_LCD_Programmer:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/TI_LCD_Programmer_jar</output-path>
+    <root id="archive" name="TI_LCD_Programmer.jar">
+      <element id="module-output" name="TI_LCD_Programmer" />
+    </root>
+  </artifact>
+</component>
