@@ -1810,6 +1810,7 @@ public class TI_LCD_Programmer extends JFrame
 //    }
 
 
+
     private JPanel TextPanel1;
     private JTextField IOput;
     private JLabel TEXAS;
