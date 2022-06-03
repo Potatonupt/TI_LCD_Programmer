@@ -206,7 +206,6 @@ public class TI_LCD_Programmer extends JFrame
                     isOperator = true;
                     displayIOput("|");
                 }
-            }
         });
 
         XORButton.addActionListener(e -> {
