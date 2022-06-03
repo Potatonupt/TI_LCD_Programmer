@@ -32,7 +32,7 @@ public class TI_LCD_Programmer extends JFrame
                 if (OperatingMode == 0)
                 {
                     OperatingMode = 1;
-//                    showHEXrelatedButton();
+                    showHEXrelatedButton();
                     OperationModeLabel.setText("Mixed");
                     OperationLabel.setText("");//混合运算不显示运算符
                     clearall();//切换运算模式后清零
@@ -183,22 +183,24 @@ public class TI_LCD_Programmer extends JFrame
         });
 
         ORButton.addActionListener(e -> {
-            if (isHEX) {
-                if (OperatingMode == 0) {
-                    OperationLabel.setText("|");
-                    isNotEqualOperator = true;
-                    if (isOperator)               //如果上一个是运算符 直接切换
-                    {
-                        nowOperator = 6;
-                        getOperatorNumber();
-                    } else {
-                        isOperator = true;
-                        nowOperator = 6;
-                        getOperatorNumber();
-                        calculate();
-                    }
-                    displayAnswer();
-                    updateAnswer();
+            if (OperatingMode == 0)
+            {
+                OperationLabel.setText("|");
+                isNotEqualOperator =true;
+                if (isOperator)               //如果上一个是运算符 直接切换
+                {
+                    nowOperator = 6;
+                    getOperatorNumber();
+                }
+                else
+                {
+                    isOperator = true;
+                    nowOperator = 6;
+                    getOperatorNumber();
+                    calculate();
+                }
+                displayAnswer();
+                updateAnswer();
 
                 } else if (OperatingMode == 1) {
                     isOperator = true;
@@ -266,7 +268,6 @@ public class TI_LCD_Programmer extends JFrame
                 calculate();
                 displayAnswer();
                 updateAnswer();
-//                isradix10Overflow();
             }
             else if (OperatingMode == 1)
             {
@@ -279,13 +280,11 @@ public class TI_LCD_Programmer extends JFrame
                     translate();
                     calculate_with_Parentheses();
                     displayIOput(result.toString());
-//                    isradix10Overflow();
                 }
                 else
                 {
                     calculateLastResult();
                     displayIOput(result.toString());
-//                    isradix10Overflow();
                 }
 
             }
@@ -1395,90 +1394,15 @@ public class TI_LCD_Programmer extends JFrame
         lastOperator = nowOperator;
     }
 
-//    private boolean isradix10Overflow()//判断运算溢出但并未区分正负上下溢出
-//    {
-//        if (isDEC) {
-//            int intfirst=Integer.valueOf(String.valueOf(first));
-//            int intsecond=Integer.valueOf(String.valueOf(second));
-//            int intanswer=Integer.valueOf(String.valueOf(answer));
-//            switch (lastOperator)
-//            {
-//                case 1:
-//                    System.out.println(intanswer);
-//                    System.out.println(intfirst);
-//                    System.out.println(intanswer);
-//                    if(intfirst!=intanswer-intsecond)
-//                    {
-//                        OverFlow.setText("Warning:OverFlow!");
-//                        isOverflow =true;
-//                        return true;
-//                    }
-//                    break;
-//                case 2:
-//                    System.out.println(intanswer);
-//                    System.out.println(intfirst);
-//                    System.out.println(intanswer);
-//                    if(intfirst!=intanswer+intsecond)
-//                    {
-//                        OverFlow.setText("Warning:OverFlow!");
-//                        isOverflow =true;
-//                        return true;
-//                    }
-//                    break;
-//                case 3:
-//                    System.out.println(intanswer);
-//                    System.out.println(intfirst);
-//                    System.out.println(intanswer);
-//                    if(intfirst!=intanswer/intsecond)
-//                    {
-//                        OverFlow.setText("Warning:OverFlow!");
-//                        isOverflow =true;
-//                        return true;
-//                    }
-////                    answer = first.multiply(second);
-//                    break;
-//                case 4:
-//                    System.out.println(intanswer);
-//                    System.out.println(intfirst);
-//                    System.out.println(intanswer);
-//                    if(intfirst!=intanswer*intsecond)
-//                    {
-//                        OverFlow.setText("Warning:OverFlow!");
-//                        isOverflow =true;
-//                        return true;
-//                    }//存疑
-////                    answer = first.divide(second, 2, RoundingMode.HALF_UP);
-//                    break;
-////                case 0:
-////                    answer = second;
-////                    break;
-////                case 5:
-////                    answer = new BigDecimal(ANDoperator());
-////                    break;
-////                case 6:
-////                    answer = new BigDecimal(ORoperator());
-////                    break;
-////                case 7:
-////                    answer = new BigDecimal(XORoperator());
-////                    break;
-////                case 8:
-////                    answer = new BigDecimal(SHFoperator());
-////                    break;
-//            }
-//            if(!isOverflow)
-//            {
-//                if(String.valueOf(answer).length()>8)
-//                {
-//                    System.out.println(intanswer);
-//                    System.out.println(intfirst);
-//                    System.out.println(intanswer);
-//                    HEXButton.doClick();
-//                    OverFlow.setText("Warning:converted to HEX!");
-//                }
-//            }
-//        }
-//        return false;
-//    }
+    private boolean isOverflow()//判断运算溢出但并未区分正负上下溢出
+    {
+        if (IOput.getText().length() > 8)
+        {
+            OverFlow.setText("Warning:Operation Overflow!");
+            return true;
+        }
+        return false;
+    }
 
     private void displayIOput(String s)
     {
@@ -1496,15 +1420,23 @@ public class TI_LCD_Programmer extends JFrame
                 if (tmp.length() < 8)
                     tmp = tmp + s;
                 IOput.setText(tmp);
-//                isradix10Overflow();///
-//                    IOput.setText(tmp.substring(tmp.length() - 8));
+                if (isOverflow())
+                    IOput.setText(tmp.substring(tmp.length() - 8));
             }
             else if (OperatingMode == 1)
             {
                 if (isEqualOperator)
                     tmp = "";
                 tmp = tmp + s;
-                IOput.setText(tmp);
+                if(!resetIndex)
+                    index=0;
+                if(tmp.length()<=8)
+                    IOput.setText(tmp);
+                else
+                {
+                    IOput.setText(tmp.substring(tmp.length()-8-index,tmp.length()-index));
+                }
+                resetIndex=false;
             }
         }
     }
@@ -1697,7 +1629,22 @@ public class TI_LCD_Programmer extends JFrame
         HEXButton.registerKeyboardAction(e -> HEXButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
         OPButton.registerKeyboardAction(e -> OPButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_9, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
         OPButton.registerKeyboardAction(e -> CPButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_0, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ModeButton.registerKeyboardAction(e->ModeButton.doClick(),KeyStroke.getKeyStroke(KeyEvent.VK_M,InputEvent.SHIFT_MASK),JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ModeButton.registerKeyboardAction(e -> ModeButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
+        IOput.registerKeyboardAction(e ->
+        {
+            if (tmp.length() - 8 - index > 0)
+                index++;
+            resetIndex=true;
+            displayIOput("");
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+        IOput.registerKeyboardAction(e ->
+        {
+            if (index > 0)
+                index--;
+            resetIndex=true;
+            displayIOput("");
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+
     }
 
     public void setToolButton()//非数字按钮的设置
@@ -1967,6 +1914,8 @@ public class TI_LCD_Programmer extends JFrame
     private boolean isOver8bits=false;
     private boolean hasdot=false;
     private boolean isNotEqualOperator =false;
+    private int index=0;
+    private boolean resetIndex=false;
     public static BigDecimal floatoperateExact(BigDecimal x, BigDecimal y, int operator)throws DECoverflow
     {
         BigDecimal r= BigDecimal.valueOf(0);
