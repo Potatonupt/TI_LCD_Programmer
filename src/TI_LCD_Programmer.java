@@ -350,6 +350,8 @@ public class TI_LCD_Programmer extends JFrame
                     if (!isHEX)
                     {
                         SHIFT_DECtoHEX_DISPLAY();
+//                        if(!isOver8bits)
+//                            OverFlow.setText("");
                         IOput.setText(radix10to16(IOput.getText()));
                     }
                 }
@@ -541,6 +543,8 @@ public class TI_LCD_Programmer extends JFrame
         if (isDEC)
             displayIOput(answer.toString());
         if (isHEX)
+//            if(!isOver8bits)
+//                OverFlow.setText("");
             displayIOput(radix10to16(answer.toString()));
     }
 
@@ -1191,402 +1195,193 @@ public class TI_LCD_Programmer extends JFrame
         }
     }
 
-    private void calculate()
+    private void processMorethan()
     {
-        int intfirst = 0;
-        int intsecond = 0;
-//        float floatfirst = Float.valueOf(String.valueOf(first));
-//        float floatsecond = Float.valueOf(String.valueOf(second));
-//        float floatanswer = Float.valueOf(String.valueOf(answer));
-        int intanswer = 0;
-        String temp = answer.toString();
-        for (int i = 0; i < String.valueOf(first).length(); i++)
-        {
-            if (String.valueOf(first).charAt(i) == '.')
-                hasdot = true;
+        isOverflow=false;
+        isOver8bits = true;
+        if(isDEC)
+            OverFlow.setText("WARNING:ONLY HEX");
+        else
+            OverFlow.setText("");
+        HEXButton.doClick();
+    }
+    private void processOverflow(IOException e)
+    {
+        isOverflow = true;
+        OverFlow.setText("WARNING:" + e.getMessage().toUpperCase(Locale.ROOT));
+    }
+    private void processNormal()
+    {
+
+        int location=0;
+        String temp=answer.toString();
+        for (int i = 0; i < temp.length(); i++) {
+            if (temp.charAt(i) == '.') {
+                location = i;
+                break;
+            }
         }
-        for (int i = 0; i < String.valueOf(second).length(); i++)
-        {
-            if (String.valueOf(second).charAt(i) == '.')
-                hasdot = true;
-        }
-        if (!hasdot)
-        {
-            intfirst = Integer.valueOf(String.valueOf(first));
-            intsecond = Integer.valueOf(String.valueOf(second));
-            intanswer = 0;
-        }
-//        System.out.println(intfirst);
-//        System.out.println(intsecond);
-//        System.out.println(hasdot);
-        switch (lastOperator)
-        {
-            case 1:
-                if (!hasdot)
+        answer = answer.setScale(7 - location, RoundingMode.HALF_EVEN);
+        if(lastOperator==4)
+            answer= first.divide(second, 7 - location, RoundingMode.HALF_UP);
+        System.out.println(answer);
+        isOverflow=false;
+        isOver8bits=false;
+        OverFlow.setText("");
+    }
+    private void processOver8bits()
+    {
+        if (!isOverflow) {
+            if (String.valueOf(answer).charAt(0) == '-') {
+                if (String.valueOf(answer).length() > 9 && isDEC) {
+                    isOver8bits = true;
+                    if(isDEC)
+                        OverFlow.setText("WARNING:ONLY HEX");
+                    HEXButton.doClick();
+                }
+                else
                 {
-                    try
-                    {
+                    isOver8bits=false;
+                    OverFlow.setText("");
+                }
+            } else {
+                if (String.valueOf(answer).length() > 8 && isDEC) {
+                    isOver8bits = true;
+                    if(isDEC)
+                        OverFlow.setText("WARNING:ONLY HEX");
+                    HEXButton.doClick();
+                }
+                else
+                {
+                    isOver8bits=false;
+                    OverFlow.setText("");
+                }
+            }
+        } else {
+            if (String.valueOf(answer).charAt(0) == '-') {
+                if (String.valueOf(answer).length() <= 9) {
+                    isOver8bits = false;
+                    OverFlow.setText("");
+                }
+            } else {
+                if (String.valueOf(answer).length() <= 8) {
+                    isOver8bits = false;
+                    OverFlow.setText("");
+                }
+            }
+
+        }
+    }
+    private void Ishasdot()
+    {
+        for(int i=0;i<String.valueOf(first).length();i++)
+        {
+            if(String.valueOf(first).charAt(i)=='.')
+                hasdot=true;
+        }
+        if(!hasdot) {
+            for (int i = 0; i < String.valueOf(second).length(); i++) {
+                if (String.valueOf(second).charAt(i) == '.')
+                    hasdot = true;
+            }
+        }
+    }
+    private void switchcase(int intfirst,int intsecond,int operation)
+    {
+            switch (operation){
+                case 1:
+                    if(!hasdot) {
                         Math.addExact(intfirst, intsecond);
                         answer = first.add(second);
                     }
-                    catch (ArithmeticException add)
-                    {
-                        OverFlow.setText("WARNING:" + add.getMessage().toUpperCase(Locale.ROOT));
-                        isOverflow = true;
-                        answer = BigDecimal.valueOf(intfirst + intsecond);
-                        return;
-                    }
-                    if (!isOverflow)
-                    {
-                        if (String.valueOf(answer).charAt(0) == '-')
-                        {
-                            if (String.valueOf(answer).length() > 9 && isDEC)
-                            {
-                                isOver8bits = true;
-                                if (isDEC)
-                                    OverFlow.setText("WARNING:CONVERTED TO HEX");
-                                HEXButton.doClick();
-                            }
-                        }
-                        else
-                        {
-                            if (String.valueOf(answer).length() > 8 && isDEC)
-                            {
-                                isOver8bits = true;
-                                if (isDEC)
-                                    OverFlow.setText("WARNING:CONVERTED TO HEX");
-                                HEXButton.doClick();
-                            }
-                        }
+                    else
+                        answer = first.add(second);
+                    break;
+                case 2:
+                    if(!hasdot) {
+                        Math.subtractExact(intfirst, intsecond);
+                        answer = first.subtract(second);
                     }
                     else
-                    {
-                        if (String.valueOf(answer).charAt(0) == '-')
-                        {
-                            if (String.valueOf(answer).length() <= 9)
-                            {
-                                isOverflow = false;
-                                OverFlow.setText("");
-                            }
-                        }
-                        else
-                        {
-                            if (String.valueOf(answer).length() <= 8)
-                            {
-                                isOverflow = false;
-                                OverFlow.setText("");
-                            }
-                        }
-
+                        answer=first.subtract(second);
+                    break;
+                case 3:
+                    if(!hasdot) {
+                        Math.multiplyExact(intfirst, intsecond);
+                        answer = first.multiply(second);
                     }
-                }
-                else
-                {
-                    try
-                    {
-                        answer = isOverFlow(first, second, 1);
-//                        System.out.println(floatanswer);
-                    }
-                    catch (DECoverflow e)
-                    {
-//                        System.out.println(e.getMessage());
-                        int location = 0;
-                        if (e.getMessage().equals("integer overflow"))
-                        {
-                            isOverflow = true;
-                            OverFlow.setText("WARNING:" + e.getMessage().toUpperCase(Locale.ROOT));
-                            return;
-                        }
-                        else if ((e.getMessage().equals("abs(answer) > 9999999!") || (e.getMessage().equals("abs(answer) < .00000001"))))
-                        {
-                            isOver8bits = true;
-                            if (isDEC)
-                                OverFlow.setText("WARNING:CONVERTED TO HEX");
-                            answer = first.add(second);
-                            HEXButton.doClick();
-                        }
-                        else
-                        {
-                            answer = first.add(second);
-                            for (int i = 0; i < temp.length(); i++)
-                            {
-                                if (temp.charAt(i) == '.')
-                                {
-                                    location = i;
-                                    break;
-                                }
-                            }
-                            answer = answer.setScale(7 - location, RoundingMode.HALF_EVEN);
-                        }
-                    }
-                }
+                    else
+                        answer=first.multiply(second);
+                    break;
+            }
+    }
+    private void processXHasdot(int intfirst,int intsecond,int operation)
+    {
+        try {
+            OverFlow.setText("");
+            switchcase(intfirst,intsecond,operation);
+        } catch (ArithmeticException add) {
+            OverFlow.setText("WARNING:" + add.getMessage().toUpperCase(Locale.ROOT));
+            isOverflow = true;
+            switch (lastOperator){
+                case 1:
+                    answer = BigDecimal.valueOf(intfirst + intsecond);
+                    break;
+                case 2:
+                    answer = BigDecimal.valueOf(intfirst - intsecond);
+                    break;
+                case 3:
+                    answer = BigDecimal.valueOf(intfirst * intsecond);
+                    break;
+            }
+        }
+    }
+    private void processHasdot(int intfirst,int intsecond,int operation)
+    {
+        try {
+            answer = isOverFlow(first, second, operation);
+            OverFlow.setText("");
+        } catch (DECoverflow e) {
+            if (e.getMessage().equals("integer overflow")) {
+                processOverflow(e);
+            } else if ((e.getMessage().equals("abs(answer) > 9999999!") || (e.getMessage().equals("abs(answer) < .00000001")))) {
+                processMorethan();
+                switchcase(intfirst,intsecond,operation);
+            } else {
+                switchcase(intfirst,intsecond,operation);
+                processNormal();
+            }
+        }
+    }
+    private void JudgeOverflowAndCalculate(int intfirst, int intsecond,int operation)
+    {
+        Ishasdot();
+        if (!hasdot&&operation!=4) {
+            processXHasdot(intfirst,intsecond,operation);
+            processOver8bits();
+        } else
+            processHasdot(intfirst,intsecond,operation);
+    }
+    private void calculate()
+    {
+        int intfirst =0;
+        int intsecond =0;
+        if (!hasdot) {
+            intfirst = Integer.valueOf(String.valueOf(first));
+            intsecond = Integer.valueOf(String.valueOf(second));
+        }
+        switch (lastOperator) {
+            case 1:
+                JudgeOverflowAndCalculate(intfirst,intsecond,1);
                 break;
             case 2:
-                if (!hasdot)
-                {
-                    try
-                    {
-//                        System.out.println(intfirst - intsecond);
-                        answer = first.subtract(second);
-                        Math.subtractExact(intfirst, intsecond);
-//                        System.out.println(answer);
-                    }
-                    catch (ArithmeticException add)
-                    {
-                        OverFlow.setText("WARNING:" + add.getMessage().toUpperCase(Locale.ROOT));
-                        isOverflow = true;
-//                        answer = BigDecimal.valueOf(intfirst - intsecond);
-                        return;
-                    }
-//                    answer = first.subtract(second);
-                    if (!isOverflow)
-                    {
-                        if (String.valueOf(answer).charAt(0) == '-')
-                        {
-                            if (String.valueOf(answer).length() > 9 && isDEC)
-                            {
-                                isOver8bits = true;
-                                if (isDEC)
-                                    OverFlow.setText("WARNING:CONVERTED TO HEX");
-                                HEXButton.doClick();
-                            }
-                        }
-                        else
-                        {
-                            if (String.valueOf(answer).length() > 8 && isDEC)
-                            {
-                                isOver8bits = true;
-                                if (isDEC)
-                                    OverFlow.setText("WARNING:CONVERTED TO HEX");
-                                HEXButton.doClick();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (String.valueOf(answer).charAt(0) == '-')
-                        {
-                            if (String.valueOf(answer).length() <= 9)
-                            {
-                                isOverflow = false;
-                                OverFlow.setText("");
-                            }
-                        }
-                        else
-                        {
-                            if (String.valueOf(answer).length() <= 8)
-                            {
-                                isOverflow = false;
-                                OverFlow.setText("");
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    try
-                    {
-                        answer = isOverFlow(first, second, 2);
-                    }
-                    catch (DECoverflow e)
-                    {
-                        int location = 0;
-                        if (e.getMessage().equals("integer overflow"))
-                        {
-                            isOverflow = true;
-                            OverFlow.setText("WARNING:" + e.getMessage().toUpperCase(Locale.ROOT));
-                            return;
-                        }
-                        else if ((e.getMessage().equals("abs(answer) > 9999999!") || (e.getMessage().equals("abs(answer) < .00000001"))))
-                        {
-                            isOver8bits = true;
-                            if (isDEC)
-                                OverFlow.setText("WARNING:CONVERTED TO HEX");
-                            answer = first.subtract(second);
-                            HEXButton.doClick();
-                        }
-                        else
-                        {
-                            answer = first.subtract(second);
-//                            String temp = answer.toString();
-                            for (int i = 0; i < temp.length(); i++)
-                            {
-                                if (temp.charAt(i) == '.')
-                                {
-                                    location = i;
-                                    break;
-                                }
-                            }
-                            answer = answer.setScale(7 - location, RoundingMode.HALF_EVEN);
-                        }
-                    }
-                }
+                JudgeOverflowAndCalculate(intfirst,intsecond,2);
                 break;
             case 3:
-                if (!hasdot)
-                {
-                    try
-                    {
-                        answer = first.multiply(second);
-                        Math.multiplyExact(intfirst, intsecond);
-//                    intanswer = intfirst + intsecond;
-//                    answer=Math.addExact(first,second);
-                    }
-                    catch (ArithmeticException add)
-                    {
-//                    System.out.println(intanswer);
-//                        System.out.println(add.getMessage());
-                        OverFlow.setText("WARNING:" + add.getMessage().toUpperCase(Locale.ROOT));
-//                    OverFlow.setText("Warning:OverFlow!");
-                        isOverflow = true;
-                        answer = BigDecimal.valueOf(intfirst * intsecond);
-                        return;
-                    }
-//                    answer = first.multiply(second);
-                    if (!isOverflow)
-                    {
-                        if (String.valueOf(answer).charAt(0) == '-')
-                        {
-                            if (String.valueOf(answer).length() > 9 && isDEC)
-                            {
-                                isOver8bits = true;
-                                if (isDEC)
-                                    OverFlow.setText("WARNING:CONVERTED TO HEX");
-                                HEXButton.doClick();
-                            }
-                        }
-                        else
-                        {
-                            if (String.valueOf(answer).length() > 8 && isDEC)
-                            {
-                                isOver8bits = true;
-                                if (isDEC)
-                                    OverFlow.setText("WARNING:CONVERTED TO HEX");
-                                HEXButton.doClick();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (String.valueOf(answer).charAt(0) == '-')
-                        {
-                            if (String.valueOf(answer).length() <= 9)
-                            {
-                                isOverflow = false;
-                                OverFlow.setText("");
-                            }
-                        }
-                        else
-                        {
-                            if (String.valueOf(answer).length() <= 8)
-                            {
-                                isOverflow = false;
-                                OverFlow.setText("");
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    try
-                    {
-                        answer = isOverFlow(first, second, 3);
-//                        System.out.println(floatanswer);
-                    }
-                    catch (DECoverflow e)
-                    {
-//                        System.out.println(e.getMessage());
-                        int location = 0;
-                        if (e.getMessage().equals("integer overflow"))
-                        {
-                            isOverflow = true;
-                            OverFlow.setText("WARNING:" + e.getMessage().toUpperCase(Locale.ROOT));
-                            return;
-                        }
-                        else if ((e.getMessage().equals("abs(answer) > 9999999!") || (e.getMessage().equals("abs(answer) < .00000001"))))
-                        {
-                            isOver8bits = true;
-                            if (isDEC)
-                                OverFlow.setText("WARNING:CONVERTED TO HEX");
-                            answer = first.multiply(second);
-                            HEXButton.doClick();
-                        }
-                        else
-                        {
-                            answer = first.multiply(second);
-//                            String temp = answer.toString();
-                            for (int i = 0; i < temp.length(); i++)
-                            {
-                                if (temp.charAt(i) == '.')
-                                {
-                                    location = i;
-                                    break;
-                                }
-                            }
-                            answer = answer.setScale(7 - location, RoundingMode.HALF_EVEN);
-                        }
-                    }
-                }
+                JudgeOverflowAndCalculate(intfirst,intsecond,3);
                 break;
             case 4:
-                try
-                {
-                    answer = isOverFlow(first, second, 4);
-                }
-                catch (DECoverflow e)
-                {
-//                    System.out.println(e.getMessage());
-                    int location = 0;
-                    if (e.getMessage().equals("integer overflow"))
-                    {
-                        isOverflow = true;
-                        OverFlow.setText("WARNING:" + e.getMessage().toUpperCase(Locale.ROOT));
-                        return;
-                    }
-                    else if ((e.getMessage().equals("abs(answer) > 9999999!") || (e.getMessage().equals("abs(answer) < .00000001"))))
-                    {
-                        isOver8bits = true;
-                        if (isDEC)
-                            OverFlow.setText("WARNING:CONVERTED TO HEX");
-                        answer = first.divide(second, 2, RoundingMode.HALF_UP);
-                        HEXButton.doClick();
-                    }
-                    else
-                    {
-                        answer = first.divide(second, 2, RoundingMode.HALF_UP);
-//                        String temp = answer.toString();
-                        location = 0;
-                        for (int i = 0; i < temp.length(); i++)
-                        {
-                            if (temp.charAt(i) == '.')
-                            {
-                                location = i;
-                                break;
-                            }
-                        }
-                        answer = answer = first.divide(second, 7 - location, RoundingMode.HALF_UP);
-                    }
-                }
-//                floatanswer=floatfirst/floatsecond;
-//                if(floatfirst!=floatanswer*floatsecond)
-//                {
-//                    System.out.println(floatanswer);
-//                    OverFlow.setText("Warning:OverFlow!");
-//                    isOverflow =true;
-//                    answer= BigDecimal.valueOf(floatanswer);
-//                    return;
-//                }
-//                answer = first.divide(second, 2, RoundingMode.HALF_UP);
-//                if(!isOverflow)
-//                {
-//                    System.out.println(floatanswer);
-//                    if(String.valueOf(answer).length()>8)
-//                    {
-//                        isOver8bits=true;
-//                        OverFlow.setText("WARNING:CONVERTED TO HEX");
-////                        HEXButton.doClick();
-//                    }
-//                }
+                JudgeOverflowAndCalculate(intfirst,intsecond,4);
                 break;
             case 0:
                 answer = second;
@@ -2512,22 +2307,7 @@ public class TI_LCD_Programmer extends JFrame
 //        TextPanel2.setBackground(new Color(0xFFFFFF));
 //        ButtonPanel.setBackground(new Color(0xFFFFFF));
     }
-//    class JTextFieldLimit extends PlainDocument//该类用来实现对JTextField输入文本长度的限制
-//    {
-//        private int limit;
-//        public JTextFieldLimit(int limit)
-//        {
-//            super();
-//            this.limit=limit;//最大输入长度
-//        }
-//        public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException
-//        {
-//            if(getLength()+str.length()<=limit)
-//                super.insertString(offset, str, attr);
-//        }
-//    }
-
-
+    
     private JPanel TextPanel1;
     private JTextField IOput;
     private JLabel TEXAS;
