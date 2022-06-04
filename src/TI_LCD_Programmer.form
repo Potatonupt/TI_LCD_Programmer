@@ -748,17 +748,17 @@
           </component>
           <component id="244d8" class="javax.swing.JButton" binding="ModeButton">
             <constraints>
-              <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+              <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
                 <preferred-size width="50" height="25"/>
               </grid>
             </constraints>
             <properties>
-              <text value="Mode"/>
+              <text value="Single"/>
             </properties>
           </component>
           <component id="7ba6" class="javax.swing.JLabel" binding="TEXAS">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+              <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
                 <preferred-size width="250" height="25"/>
               </grid>
             </constraints>
@@ -777,6 +777,16 @@
               <enabled value="true"/>
               <horizontalAlignment value="4"/>
               <text value=""/>
+            </properties>
+          </component>
+          <component id="7eb2a" class="javax.swing.JButton" binding="SkinButton">
+            <constraints>
+              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="50" height="25"/>
+              </grid>
+            </constraints>
+            <properties>
+              <text value="Modern"/>
             </properties>
           </component>
         </children>
