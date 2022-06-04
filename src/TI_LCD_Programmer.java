@@ -32,143 +32,34 @@ public class TI_LCD_Programmer extends JFrame
                 if (OperatingMode == 0)
                 {
                     OperatingMode = 1;
-                    showHEXrelatedButton();
-                    OperationModeLabel.setText("Mixed");
+                    ModeButton.setText("Mixed");
+//                    showHEXrelatedButton();
+//                    OperationModeLabel.setText("Mixed");
                     OperationLabel.setText("");//混合运算不显示运算符
                     clearall();//切换运算模式后清零
                 }
                 else if(OperatingMode==1)
                 {
                     OperatingMode = 0;
-                    SHIFT_HEXtoDEC_DISPLAY();
-                    OperationModeLabel.setText("Single");
+                    ModeButton.setText("Single");
+//                    SHIFT_HEXtoDEC_DISPLAY();
+//                    OperationModeLabel.setText("Single");
                     clearall();//切换运算模式后清零
                 }
             }
         });
         AddButton.addActionListener(e -> {
-            if (OperatingMode == 0)
-            {
-                OperationLabel.setText("+");
-                isNotEqualOperator =true;
-                if (isOperator)               //如果上一个是运算符 直接切换
-                {
-                    nowOperator = 1;
-                    getOperatorNumber();
-                }
-                else
-                {
-                    isOperator = true;
-                    nowOperator = 1;
-                    getOperatorNumber();
-                    calculate();
-                }
-                displayAnswer();
-                updateAnswer();
-
-            }
-            else if (OperatingMode == 1)
-            {
-                isOperator = true;
-                displayIOput("+");
-            }
-        });
-
-        SubButton.addActionListener(e -> {
-            if (OperatingMode == 0)
-            {
-                OperationLabel.setText("-");
-                isNotEqualOperator =true;
-                if (isOperator)               //如果上一个是运算符 直接切换
-                {
-                    nowOperator = 2;
-                    getOperatorNumber();
-                }
-                else
-                {
-                    isOperator = true;
-                    nowOperator = 2;
-                    getOperatorNumber();
-                    calculate();
-                }
-                displayAnswer();
-                updateAnswer();
-
-            }
-            else if (OperatingMode == 1)
-            {
-                isOperator = true;
-                displayIOput("-");
-            }
-        });
-
-        MulButton.addActionListener(e -> {
-            if (OperatingMode == 0)
-            {
-                OperationLabel.setText("×");
-                isNotEqualOperator =true;
-                if (isOperator)               //如果上一个是运算符 直接切换
-                {
-                    nowOperator = 3;
-                    getOperatorNumber();
-                }
-                else
-                {
-                    isOperator = true;
-                    nowOperator = 3;
-                    getOperatorNumber();
-                    calculate();
-                }
-                displayAnswer();
-                updateAnswer();
-
-            }
-            else if (OperatingMode == 1)
-            {
-                isOperator = true;
-                displayIOput("*");
-            }
-        });
-
-        DivButton.addActionListener(e -> {
-            if (OperatingMode == 0)
-            {
-                OperationLabel.setText("÷");
-                isNotEqualOperator =true;
-                if (isOperator)               //如果上一个是运算符 直接切换
-                {
-                    nowOperator = 4;
-                    getOperatorNumber();
-                }
-                else
-                {
-                    isOperator = true;
-                    nowOperator = 4;
-                    getOperatorNumber();
-                    calculate();
-                }
-                displayAnswer();
-                updateAnswer();
-            }
-            else if (OperatingMode == 1)
-            {
-                isOperator = true;
-                displayIOput("/");
-            }
-        });
-
-        ANDButton.addActionListener(e -> {
-            if (isHEX) {
+            if(isON) {
                 if (OperatingMode == 0) {
-                    OperationLabel.setText("&");
+                    OperationLabel.setText("+");
                     isNotEqualOperator = true;
                     if (isOperator)               //如果上一个是运算符 直接切换
                     {
-                        nowOperator = 5;
+                        nowOperator = 1;
                         getOperatorNumber();
                     } else {
                         isOperator = true;
-                        nowOperator = 5;
+                        nowOperator = 1;
                         getOperatorNumber();
                         calculate();
                     }
@@ -177,115 +68,217 @@ public class TI_LCD_Programmer extends JFrame
 
                 } else if (OperatingMode == 1) {
                     isOperator = true;
-                    displayIOput("&");
+                    displayIOput("+");
+                }
+            }
+        });
+
+        SubButton.addActionListener(e -> {
+            if(isON) {
+                if (OperatingMode == 0) {
+                    OperationLabel.setText("-");
+                    isNotEqualOperator = true;
+                    if (isOperator)               //如果上一个是运算符 直接切换
+                    {
+                        nowOperator = 2;
+                        getOperatorNumber();
+                    } else {
+                        isOperator = true;
+                        nowOperator = 2;
+                        getOperatorNumber();
+                        calculate();
+                    }
+                    displayAnswer();
+                    updateAnswer();
+
+                } else if (OperatingMode == 1) {
+                    isOperator = true;
+                    displayIOput("-");
+                }
+            }
+        });
+
+        MulButton.addActionListener(e -> {
+            if(isON) {
+                if (OperatingMode == 0) {
+                    OperationLabel.setText("×");
+                    isNotEqualOperator = true;
+                    if (isOperator)               //如果上一个是运算符 直接切换
+                    {
+                        nowOperator = 3;
+                        getOperatorNumber();
+                    } else {
+                        isOperator = true;
+                        nowOperator = 3;
+                        getOperatorNumber();
+                        calculate();
+                    }
+                    displayAnswer();
+                    updateAnswer();
+
+                } else if (OperatingMode == 1) {
+                    isOperator = true;
+                    displayIOput("*");
+                }
+            }
+        });
+
+        DivButton.addActionListener(e -> {
+            if(isON) {
+                if (OperatingMode == 0) {
+                    OperationLabel.setText("÷");
+                    isNotEqualOperator = true;
+                    if (isOperator)               //如果上一个是运算符 直接切换
+                    {
+                        nowOperator = 4;
+                        getOperatorNumber();
+                    } else {
+                        isOperator = true;
+                        nowOperator = 4;
+                        getOperatorNumber();
+                        calculate();
+                    }
+                    displayAnswer();
+                    updateAnswer();
+                } else if (OperatingMode == 1) {
+                    isOperator = true;
+                    displayIOput("/");
+                }
+            }
+        });
+
+        ANDButton.addActionListener(e -> {
+            if(isON) {
+                if (isHEX) {
+                    if (OperatingMode == 0) {
+                        OperationLabel.setText("&");
+                        isNotEqualOperator = true;
+                        if (isOperator)               //如果上一个是运算符 直接切换
+                        {
+                            nowOperator = 5;
+                            getOperatorNumber();
+                        } else {
+                            isOperator = true;
+                            nowOperator = 5;
+                            getOperatorNumber();
+                            calculate();
+                        }
+                        displayAnswer();
+                        updateAnswer();
+
+                    } else if (OperatingMode == 1) {
+                        isOperator = true;
+                        displayIOput("&");
+                    }
                 }
             }
         });
 
         ORButton.addActionListener(e -> {
-            if (OperatingMode == 0)
-            {
-                OperationLabel.setText("|");
-                isNotEqualOperator =true;
-                if (isOperator)               //如果上一个是运算符 直接切换
-                {
-                    nowOperator = 6;
-                    getOperatorNumber();
-                }
-                else
-                {
-                    isOperator = true;
-                    nowOperator = 6;
-                    getOperatorNumber();
-                    calculate();
-                }
-                displayAnswer();
-                updateAnswer();
+            if(isON) {
+                if (isHEX) {
+                    if (OperatingMode == 0) {
+                        OperationLabel.setText("|");
+                        isNotEqualOperator = true;
+                        if (isOperator)               //如果上一个是运算符 直接切换
+                        {
+                            nowOperator = 6;
+                            getOperatorNumber();
+                        } else {
+                            isOperator = true;
+                            nowOperator = 6;
+                            getOperatorNumber();
+                            calculate();
+                        }
+                        displayAnswer();
+                        updateAnswer();
 
-                } else if (OperatingMode == 1) {
-                    isOperator = true;
-                    displayIOput("|");
+                    } else if (OperatingMode == 1) {
+                        isOperator = true;
+                        displayIOput("|");
+                    }
                 }
+            }
         });
 
         XORButton.addActionListener(e -> {
-            if (isHEX) {
-                if (OperatingMode == 0) {
-                    OperationLabel.setText("^");
-                    isNotEqualOperator = true;
-                    if (isOperator)               //如果上一个是运算符 直接切换
-                    {
-                        nowOperator = 7;
-                        getOperatorNumber();
-                    } else {
-                        isOperator = true;
-                        nowOperator = 7;
-                        getOperatorNumber();
-                        calculate();
-                    }
-                    displayAnswer();
-                    updateAnswer();
+            if(isON) {
+                if (isHEX) {
+                    if (OperatingMode == 0) {
+                        OperationLabel.setText("^");
+                        isNotEqualOperator = true;
+                        if (isOperator)               //如果上一个是运算符 直接切换
+                        {
+                            nowOperator = 7;
+                            getOperatorNumber();
+                        } else {
+                            isOperator = true;
+                            nowOperator = 7;
+                            getOperatorNumber();
+                            calculate();
+                        }
+                        displayAnswer();
+                        updateAnswer();
 
-                } else if (OperatingMode == 1) {
-                    isOperator = true;
-                    displayIOput("^");
+                    } else if (OperatingMode == 1) {
+                        isOperator = true;
+                        displayIOput("^");
+                    }
                 }
             }
         });
 
         SHFButton.addActionListener(e -> {
-            if(isHEX) {
-                if (OperatingMode == 0) {
-                    OperationLabel.setText("<<");
-                    isNotEqualOperator = true;
-                    if (isOperator)               //如果上一个是运算符 直接切换
-                    {
-                        nowOperator = 8;
-                        getOperatorNumber();
-                    } else {
-                        isOperator = true;
-                        nowOperator = 8;
-                        getOperatorNumber();
-                        calculate();
-                    }
-                    displayAnswer();
-                    updateAnswer();
+            if(isON) {
+                if (isHEX) {
+                    if (OperatingMode == 0) {
+                        OperationLabel.setText("<<");
+                        isNotEqualOperator = true;
+                        if (isOperator)               //如果上一个是运算符 直接切换
+                        {
+                            nowOperator = 8;
+                            getOperatorNumber();
+                        } else {
+                            isOperator = true;
+                            nowOperator = 8;
+                            getOperatorNumber();
+                            calculate();
+                        }
+                        displayAnswer();
+                        updateAnswer();
 
-                } else if (OperatingMode == 1) {
-                    isOperator = true;
-                    displayIOput("<");
+                    } else if (OperatingMode == 1) {
+                        isOperator = true;
+                        displayIOput("<");
+                    }
                 }
             }
         });
 
         EqualButton.addActionListener(e -> {
-            if (OperatingMode == 0)
-            {
-                OperationLabel.setText("=");
-                isNotEqualOperator=false;
-                getCurrentText();
-                calculate();
-                displayAnswer();
-                updateAnswer();
-            }
-            else if (OperatingMode == 1)
-            {
-                DECLabel.setText("DEC");
-                HEXLabel.setText("");
-                if (!isEqualOperator)
-                {
-                    isEqualOperator = true;
-                    getInfix();
-                    translate();
-                    calculate_with_Parentheses();
-                    displayIOput(result.toString());
-                }
-                else
-                {
-                    calculateLastResult();
-                    displayIOput(result.toString());
-                }
+            if(isON) {
+                if (OperatingMode == 0) {
+                    OperationLabel.setText("=");
+                    isNotEqualOperator = false;
+                    getCurrentText();
+                    calculate();
+                    displayAnswer();
+                    updateAnswer();
+                } else if (OperatingMode == 1) {
+                    DECLabel.setText("DEC");
+                    HEXLabel.setText("");
+                    if (!isEqualOperator) {
+                        isEqualOperator = true;
+                        getInfix();
+                        translate();
+                        calculate_with_Parentheses();
+                        displayIOput(result.toString());
+                    } else {
+                        calculateLastResult();
+                        displayIOput(result.toString());
+                    }
 
+                }
             }
         });
 
@@ -342,10 +335,19 @@ public class TI_LCD_Programmer extends JFrame
                     if (!isDEC&&!isOver8bits)//DEC超过8位后，DEC被封锁，只能在HEX下进行运算。
                     {
                         SHIFT_HEXtoDEC_DISPLAY();
-                        if(radix16to10(IOput.getText()).length()<=8)
-                            IOput.setText(radix16to10(IOput.getText()));
-                        else
-                            IOput.setText(radix16to10(IOput.getText()).substring(IOput.getText().length()-8,IOput.getText().length()));
+                        if(radix16to10(IOput.getText()).charAt(0)=='-') //确保负数也可以输出8位
+                            {
+                                if (radix16to10(IOput.getText()).length() <= 9)
+                                    IOput.setText(radix16to10(IOput.getText()));
+                                else
+                                    IOput.setText(radix16to10(IOput.getText()).substring(IOput.getText().length() - 9, IOput.getText().length()));
+                            }
+                        else {
+                            if (radix16to10(IOput.getText()).length() <= 8)
+                                IOput.setText(radix16to10(IOput.getText()));
+                            else
+                                IOput.setText(radix16to10(IOput.getText()).substring(IOput.getText().length() - 8, IOput.getText().length()));
+                        }
                     }
                 }
                 else if(OperatingMode==1)
@@ -361,76 +363,92 @@ public class TI_LCD_Programmer extends JFrame
             }
         });
         a1SCButton.addActionListener(e -> {
-            if (isHEX) {
-                if (OperatingMode == 0) {
-                    OperationLabel.setText("1'sC");
-                    if (isOperator)               //如果上一个是运算符 直接切换
-                    {
-                        nowOperator = 0;
-                        getOperatorNumber();
-                    } else {
-                        isOperator = true;
-                        nowOperator = 0;
-                        getOperatorNumber();
-                        calculate();
+            if(isON) {
+                if (isHEX) {
+                    if (OperatingMode == 0) {
+                        OperationLabel.setText("1'sC");
+                        if (isOperator)               //如果上一个是运算符 直接切换
+                        {
+                            nowOperator = 0;
+                            getOperatorNumber();
+                        } else {
+                            isOperator = true;
+                            nowOperator = 0;
+                            getOperatorNumber();
+                            calculate();
+                        }
+                        answer = answer.negate().subtract(new BigDecimal(1));
+                        displayAnswer();
+                        updateAnswer();
                     }
-                    answer = answer.negate().subtract(new BigDecimal(1));
-                    displayAnswer();
-                    updateAnswer();
                 }
-            }
 //            else if (OperatingMode == 1)
 //            {
 //                isOperator = true;
 //                displayIOput("+");
 //            }
+            }
         });
         a2SCButton.addActionListener(e -> {
-            if (OperatingMode == 0)
-            {
-                OperationLabel.setText("2'sC");
-                if(!isNotEqualOperator)
-                {
+            if(isON) {
+                if (OperatingMode == 0) {
+                    OperationLabel.setText("2'sC");
+                    if (!isNotEqualOperator) {
 
-                    if (isOperator)               //如果上一个是运算符 直接切换
-                    {
+                        if (isOperator)               //如果上一个是运算符 直接切换
+                        {
+                            nowOperator = 0;
+                            getOperatorNumber();
+                        } else {
+                            isOperator = true;
+                            nowOperator = 0;
+                            getOperatorNumber();
+                            calculate();
+                        }
+                        answer = answer.negate();
+                        displayAnswer();
+                        updateAnswer();
+                    } else {
                         nowOperator = 0;
                         getOperatorNumber();
+                        second = second.negate();
+                        if (isDEC) {
+                            IOput.setText(second.toString());
+                            tmp = "" + second.toString();
+                        } else if (isHEX) {
+                            IOput.setText(radix10to16(second.toString()));
+                            tmp = "" + radix10to16(second.toString());
+                        }
+                        isNotEqualOperator = false;
                     }
-                    else
-                    {
-                        isOperator = true;
-                        nowOperator = 0;
-                        getOperatorNumber();
-                        calculate();
-                    }
-                    answer = answer.negate();
-                    displayAnswer();
-                    updateAnswer();
-                }
-                else
-                {
-                    nowOperator = 0;
-                    getOperatorNumber();
-                    second = second.negate();
-                    if (isDEC)
-                    {
-                        IOput.setText(second.toString());
-                        tmp = "" + second.toString();
-                    }
-                    else if (isHEX)
-                    {
-                        IOput.setText(radix10to16(second.toString()));
-                        tmp = "" + radix10to16(second.toString());
-                    }
-                    isNotEqualOperator = false;
-                }
 
+                } else if (OperatingMode == 1) {
+                    isOperator = true;
+                    displayIOput("\u00AD");
+                }
             }
-            else if (OperatingMode == 1)
+        });
+        SkinButton.addActionListener(e->{
+//            if(isON)
+//            {
+                if(isModern) {
+                    isModern = false;
+                    SkinButton.setText("Vintage");
+                }
+                else {
+                    isModern = true;
+                    SkinButton.setText("Modern");
+                }
+                initLayout();
+//            }
+        });
+        KButton.addActionListener(e->{
+            if(isON)
             {
-                isOperator = true;
-                displayIOput("\u00AD");
+                if(isOverflow) {
+                    isOverflow = false;
+                    OverFlow.setText("");
+                }
             }
         });
     }
@@ -498,46 +516,80 @@ public class TI_LCD_Programmer extends JFrame
     {
         Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
         JButton[] HexButton = {AButton, bButton, CButton, dButton, EButton, FButton,a1SCButton,ORButton,ANDButton,XORButton,SHFButton};//a1SCButton,a2SCButton,ORButton,ANDButton,XORButton,SHFButton
-        for (JButton hexBUtton : HexButton)
+        if(!isModern) {
+            for (JButton hexBUtton : HexButton) {
+                hexBUtton.setBorderPainted(false);//取消边框
+                hexBUtton.setBackground(new Color(62, 68, 79));//设置背景颜色
+                hexBUtton.setFocusPainted(false);//取消聚焦
+                hexBUtton.setForeground(new Color(255, 255, 255));//设置按钮上的字体颜色
+                hexBUtton.setFont(buttonFont);
+                hexBUtton.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        super.mouseEntered(e);
+                        hexBUtton.setBackground(new Color(32, 38, 49));
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        super.mouseExited(e);
+                        hexBUtton.setBackground(new Color(62, 68, 79));
+                    }
+                });
+                dotButton.setForeground(new Color(188, 189, 194));
+                dotButton.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        super.mouseEntered(e);
+                        dotButton.setBackground(new Color(188, 189, 194));
+
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        super.mouseExited(e);
+                        dotButton.setBackground(new Color(188, 189, 194));
+                    }
+                });
+            }
+        }
+        else
         {
-            hexBUtton.setBorderPainted(false);//取消边框
-            hexBUtton.setBackground(new Color(62, 68, 79));//设置背景颜色
-            hexBUtton.setFocusPainted(false);//取消聚焦
-            hexBUtton.setForeground(new Color(255, 255, 255));//设置按钮上的字体颜色
-            hexBUtton.setFont(buttonFont);
-            hexBUtton.addMouseListener(new MouseAdapter()
-            {
-                @Override
-                public void mouseEntered(MouseEvent e)
-                {
-                    super.mouseEntered(e);
-                    hexBUtton.setBackground(new Color(32, 38, 49));
-                }
+            for (JButton hexBUtton : HexButton) {
+                hexBUtton.setBorderPainted(false);//取消边框
+                hexBUtton.setBackground(new Color(248, 248, 249));//设置背景颜色
+                hexBUtton.setFocusPainted(false);//取消聚焦
+                hexBUtton.setForeground(Color.BLACK);//设置按钮上的字体颜色
+                hexBUtton.setFont(buttonFont);
+                hexBUtton.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        super.mouseEntered(e);
+                        hexBUtton.setBackground(new Color(0xD3D3D4));
+                    }
 
-                @Override
-                public void mouseExited(MouseEvent e)
-                {
-                    super.mouseExited(e);
-                    hexBUtton.setBackground(new Color(62, 68, 79));
-                }
-            });
-            dotButton.setForeground(new Color(188, 189, 194));
-            dotButton.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e)
-                {
-                    super.mouseEntered(e);
-                    dotButton.setBackground(new Color(188, 189, 194));
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        super.mouseExited(e);
+                        hexBUtton.setBackground(new Color(248, 248, 249));
+                    }
+                });
+                dotButton.setForeground(new Color(212, 212, 213));
+                dotButton.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        super.mouseEntered(e);
+                        dotButton.setBackground(new Color(248, 248, 249));
 
-                }
+                    }
 
-                @Override
-                public void mouseExited(MouseEvent e)
-                {
-                    super.mouseExited(e);
-                    dotButton.setBackground(new Color(188, 189, 194));
-                }
-            });
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        super.mouseExited(e);
+                        dotButton.setBackground(new Color(248, 248, 249));
+                    }
+                });
+            }
         }
     }
     private void SHIFT_HEXtoDEC_DISPLAY()
@@ -551,166 +603,239 @@ public class TI_LCD_Programmer extends JFrame
     private void hideHEXrelatedButton() {
         Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
         JButton[] HexButton = {AButton, bButton, CButton, dButton, EButton, FButton,a1SCButton,ORButton,ANDButton,XORButton,SHFButton};
-        for (JButton hexBUtton : HexButton) {
-            hexBUtton.setBorderPainted(false);//取消边框
-            hexBUtton.setBackground(new Color(62, 68, 79));//设置背景颜色
-            hexBUtton.setFocusPainted(false);//取消聚焦
-            hexBUtton.setForeground(new Color(62, 68, 79));//设置按钮上的字体颜色
-            hexBUtton.setFont(buttonFont);
-            hexBUtton.addMouseListener(new MouseAdapter()
-            {
+        if(!isModern) {
+            for (JButton hexBUtton : HexButton) {
+                hexBUtton.setBorderPainted(false);//取消边框
+                hexBUtton.setBackground(new Color(62, 68, 79));//设置背景颜色
+                hexBUtton.setFocusPainted(false);//取消聚焦
+                hexBUtton.setForeground(new Color(62, 68, 79));//设置按钮上的字体颜色
+                hexBUtton.setFont(buttonFont);
+                hexBUtton.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        super.mouseEntered(e);
+                        hexBUtton.setBackground(new Color(62, 68, 79));
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        super.mouseExited(e);
+                        hexBUtton.setBackground(new Color(62, 68, 79));
+                    }
+                });
+            }
+            dotButton.setForeground(new Color(26, 23, 23));
+            dotButton.addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseEntered(MouseEvent e)
-                {
+                public void mouseEntered(MouseEvent e) {
                     super.mouseEntered(e);
-                    hexBUtton.setBackground(new Color(62, 68, 79));
+                    dotButton.setBackground(new Color(138, 138, 138));
+
                 }
 
                 @Override
-                public void mouseExited(MouseEvent e)
-                {
+                public void mouseExited(MouseEvent e) {
                     super.mouseExited(e);
-                    hexBUtton.setBackground(new Color(62, 68, 79));
+                    dotButton.setBackground(new Color(188, 189, 194));
                 }
             });
         }
-        dotButton.setForeground(new Color(26, 23, 23));
-        dotButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e)
-            {
-                super.mouseEntered(e);
-                dotButton.setBackground(new Color(138, 138, 138));
+        else
+        {
+            for (JButton hexBUtton : HexButton) {
+                hexBUtton.setBorderPainted(false);//取消边框
+                hexBUtton.setBackground(new Color(248, 248, 249));//设置背景颜色
+                hexBUtton.setFocusPainted(false);//取消聚焦
+                hexBUtton.setForeground(new Color(212, 212, 213));//设置按钮上的字体颜色
+                hexBUtton.setFont(buttonFont);
+                hexBUtton.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        super.mouseEntered(e);
+                        hexBUtton.setBackground(new Color(248, 248, 249));
+                    }
 
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        super.mouseExited(e);
+                        hexBUtton.setBackground(new Color(248, 248, 249));
+                    }
+                });
             }
+            dotButton.setForeground(Color.BLACK);
+            dotButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    super.mouseEntered(e);
+                    dotButton.setBackground(new Color(0xD3D3D4));
 
-            @Override
-            public void mouseExited(MouseEvent e)
-            {
-                super.mouseExited(e);
-                dotButton.setBackground(new Color(188, 189, 194));
-            }
-        });
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    super.mouseExited(e);
+                    dotButton.setBackground(new Color(248, 248, 249));
+                }
+            });
+        }
     }
 
     private void initNumberButton()
     {
         a0Button.addActionListener(e ->
         {
-            isOperator = false;
-            displayIOput("0");
+            if(isON) {
+                isOperator = false;
+                displayIOput("0");
+            }
         });
         a1Button.addActionListener(e ->
         {
-            isOperator = false;
-            displayIOput("1");
+            if(isON) {
+                isOperator = false;
+                displayIOput("1");
+            }
         });
         a2Button.addActionListener(e ->
         {
-            isOperator = false;
-            displayIOput("2");
+            if(isON) {
+                isOperator = false;
+                displayIOput("2");
+            }
         });
         a3Button.addActionListener(e -> {
-            isOperator = false;
-            displayIOput("3");
+            if(isON) {
+                isOperator = false;
+                displayIOput("3");
+            }
         });
         a4Button.addActionListener(e -> {
-            isOperator = false;
-            displayIOput("4");
+            if(isON) {
+                isOperator = false;
+                displayIOput("4");
+            }
         });
         a5Button.addActionListener(e -> {
-            isOperator = false;
-            displayIOput("5");
+            if(isON) {
+                isOperator = false;
+                displayIOput("5");
+            }
         });
         a6Button.addActionListener(e -> {
-            isOperator = false;
-            displayIOput("6");
+            if(isON) {
+                isOperator = false;
+                displayIOput("6");
+            }
         });
         a7Button.addActionListener(e -> {
-            isOperator = false;
-            displayIOput("7");
+            if(isON) {
+                isOperator = false;
+                displayIOput("7");
+            }
         });
         a8Button.addActionListener(e -> {
-            isOperator = false;
-            displayIOput("8");
+            if(isON) {
+                isOperator = false;
+                displayIOput("8");
+            }
         });
         a9Button.addActionListener(e -> {
-            isOperator = false;
-            displayIOput("9");
+            if(isON) {
+                isOperator = false;
+                displayIOput("9");
+            }
         });
         AButton.addActionListener(e -> {
-            if (isHEX)
-            { if (OperatingMode == 0) {
-                    isOperator = false;
-                    displayIOput("A");
-                } else if (OperatingMode == 1)
-                    displayIOput("A");
-        }
+            if(isON) {
+                if (isHEX) {
+                    if (OperatingMode == 0) {
+                        isOperator = false;
+                        displayIOput("A");
+                    } else if (OperatingMode == 1)
+                        displayIOput("A");
+                }
+            }
         });
         bButton.addActionListener(e -> {
-            if (isHEX) {
-                if (OperatingMode == 0) {
+            if(isON) {
+                if (isHEX) {
+                    if (OperatingMode == 0) {
 
-                    isOperator = false;
-                    displayIOput("B");
-                } else if (OperatingMode == 1)
-                    displayIOput("B");
+                        isOperator = false;
+                        displayIOput("B");
+                    } else if (OperatingMode == 1)
+                        displayIOput("B");
+                }
             }
         });
         CButton.addActionListener(e -> {
-            if (isHEX) {
-                if (OperatingMode == 0) {
-                    isOperator = false;
-                    displayIOput("C");
-                } else if (OperatingMode == 1)
-                    displayIOput("C");
+            if(isON) {
+                if (isHEX) {
+                    if (OperatingMode == 0) {
+                        isOperator = false;
+                        displayIOput("C");
+                    } else if (OperatingMode == 1)
+                        displayIOput("C");
+                }
             }
         });
         dButton.addActionListener(e -> {
-            if (isHEX) {
-                if (OperatingMode == 0) {
-                    isOperator = false;
-                    displayIOput("D");
-                } else if (OperatingMode == 1)
-                    displayIOput("D");
+            if(isON) {
+                if (isHEX) {
+                    if (OperatingMode == 0) {
+                        isOperator = false;
+                        displayIOput("D");
+                    } else if (OperatingMode == 1)
+                        displayIOput("D");
+                }
             }
         });
         EButton.addActionListener(e -> {
-            if (isHEX) {
-                if (OperatingMode == 0) {
+            if(isON) {
+                if (isHEX) {
+                    if (OperatingMode == 0) {
 
-                    isOperator = false;
-                    displayIOput("E");
-                } else if (OperatingMode == 1)
-                    displayIOput("E");
+                        isOperator = false;
+                        displayIOput("E");
+                    } else if (OperatingMode == 1)
+                        displayIOput("E");
+                }
             }
         });
         FButton.addActionListener(e -> {
-            if (isHEX) {
-                if (OperatingMode == 0) {
-                    isOperator = false;
-                    displayIOput("F");
-                } else if (OperatingMode == 1)
-                    displayIOput("F");
+            if(isON) {
+                if (isHEX) {
+                    if (OperatingMode == 0) {
+                        isOperator = false;
+                        displayIOput("F");
+                    } else if (OperatingMode == 1)
+                        displayIOput("F");
+                }
             }
         });
         dotButton.addActionListener(e -> {
-            if(!isHEX) {
-                isOperator = false;
-                displayIOput(".");
+            if(isON) {
+                if (!isHEX) {
+                    isOperator = false;
+                    displayIOput(".");
+                }
             }
         });
         OPButton.addActionListener(e ->
         {
-            if(OperatingMode!=0) {
-                isOperator = true;
-                displayIOput("(");
+            if(isON) {
+                if (OperatingMode != 0) {
+                    isOperator = true;
+                    displayIOput("(");
+                }
             }
         });
         CPButton.addActionListener(e -> {
-            if(OperatingMode!=0) {
-                isOperator = true;
-                displayIOput(")");
+            if(isON) {
+                if (OperatingMode != 0) {
+                    isOperator = true;
+                    displayIOput(")");
+                }
             }
         });
     }
@@ -719,15 +844,17 @@ public class TI_LCD_Programmer extends JFrame
     {
         ONorCLRButton.addActionListener(e -> {
             isON = true;
-            if(OperatingMode==0)
-                OperationModeLabel.setText("Single");
-            else
-                OperationModeLabel.setText("Mixed");
+//            if(OperatingMode==0)
+//                OperationModeLabel.setText("Single");
+//            else
+//                OperationModeLabel.setText("Mixed");
             //开机后清零 然后显示0；
             if (!isONforCLR)
             {
                 isONforCLR = true;  //转变开机键功能
                 isDEC = true;
+                OperatingMode=0;//开机为DEC且为单步
+                ModeButton.setText("Single");
                 IOput.setText("0");
                 OverFlow.setText("");
                 DECLabel.setText("DEC");
@@ -749,7 +876,7 @@ public class TI_LCD_Programmer extends JFrame
             //清零 然后关机
             clearall();
             OperationLabel.setText("");
-            OperationModeLabel.setText("");
+//            OperationModeLabel.setText("");
             IOput.setText("");
             DECLabel.setText("");
             HEXLabel.setText("");
@@ -758,12 +885,13 @@ public class TI_LCD_Programmer extends JFrame
         });
         CEButton.addActionListener(e -> {
             //clear error 清除一位
-            if (!tmp.isEmpty())
-            {
-                tmp = tmp.substring(0, tmp.length() - 1);
-                IOput.setText(tmp);
-                if (tmp.isEmpty())
-                    IOput.setText("0");
+            if(isON) {
+                if (!tmp.isEmpty()) {
+                    tmp = tmp.substring(0, tmp.length() - 1);
+                    IOput.setText(tmp);
+                    if (tmp.isEmpty())
+                        IOput.setText("0");
+                }
             }
         });
     }
@@ -786,7 +914,7 @@ public class TI_LCD_Programmer extends JFrame
 
     private String radix16to10(String s)
     {
-        int DECcacluate = 0;
+        int DECcalculate = 0;
 //        System.out.println(s);
         for (int i = 0; i < s.length(); i++)
         {
@@ -794,56 +922,58 @@ public class TI_LCD_Programmer extends JFrame
             switch (s.charAt(i))
             {
                 case '0':
-                    DECcacluate += 0;
+                    DECcalculate += 0;
                     break;
                 case '1':
-                    DECcacluate += num;
+                    DECcalculate += num;
                     break;
                 case '2':
-                    DECcacluate += 2 * num;
+                    DECcalculate += 2 * num;
                     break;
                 case '3':
-                    DECcacluate += 3 * num;
+                    DECcalculate += 3 * num;
                     break;
                 case '4':
-                    DECcacluate += 4 * num;
+                    DECcalculate += 4 * num;
                     break;
                 case '5':
-                    DECcacluate += 5 * num;
+                    DECcalculate += 5 * num;
                     break;
                 case '6':
-                    DECcacluate += 6 * num;
+                    DECcalculate += 6 * num;
                     break;
                 case '7':
-                    DECcacluate += 7 * num;
+                    DECcalculate += 7 * num;
                     break;
                 case '8':
-                    DECcacluate += 8 * num;
+                    DECcalculate += 8 * num;
                     break;
                 case '9':
-                    DECcacluate += 9 * num;
+                    DECcalculate += 9 * num;
                     break;
                 case 'A':
-                    DECcacluate += 10 * num;
+                    DECcalculate += 10 * num;
                     break;
                 case 'B':
-                    DECcacluate += 11 * num;
+                    DECcalculate += 11 * num;
                     break;
                 case 'C':
-                    DECcacluate += 12 * num;
+                    DECcalculate += 12 * num;
                     break;
                 case 'D':
-                    DECcacluate += 13 * num;
+                    DECcalculate += 13 * num;
                     break;
                 case 'E':
-                    DECcacluate += 14 * num;
+                    DECcalculate += 14 * num;
                     break;
                 case 'F':
-                    DECcacluate += 15 * num;
+                    DECcalculate += 15 * num;
                     break;
             }
         }
-        return DECcacluate + "";
+//        System.out.println(DECcalculate);
+        return DECcalculate + "";
+
     }
 
     private void getCurrentText()
@@ -925,46 +1055,63 @@ public class TI_LCD_Programmer extends JFrame
         }
 //        System.out.println(intfirst);
 //        System.out.println(intsecond);
-        System.out.println(hasdot);
-        switch (lastOperator)
-        {
+//        System.out.println(hasdot);
+        switch (lastOperator) {
             case 1:
-                if(!hasdot) {
+                if (!hasdot) {
                     try {
-                        intanswer = Math.addExact(intfirst, intsecond);
+                        Math.addExact(intfirst, intsecond);
+                        answer = first.add(second);
                     } catch (ArithmeticException add) {
                         OverFlow.setText("WARNING:" + add.getMessage().toUpperCase(Locale.ROOT));
                         isOverflow = true;
                         answer = BigDecimal.valueOf(intfirst + intsecond);
                         return;
                     }
-                    answer = first.add(second);
                     if (!isOverflow) {
-                            if (String.valueOf(answer).length() > 8 && isDEC) {
+                        if (String.valueOf(answer).charAt(0) == '-') {
+                            if (String.valueOf(answer).length() > 9 && isDEC) {
                                 isOver8bits = true;
+                                if(isDEC)
                                 OverFlow.setText("WARNING:CONVERTED TO HEX");
                                 HEXButton.doClick();
+                            }
+                        } else {
+                            if (String.valueOf(answer).length() > 8 && isDEC) {
+                                isOver8bits = true;
+                                if(isDEC)
+                                OverFlow.setText("WARNING:CONVERTED TO HEX");
+                                HEXButton.doClick();
+                            }
                         }
                     } else {
-                        if (String.valueOf(answer).length() <= 8) {
-                            isOverflow = false;
-                            OverFlow.setText("");
+                        if (String.valueOf(answer).charAt(0) == '-') {
+                            if (String.valueOf(answer).length() <= 9) {
+                                isOverflow = false;
+                                OverFlow.setText("");
+                            }
+                        } else {
+                            if (String.valueOf(answer).length() <= 8) {
+                                isOverflow = false;
+                                OverFlow.setText("");
+                            }
                         }
+
                     }
-                }
-                else {
+                } else {
                     try {
-                        answer=floatoperateExact(first, second, 1);
+                        answer = isOverFlow(first, second, 1);
 //                        System.out.println(floatanswer);
                     } catch (DECoverflow e) {
-                        System.out.println(e.getMessage());
-                        int location=0;
+//                        System.out.println(e.getMessage());
+                        int location = 0;
                         if (e.getMessage().equals("integer overflow")) {
                             isOverflow = true;
                             OverFlow.setText("WARNING:" + e.getMessage().toUpperCase(Locale.ROOT));
                             return;
                         } else if ((e.getMessage().equals("abs(answer) > 9999999!") || (e.getMessage().equals("abs(answer) < .00000001")))) {
                             isOver8bits = true;
+                            if(isDEC)
                             OverFlow.setText("WARNING:CONVERTED TO HEX");
                             answer = first.add(second);
                             HEXButton.doClick();
@@ -976,27 +1123,47 @@ public class TI_LCD_Programmer extends JFrame
                                     break;
                                 }
                             }
-                            answer=answer.setScale(7-location,RoundingMode.HALF_EVEN);
+                            answer = answer.setScale(7 - location, RoundingMode.HALF_EVEN);
                         }
                     }
                 }
                 break;
             case 2:
-                if(!hasdot) {
+                if (!hasdot) {
                     try {
-                        intanswer = Math.subtractExact(intfirst, intsecond);
+//                        System.out.println(intfirst - intsecond);
+                        answer = first.subtract(second);
+                        Math.subtractExact(intfirst, intsecond);
+//                        System.out.println(answer);
                     } catch (ArithmeticException add) {
                         OverFlow.setText("WARNING:" + add.getMessage().toUpperCase(Locale.ROOT));
                         isOverflow = true;
-                        answer = BigDecimal.valueOf(intfirst - intsecond);
+//                        answer = BigDecimal.valueOf(intfirst - intsecond);
                         return;
                     }
-                    answer = first.subtract(second);
+//                    answer = first.subtract(second);
                     if (!isOverflow) {
-                        if (String.valueOf(answer).length() > 8 && isDEC) {
-                            isOver8bits = true;
-                            OverFlow.setText("WARNING:CONVERTED TO HEX");
-                            HEXButton.doClick();
+                        if (String.valueOf(answer).charAt(0) == '-') {
+                            if (String.valueOf(answer).length() > 9 && isDEC) {
+                                isOver8bits = true;
+                                if(isDEC)
+                                OverFlow.setText("WARNING:CONVERTED TO HEX");
+                                HEXButton.doClick();
+                            }
+                        } else {
+                            if (String.valueOf(answer).length() > 8 && isDEC) {
+                                isOver8bits = true;
+                                if(isDEC)
+                                OverFlow.setText("WARNING:CONVERTED TO HEX");
+                                HEXButton.doClick();
+                            }
+                        }
+                    } else {
+                        if (String.valueOf(answer).charAt(0) == '-') {
+                            if (String.valueOf(answer).length() <= 9) {
+                                isOverflow = false;
+                                OverFlow.setText("");
+                            }
                         } else {
                             if (String.valueOf(answer).length() <= 8) {
                                 isOverflow = false;
@@ -1004,11 +1171,9 @@ public class TI_LCD_Programmer extends JFrame
                             }
                         }
                     }
-                }
-                else
-                {
+                } else {
                     try {
-                         answer=floatoperateExact(first, second, 2);
+                        answer = isOverFlow(first, second, 2);
                     } catch (DECoverflow e) {
                         int location = 0;
                         if (e.getMessage().equals("integer overflow")) {
@@ -1017,6 +1182,7 @@ public class TI_LCD_Programmer extends JFrame
                             return;
                         } else if ((e.getMessage().equals("abs(answer) > 9999999!") || (e.getMessage().equals("abs(answer) < .00000001")))) {
                             isOver8bits = true;
+                            if(isDEC)
                             OverFlow.setText("WARNING:CONVERTED TO HEX");
                             answer = first.subtract(second);
                             HEXButton.doClick();
@@ -1029,33 +1195,50 @@ public class TI_LCD_Programmer extends JFrame
                                     break;
                                 }
                             }
-                            answer=answer.setScale(7-location,RoundingMode.HALF_EVEN);
+                            answer = answer.setScale(7 - location, RoundingMode.HALF_EVEN);
                         }
                     }
                 }
                 break;
             case 3:
-                if(!hasdot) {
+                if (!hasdot) {
                     try {
-                        intanswer = Math.multiplyExact(intfirst, intsecond);
+                        answer = first.multiply(second);
+                        Math.multiplyExact(intfirst, intsecond);
 //                    intanswer = intfirst + intsecond;
 //                    answer=Math.addExact(first,second);
                     } catch (ArithmeticException add) {
 //                    System.out.println(intanswer);
-                        System.out.println(add.getMessage());
+//                        System.out.println(add.getMessage());
                         OverFlow.setText("WARNING:" + add.getMessage().toUpperCase(Locale.ROOT));
 //                    OverFlow.setText("Warning:OverFlow!");
                         isOverflow = true;
                         answer = BigDecimal.valueOf(intfirst * intsecond);
                         return;
                     }
-                    answer = first.multiply(second);
+//                    answer = first.multiply(second);
                     if (!isOverflow) {
-                        System.out.println(intanswer);
-                        if (String.valueOf(answer).length() > 8 && isDEC) {
-                            isOver8bits = true;
-                            OverFlow.setText("WARNING:CONVERTED TO HEX");
-                            HEXButton.doClick();
+                        if (String.valueOf(answer).charAt(0) == '-') {
+                            if (String.valueOf(answer).length() > 9 && isDEC) {
+                                isOver8bits = true;
+                                if(isDEC)
+                                OverFlow.setText("WARNING:CONVERTED TO HEX");
+                                HEXButton.doClick();
+                            }
+                        } else {
+                            if (String.valueOf(answer).length() > 8 && isDEC) {
+                                isOver8bits = true;
+                                if(isDEC)
+                                OverFlow.setText("WARNING:CONVERTED TO HEX");
+                                HEXButton.doClick();
+                            }
+                        }
+                    }
+                    else {
+                    if (String.valueOf(answer).charAt(0) == '-') {
+                        if (String.valueOf(answer).length() <= 9) {
+                            isOverflow = false;
+                            OverFlow.setText("");
                         }
                     } else {
                         if (String.valueOf(answer).length() <= 8) {
@@ -1064,13 +1247,14 @@ public class TI_LCD_Programmer extends JFrame
                         }
                     }
                 }
+                }
                 else
                 {
                     try {
-                       answer=floatoperateExact(first, second, 3);
+                       answer= isOverFlow(first, second, 3);
 //                        System.out.println(floatanswer);
                     } catch (DECoverflow e) {
-                        System.out.println(e.getMessage());
+//                        System.out.println(e.getMessage());
                         int location = 0;
                         if (e.getMessage().equals("integer overflow")) {
                             isOverflow = true;
@@ -1078,7 +1262,8 @@ public class TI_LCD_Programmer extends JFrame
                             return;
                         } else if ((e.getMessage().equals("abs(answer) > 9999999!") || (e.getMessage().equals("abs(answer) < .00000001")))) {
                             isOver8bits = true;
-                            OverFlow.setText("WARNING:CONVERTED TO HEX");
+                            if(isDEC)
+                                OverFlow.setText("WARNING:CONVERTED TO HEX");
                             answer = first.multiply(second);
                             HEXButton.doClick();
                         } else {
@@ -1097,9 +1282,9 @@ public class TI_LCD_Programmer extends JFrame
                 break;
             case 4:
                 try {
-                   answer=floatoperateExact(first, second, 4);
+                   answer= isOverFlow(first, second, 4);
                 } catch (DECoverflow e) {
-                    System.out.println(e.getMessage());
+//                    System.out.println(e.getMessage());
                     int location = 0;
                     if (e.getMessage().equals("integer overflow")) {
                         isOverflow = true;
@@ -1107,10 +1292,10 @@ public class TI_LCD_Programmer extends JFrame
                         return;
                     } else if ((e.getMessage().equals("abs(answer) > 9999999!") || (e.getMessage().equals("abs(answer) < .00000001")))) {
                         isOver8bits = true;
+                        if(isDEC)
                         OverFlow.setText("WARNING:CONVERTED TO HEX");
                         answer = first.divide(second, 2, RoundingMode.HALF_UP);
                         HEXButton.doClick();
-                        answer = first.divide(second, 7 - location, RoundingMode.HALF_UP);
                     } else {
                         answer = first.divide(second, 2, RoundingMode.HALF_UP);
 //                        String temp = answer.toString();
@@ -1163,6 +1348,127 @@ public class TI_LCD_Programmer extends JFrame
         }
     }
 
+    public static BigDecimal isOverFlow(BigDecimal x, BigDecimal y, int operator)throws DECoverflow
+    {
+        BigDecimal r= BigDecimal.valueOf(0);
+        String temp = r.toString();
+        int location=0;
+        switch (operator)
+        {
+            case 1:{
+                r=x.add(y);
+                temp=r.toString();
+                for (int i = 0; i < temp.length(); i++) {
+                    if (temp.charAt(i) == '.') {
+                        location = i;
+                        break;
+                    }
+                }
+                if(r.compareTo(BigDecimal.valueOf(0))==-1) {
+                    if (8 - location < 0)
+                        r = r.setScale(0, RoundingMode.HALF_EVEN);
+                    else
+                        r = r.setScale(8-location, RoundingMode.HALF_EVEN);
+                }
+                else {
+                    if (7 - location < 0)
+                        r = r.setScale(0, RoundingMode.HALF_EVEN);
+                    else
+                        r = r.setScale(7-location, RoundingMode.HALF_EVEN);
+                }
+            }break;
+            case 2:{
+                r=x.subtract(y);
+                temp=r.toString();
+                for (int i = 0; i < temp.length(); i++) {
+                    if (temp.charAt(i) == '.') {
+                        location = i;
+                        break;
+                    }
+                }
+                if(r.compareTo(BigDecimal.valueOf(0))==-1) {
+                    if (8 - location < 0)
+                        r = r.setScale(0, RoundingMode.HALF_EVEN);
+                    else
+                        r = r.setScale(8-location, RoundingMode.HALF_EVEN);
+                }
+                else {
+                    if (7 - location < 0)
+                        r = r.setScale(0, RoundingMode.HALF_EVEN);
+                    else
+                        r = r.setScale(7-location, RoundingMode.HALF_EVEN);
+                }
+            }break;
+            case 3: {
+                r = x.multiply(y);
+                temp=r.toString();
+//                System.out.println(r);
+                for (int i = 0; i < temp.length(); i++) {
+                    if (temp.charAt(i) == '.') {
+                        location = i;
+                        break;
+                    }
+                }
+                if(r.compareTo(BigDecimal.valueOf(0))==-1) {
+                    if (8 - location < 0)
+                        r = r.setScale(0, RoundingMode.HALF_EVEN);
+                    else
+                        r = r.setScale(8-location, RoundingMode.HALF_EVEN);
+                }
+                else {
+                    if (7 - location < 0)
+                        r = r.setScale(0, RoundingMode.HALF_EVEN);
+                    else
+                        r = r.setScale(7-location, RoundingMode.HALF_EVEN);
+                }
+//                r.setScale(7-location,RoundingMode.HALF_EVEN);
+                break;
+            }
+            case 4: {
+                r = x.divide(y, 2, RoundingMode.HALF_EVEN);
+                temp=r.toString();
+                for (int i = 0; i < temp.length(); i++) {
+                    if (temp.charAt(i) == '.') {
+                        location = i;
+                        break;
+                    }
+                }
+//                System.out.println(location);
+                if(r.compareTo(BigDecimal.valueOf(0))==-1) {
+                    if (8 - location < 0)
+                        r = r.setScale(0, RoundingMode.HALF_EVEN);
+                    else
+                        r = x.divide(y, 8 - location, RoundingMode.HALF_EVEN);
+                }
+                else {
+                    if (7 - location < 0)
+                        r = r.setScale(0, RoundingMode.HALF_EVEN);
+                    else
+                        r = x.divide(y, 7 - location, RoundingMode.HALF_EVEN);
+                }
+                break;
+            }
+        }
+//        int precision=0;
+//        for(int i=0;i<r.toString().length();i++)
+//        {
+//            if(r.toString().charAt(i)=='0')
+//                precision++;
+//        }
+        if(r.compareTo(BigDecimal.valueOf(Integer.MAX_VALUE))==1||r.compareTo(BigDecimal.valueOf(Integer.MIN_VALUE))==-1)
+            throw new DECoverflow("integer overflow");
+        else if(r.compareTo(BigDecimal.valueOf(99999999))==1||r.compareTo(BigDecimal.valueOf(-99999999))==-1)
+            throw new DECoverflow("abs(answer) > 9999999!");
+//        else if(precision>8)//r.compareTo(BigDecimal.valueOf(0.00000001))==-1
+//            throw new DECoverflow("abs(answer) < .00000001");
+//        System.out.println(r);
+        return r;
+    }
+    static class DECoverflow extends IOException
+    {
+        public DECoverflow(){super();}
+        public DECoverflow(String s){super(s);}
+    }
     private int ANDoperator()
     {
         if(OperatingMode==0)
@@ -1411,16 +1717,18 @@ public class TI_LCD_Programmer extends JFrame
             {
                 if (isOperator)
                     tmp = "";
+//                System.out.println(s);
                 if(s.charAt(0)=='-') {
                     if (tmp.length() < 9)
                         tmp = tmp + s;
+                    IOput.setText(tmp);
                 }
-                else
-                if (tmp.length() < 8)
+                else if (tmp.length() < 8) {
                     tmp = tmp + s;
-                IOput.setText(tmp);
-                if (isOverflow())
-                    IOput.setText(tmp.substring(tmp.length() - 8));
+                    IOput.setText(tmp);
+                }
+//                    if (isOverflow())
+//                        IOput.setText(tmp.substring(tmp.length() - 8));
             }
             else if (OperatingMode == 1)
             {
@@ -1446,6 +1754,7 @@ public class TI_LCD_Programmer extends JFrame
         isOperator = false;   //是否是运算符
         isOverflow =false;
         isOver8bits=false;
+        hasdot=false;
         operatorNumber = "";            //操作数2
         tmp = "";                  //用于在ioput中显示
         first = new BigDecimal(0);
@@ -1457,6 +1766,7 @@ public class TI_LCD_Programmer extends JFrame
         infix = "";
         postfix = "";
         tmp_when_calculate = "";
+        OverFlow.setText("");
         isEqualOperator = false;
         record_last_number = new BigDecimal(0);
         record_last_operator = 0;
@@ -1629,6 +1939,8 @@ public class TI_LCD_Programmer extends JFrame
         OPButton.registerKeyboardAction(e -> OPButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_9, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
         OPButton.registerKeyboardAction(e -> CPButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_0, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
         ModeButton.registerKeyboardAction(e -> ModeButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
+        SkinButton.registerKeyboardAction(e->SkinButton.doClick(),KeyStroke.getKeyStroke(KeyEvent.VK_S,InputEvent.SHIFT_MASK),JComponent.WHEN_IN_FOCUSED_WINDOW);
+        KButton.registerKeyboardAction(e->KButton.doClick(),KeyStroke.getKeyStroke(KeyEvent.VK_K,0),JComponent.WHEN_IN_FOCUSED_WINDOW);
         IOput.registerKeyboardAction(e ->
         {
             if (tmp.length() - 8 - index > 0)
@@ -1652,33 +1964,98 @@ public class TI_LCD_Programmer extends JFrame
         JButton[] ToolButton = {
                 DECButton, HEXButton, OCTButton, OFFButton, ONorCLRButton,
                 STOButton, RCLButton, SUMButton, OPButton, CPButton, KButton, DivButton,  MulButton,  SubButton,
-                AddButton, CEButton, EqualButton,ModeButton,a1SCButton,a2SCButton,ORButton,ANDButton,XORButton,SHFButton};
-        for (int i = 0; i < ToolButton.length; i++)
-        {
+                AddButton, CEButton, EqualButton,ModeButton,a1SCButton,a2SCButton,ORButton,ANDButton,XORButton,SHFButton,SkinButton,KButton};
+        for (int i = 0; i < ToolButton.length; i++) {
             //Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
-            ToolButton[i].setBorderPainted(false);//取消边框
-            ToolButton[i].setBackground(new Color(62, 68, 79));//设置背景颜色
-            ToolButton[i].setFocusPainted(false);//取消聚焦
-            ToolButton[i].setForeground(new Color(255, 255, 255));//设置按钮上的字体颜色
-            ToolButton[i].setFont(buttonFont);
-            int finalI = i;
-            ToolButton[i].addMouseListener(new MouseAdapter()
-            {
-                @Override
-                public void mouseEntered(MouseEvent e)
-                {
-                    super.mouseEntered(e);
-                    ToolButton[finalI].setBackground(new Color(32, 38, 49));
-                }
+            if (!isModern) {
+                ToolButton[i].setBorderPainted(false);//取消边框
+                ToolButton[i].setBackground(new Color(62, 68, 79));//设置背景颜色
+                ToolButton[i].setFocusPainted(false);//取消聚焦
+                ToolButton[i].setForeground(new Color(255, 255, 255));//设置按钮上的字体颜色
+                ToolButton[i].setFont(buttonFont);
+                int finalI = i;
+                ToolButton[i].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        super.mouseEntered(e);
+                        ToolButton[finalI].setBackground(new Color(32, 38, 49));
+                    }
 
-                @Override
-                public void mouseExited(MouseEvent e)
-                {
-                    super.mouseExited(e);
-                    ToolButton[finalI].setBackground(new Color(62, 68, 79));
-                }
-            });
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        super.mouseExited(e);
+                        ToolButton[finalI].setBackground(new Color(62, 68, 79));
+                    }
+                });
+            }
+            else
+            {
+                ToolButton[i].setBorderPainted(false);//取消边框
+                ToolButton[i].setBackground(new Color(248, 248, 249));//设置背景颜色
+                ToolButton[i].setFocusPainted(false);//取消聚焦
+                ToolButton[i].setForeground(Color.BLACK);//设置按钮上的字体颜色
+                ToolButton[i].setFont(buttonFont);
+                int finalI = i;
+                ToolButton[i].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        super.mouseEntered(e);
+                        ToolButton[finalI].setBackground(new Color(0xD3D3D4));
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        super.mouseExited(e);
+                        ToolButton[finalI].setBackground(new Color(248, 248, 249));
+                    }
+                });
+                EqualButton.setBackground(new Color(185,160,212));
+                EqualButton.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        super.mouseEntered(e);
+                        EqualButton.setBackground(new Color(176,132,223));
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        super.mouseExited(e);
+                        EqualButton.setBackground(new Color(185,160,212));
+                    }
+                });
+                ModeButton.setBackground(new Color(0x89b3d9));
+                ModeButton.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        super.mouseEntered(e);
+                        ModeButton.setBackground(new Color(0x729fd8));
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        super.mouseExited(e);
+                        ModeButton.setBackground(new Color(0x89b3d9));
+                    }
+                });
+                SkinButton.setBackground(new Color(118,192,197));
+                SkinButton.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        super.mouseEntered(e);
+                        SkinButton.setBackground(new Color(59,188,196));
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        super.mouseExited(e);
+                        SkinButton.setBackground(new Color(118,192,197));
+                    }
+                });
+            }
+            ModeButton.setFont(new Font("Times New Romans", Font.BOLD, 20));//设置字体);
+            SkinButton.setFont(new Font("Times New Romans", Font.BOLD, 17));//设置字体);
         }
+
         hideHEXrelatedButton();
     }
 
@@ -1691,31 +2068,54 @@ public class TI_LCD_Programmer extends JFrame
                 a0Button, dotButton
         };
         Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);
-        for (int i = 0; i < DigitalButton.length; i++)
+        if(!isModern) {
+            for (int i = 0; i < DigitalButton.length; i++) {
+                DigitalButton[i].setBorderPainted(false);
+                DigitalButton[i].setBackground(new Color(188, 189, 194));
+                DigitalButton[i].setFocusPainted(false);
+                DigitalButton[i].setForeground(new Color(26, 23, 23));
+                DigitalButton[i].setFont(buttonFont);
+                int finalI = i;
+                DigitalButton[i].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        super.mouseEntered(e);
+                        DigitalButton[finalI].setBackground(new Color(138, 138, 138));
+
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        super.mouseExited(e);
+                        DigitalButton[finalI].setBackground(new Color(188, 189, 194));
+                    }
+                });
+            }
+        }
+        else
         {
-            DigitalButton[i].setBorderPainted(false);
-            DigitalButton[i].setBackground(new Color(188, 189, 194));
-            DigitalButton[i].setFocusPainted(false);
-            DigitalButton[i].setForeground(new Color(26, 23, 23));
-            DigitalButton[i].setFont(buttonFont);
-            int finalI = i;
-            DigitalButton[i].addMouseListener(new MouseAdapter()
-            {
-                @Override
-                public void mouseEntered(MouseEvent e)
-                {
-                    super.mouseEntered(e);
-                    DigitalButton[finalI].setBackground(new Color(138, 138, 138));
+            for (int i = 0; i < DigitalButton.length; i++) {
+                DigitalButton[i].setBorderPainted(false);
+                DigitalButton[i].setBackground(new Color(248, 248, 249));
+                DigitalButton[i].setFocusPainted(false);
+                DigitalButton[i].setForeground(Color.BLACK);
+                DigitalButton[i].setFont(buttonFont);
+                int finalI = i;
+                DigitalButton[i].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        super.mouseEntered(e);
+                        DigitalButton[finalI].setBackground(new Color(0xD3D3D4));
 
-                }
+                    }
 
-                @Override
-                public void mouseExited(MouseEvent e)
-                {
-                    super.mouseExited(e);
-                    DigitalButton[finalI].setBackground(new Color(188, 189, 194));
-                }
-            });
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        super.mouseExited(e);
+                        DigitalButton[finalI].setBackground(new Color(248, 248, 249));
+                    }
+                });
+            }
         }
     }
 
@@ -1724,7 +2124,7 @@ public class TI_LCD_Programmer extends JFrame
         Font putFont = new Font("Times New Romans", Font.BOLD, 65);
         Font labelFont = new Font("Times New Romans", Font.BOLD, 18);
         Font labelFont1 = new Font("Times New Romans", Font.BOLD, 20);
-        Font BaseFont = new Font("Times New Romans", Font.BOLD, 22);
+        Font BaseFont = new Font("Times New Romans", Font.BOLD, 18);
         JLabel[] TextLabel={DECLabel,HEXLabel,OverFlow, OperationModeLabel};
         for(JLabel label:TextLabel)
         {
@@ -1737,6 +2137,7 @@ public class TI_LCD_Programmer extends JFrame
 //            switch (lastoperator)
 //            OperationLabel.setText();
 //        }
+        OverFlow.setForeground(Color.RED);
         OperationLabel.setFont(putFont);
         OperationLabel.setForeground(Color.BLACK);
         OperationLabel.setBorder(BorderFactory.createEmptyBorder());
@@ -1884,6 +2285,7 @@ public class TI_LCD_Programmer extends JFrame
     private JLabel OperationLabel;
     private JLabel OperationModeLabel;
     private JButton ModeButton;
+    private JButton SkinButton;
     private boolean isOperator = false;   //是否是运算符
     private String operatorNumber = "";            //操作数2
     private String tmp = "";                  //用于在ioput中显示
@@ -1915,73 +2317,6 @@ public class TI_LCD_Programmer extends JFrame
     private boolean isNotEqualOperator =false;
     private int index=0;
     private boolean resetIndex=false;
-    public static BigDecimal floatoperateExact(BigDecimal x, BigDecimal y, int operator)throws DECoverflow
-    {
-        BigDecimal r= BigDecimal.valueOf(0);
-        String temp = r.toString();
-        int location=0;
-        switch (operator)
-        {
-            case 1:{
-                r=x.add(y);
-                temp=r.toString();
-                for (int i = 0; i < temp.length(); i++) {
-                    if (temp.charAt(i) == '.') {
-                        location = i;
-                        break;
-                    }
-                }
-                r=r.setScale(7-location,RoundingMode.HALF_EVEN);
-            }break;
-            case 2:{
-                r=x.subtract(y);
-                temp=r.toString();
-                for (int i = 0; i < temp.length(); i++) {
-                    if (temp.charAt(i) == '.') {
-                        location = i;
-                        break;
-                    }
-                }
-                r=r.setScale(7-location,RoundingMode.HALF_EVEN);
-            }break;
-            case 3: {
-                r = x.multiply(y);
-                temp=r.toString();
-                System.out.println(r);
-                for (int i = 0; i < temp.length(); i++) {
-                    if (temp.charAt(i) == '.') {
-                        location = i;
-                        break;
-                    }
-                }
-                r=r.setScale(7-location,RoundingMode.HALF_EVEN);
-//                r.setScale(7-location,RoundingMode.HALF_EVEN);
-                break;
-            }
-            case 4: {
-                r = x.divide(y, 2, RoundingMode.HALF_EVEN);
-                temp=r.toString();
-                for (int i = 0; i < temp.length(); i++) {
-                    if (temp.charAt(i) == '.') {
-                        location = i;
-                        break;
-                    }
-                }
-                r = x.divide(y, 7-location, RoundingMode.HALF_EVEN);
-                break;
-            }
-        }
-        if(r.compareTo(BigDecimal.valueOf(Integer.MAX_VALUE))==1||r.compareTo(BigDecimal.valueOf(Integer.MIN_VALUE))==-1)
-            throw new DECoverflow("integer overflow");
-        else if(r.compareTo(BigDecimal.valueOf(99999999))==1||r.compareTo(BigDecimal.valueOf(-99999999))==-1)
-            throw new DECoverflow("abs(answer) > 9999999!");
-        else if(r.compareTo(BigDecimal.valueOf(0.00000001))==-1)
-            throw new DECoverflow("abs(answer) < .00000001");
-        return r;
-    }
-    static class DECoverflow extends IOException
-    {
-        public DECoverflow(){super();}
-        public DECoverflow(String s){super(s);}
-    }
+    private boolean isModern=true;
+
 }
