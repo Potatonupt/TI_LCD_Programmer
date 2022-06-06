@@ -43,6 +43,7 @@ public class TI_LCD_Programmer extends JFrame
                 }
             }
         });
+
         AddButton.addActionListener(e -> {
             if (isON)
             {
@@ -1210,7 +1211,10 @@ public class TI_LCD_Programmer extends JFrame
                     HEXButton.doClick();
                 }
                 else
+                {
                     isOver8bits = false;
+                    OverFlow.setText("");
+                }
             }
             else
             {
@@ -1222,11 +1226,13 @@ public class TI_LCD_Programmer extends JFrame
                     HEXButton.doClick();
                 }
                 else
+                {
                     isOver8bits = false;
+                    OverFlow.setText("");
+                }
             }
         }
     }
-
     private boolean Ishasdot()//判断现在输入以及过往输入是否有小数
     {
         for (int i = 0; i < IOput.getText().length(); i++)
@@ -1626,7 +1632,7 @@ public class TI_LCD_Programmer extends JFrame
                         if (tmp.length() < 10)
                             tmp = tmp + s;
                         if (tmp.charAt(1) == '0' && tmp.length() > 2)
-                            tmp = tmp.substring(2);
+                            tmp="-"+tmp.substring(2);
                         IOput.setText(tmp);
                     }
                     else
@@ -1634,7 +1640,7 @@ public class TI_LCD_Programmer extends JFrame
                         if (tmp.length() < 9)
                             tmp = tmp + s;
                         if (tmp.charAt(1) == '0' && tmp.length() > 2)
-                            tmp = tmp.substring(2);
+                            tmp="-"+tmp.substring(2);
                         IOput.setText(tmp);
                     }
                 }
