@@ -2126,6 +2126,13 @@ public class TI_LCD_Programmer extends JFrame
             {
                 if (isEqualOperator)
                     tmp = "";
+                if(isEqualOperator&&isOperator)
+                {
+                    tmp = "" + result.toString();
+                    isEqualOperator=false;
+                    infix="";
+                    postfix="";
+                }
                 tmp = tmp + s;
                 if (!resetIndex)
                     index = 0;
@@ -2171,6 +2178,7 @@ public class TI_LCD_Programmer extends JFrame
         tmp1 = new BigDecimal(0);
         tmp2 = new BigDecimal(0);
         isNotEqualOperator = false;
+        result=new BigDecimal(0);
     }
 
 
