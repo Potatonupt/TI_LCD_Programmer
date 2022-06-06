@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.Stack;
 import java.util.Locale;
@@ -353,7 +354,6 @@ public class TI_LCD_Programmer extends JFrame
                         calculateLastResult();
                         displayIOput(result.toString());
                     }
-
                 }
             }
         });
@@ -1062,8 +1062,8 @@ public class TI_LCD_Programmer extends JFrame
         }
         if (s.length() > 0)
         {
-            Integer temp = Integer.decode(s);
-            return Integer.toHexString(temp).toUpperCase(Locale.ROOT);
+            BigInteger temp = new BigInteger(s);
+            return temp.toString(16).toUpperCase(Locale.ROOT);
         }
         else
             return "";
@@ -1666,7 +1666,6 @@ public class TI_LCD_Programmer extends JFrame
             {
                 if (isEqualOperator)
                     tmp = "";
-                System.out.println(isEqualOperator);
                 tmp = tmp + s;
                 if (!resetIndex)
                     index = 0;
