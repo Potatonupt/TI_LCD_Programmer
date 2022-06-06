@@ -717,9 +717,8 @@ public class TI_LCD_Programmer extends JFrame
             }
         });
         a2SCButton.addActionListener(e -> {
-            if (isON)//&&!Ishasdot()
+            if (isON)
             {
-//                isDot=true;
                 hidedotButton();
                 if (OperatingMode == 0)
                 {
