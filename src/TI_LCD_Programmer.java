@@ -13,7 +13,6 @@ import java.util.Locale;
 public class TI_LCD_Programmer extends JFrame
 {
 
-
     //    private String lastoperator16;
     //clear 没做！！！
     private void initButton()
@@ -604,7 +603,6 @@ public class TI_LCD_Programmer extends JFrame
         HEXLabel.setText("HEX");
         showHEXrelatedButton();
     }
-
 
     private void SHIFT_HEXtoDEC_DISPLAY()
     {
@@ -1624,7 +1622,6 @@ public class TI_LCD_Programmer extends JFrame
             {
                 if (isOperator)
                     tmp = "";
-//                System.out.println(s);
                 if (s.charAt(0) == '-')
                 {
                     if (isShasdot)
@@ -1669,6 +1666,7 @@ public class TI_LCD_Programmer extends JFrame
             {
                 if (isEqualOperator)
                     tmp = "";
+                System.out.println(isEqualOperator);
                 tmp = tmp + s;
                 if (!resetIndex)
                     index = 0;
@@ -1885,6 +1883,7 @@ public class TI_LCD_Programmer extends JFrame
             if (tmp.length() - 8 - index > 0)
                 index++;
             resetIndex = true;
+            isEqualOperator=false;
             displayIOput("");
         }, KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
         IOput.registerKeyboardAction(e ->
@@ -1892,6 +1891,7 @@ public class TI_LCD_Programmer extends JFrame
             if (index > 0)
                 index--;
             resetIndex = true;
+            isEqualOperator=false;
             displayIOput("");
         }, KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
@@ -2241,7 +2241,6 @@ public class TI_LCD_Programmer extends JFrame
     private BigDecimal tmp2 = new BigDecimal(0);
     private boolean isOverflow = false;
     private boolean isOver8bits = false;
-    private boolean hasdot = false;
     private boolean isNotEqualOperator = false;
     private int index = 0;
     private boolean resetIndex = false;
