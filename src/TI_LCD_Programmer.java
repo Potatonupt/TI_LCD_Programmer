@@ -233,13 +233,28 @@ public class TI_LCD_Programmer extends JFrame
         CEButton.addActionListener(e -> {
             if (!tmp.isEmpty())
             {
-                if (tmp.charAt(tmp.length() - 1) == '.')//退格后检测是否有小数点，没有的话打开小数点按钮
+                boolean flag=false;
+//                if (tmp.charAt(tmp.length() - 1) == '.')//退格后检测是否有小数点，没有的话打开小数点按钮
+//                {
+//                    isDot = false;
+//                    showdotButton();
+//                    showBitoperationButton();//位运算按钮可用
+//                }
+
+                tmp = tmp.substring(0, tmp.length() - 1);
+                for(int i=0;i<tmp.length();i++)
+                    if(tmp.charAt(i)=='.')
+                    {
+                        flag=true;
+                        break;
+                    }
+                if(!flag)
                 {
                     isDot = false;
+                    isShasdot=true;
                     showdotButton();
                     showBitoperationButton();//位运算按钮可用
                 }
-                tmp = tmp.substring(0, tmp.length() - 1);
                 IOput.setText(tmp);
                 if (tmp.isEmpty())
                     IOput.setText("0");
@@ -274,8 +289,10 @@ public class TI_LCD_Programmer extends JFrame
         AddButton.addActionListener(e -> {
             if (isON)
             {
-                isDot = false;//小数点按钮可使用
-                showdotButton();
+                if(!isHEX) {
+                    isDot = false;//小数点按钮可使用
+                    showdotButton();
+                }
                 if (!Ishasdot())
                     showBitoperationButton();//位运算按钮可用
                 if (OperatingMode == 0)
@@ -310,8 +327,10 @@ public class TI_LCD_Programmer extends JFrame
         SubButton.addActionListener(e -> {
             if (isON)
             {
-                isDot = false;//小数点按钮可使用
-                showdotButton();
+                if(!isHEX) {
+                    isDot = false;//小数点按钮可使用
+                    showdotButton();
+                }
                 if (!Ishasdot())
                     showBitoperationButton();//位运算按钮可用
                 if (OperatingMode == 0)
@@ -346,8 +365,10 @@ public class TI_LCD_Programmer extends JFrame
         MulButton.addActionListener(e -> {
             if (isON)
             {
-                isDot = false;//小数点按钮可使用
-                showdotButton();
+                if(!isHEX) {
+                    isDot = false;//小数点按钮可使用
+                    showdotButton();
+                }
                 if (!Ishasdot())
                     showBitoperationButton();//位运算按钮可用
                 if (OperatingMode == 0)
@@ -382,8 +403,10 @@ public class TI_LCD_Programmer extends JFrame
         DivButton.addActionListener(e -> {
             if (isON)
             {
-                isDot = false;//小数点按钮可使用
-                showdotButton();
+                if(!isHEX) {
+                    isDot = false;//小数点按钮可使用
+                    showdotButton();
+                }
                 if (!Ishasdot())
                     showBitoperationButton();//位运算按钮可用
                 if (OperatingMode == 0)
@@ -717,6 +740,7 @@ public class TI_LCD_Programmer extends JFrame
                             calculate();
                         }
                         answer = answer.negate();
+//                        System.out.println(answer);
                         displayAnswer();
                         updateAnswer();
                     }
@@ -726,9 +750,18 @@ public class TI_LCD_Programmer extends JFrame
                         getOperatorNumber();
                         second = second.negate();
                         if (isDEC)
-                        {
-                            IOput.setText(second.toString());
+                        {//修改了一下补反运算的显示
+                                if(second.toString().charAt(0)=='-') {
+                                    if (second.toString().charAt(1) == '0')
+                                        IOput.setText("-" + second.toString().substring(2));
+                                    else
+                                        IOput.setText(second.toString());
+                                }
+                                else
+                                if (second.toString().charAt(0) == '0')
+                                    IOput.setText( second.toString().substring(1));
                             tmp = "" + second.toString();
+                            System.out.println(tmp);
                         }
                         else if (isHEX)
                         {
@@ -1094,6 +1127,7 @@ public class TI_LCD_Programmer extends JFrame
     private void getOperatorNumber()           //获取当前操作数
     {
         operatorNumber = "" + tmp;
+//        System.out.println(operatorNumber);
         if (!operatorNumber.isEmpty())
         {
             if (isDEC)
@@ -1173,6 +1207,7 @@ public class TI_LCD_Programmer extends JFrame
 
     private void displayAnswer()   //显示结果
     {
+//        System.out.println(answer);
         if (isDEC)
             displayIOput(answer.toString());
         if (isHEX)
@@ -1597,8 +1632,9 @@ public class TI_LCD_Programmer extends JFrame
         }
         if (s.length() > 0)
         {
-            BigInteger temp = new BigInteger(s);
-            return temp.toString(16).toUpperCase(Locale.ROOT);
+            Integer temp = Integer.decode(s);
+            return Integer.toHexString(temp).toUpperCase(Locale.ROOT);
+
         }
         else
             return "";
@@ -2076,16 +2112,25 @@ public class TI_LCD_Programmer extends JFrame
         if (isON)
         {
 
-            for (int i = 0; i < s.length() && !isShasdot; i++)
-            {
-                if (s.charAt(i) == '.')
-                {
-                    isShasdot = true;
-                    break;
+//            else
+//            {
+//                isShasdot=true;
+//                isDot = false;
+//                showdotButton();
+//            }
+//            System.out.println(s);
+            if(!isShasdot) {
+                for (int i = 0; i < s.length(); i++) {
+
+                    if (s.charAt(i) == '.') {
+                        isShasdot = true;
+                        break;
+                    }
                 }
             }
             if (OperatingMode == 0)
             {
+
                 if (isOperator)
                     tmp = "";
                 if (s.charAt(0) == '-')
@@ -2116,9 +2161,17 @@ public class TI_LCD_Programmer extends JFrame
                     {
                         if (tmp.length() < 8)
                             tmp = tmp + s;
+                        if(tmp.length()==8&&tmp.charAt(0)!='-')
+                        {
+                            isShasdot=false;
+                            isDot = true;
+                            hidedotButton();
+                        }
                     }
+
                     if (tmp.charAt(0) == '0' && tmp.length() > 1)
                         tmp = tmp.substring(1);
+
                     IOput.setText(tmp);
                 }
             }
