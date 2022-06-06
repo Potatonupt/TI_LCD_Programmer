@@ -7,15 +7,9 @@ import java.math.RoundingMode;
 import java.util.Stack;
 import java.util.Locale;
 
-//javadoc!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//附上readme
 //附上键盘和计算器按钮对应表
-//
 public class TI_LCD_Programmer extends JFrame
 {
-
-    //    private String lastoperator16;
-    //clear 没做！！！
     private void initButton()
     {
         initNumberButton();
@@ -34,12 +28,15 @@ public class TI_LCD_Programmer extends JFrame
                     ModeButton.setText("Mixed");
                     OperationLabel.setText("");//混合运算不显示运算符
                     clearall();//切换运算模式后清零
+                    SHIFT_HEXtoDEC_DISPLAY();
+                    showHEXrelatedButton();
                 }
                 else if (OperatingMode == 1)
                 {
                     OperatingMode = 0;
                     ModeButton.setText("Single");
                     clearall();//切换运算模式后清零
+                    SHIFT_HEXtoDEC_DISPLAY();
                 }
             }
         });
@@ -1275,7 +1272,7 @@ public class TI_LCD_Programmer extends JFrame
             else
                 location = temp.length() - 1;
         }
-        if (answer.compareTo(BigDecimal.valueOf(0)) == -1)//负数情况的判断
+        if (answer.compareTo(BigDecimal.valueOf(0)) < 0)//负数情况的判断
         {
             if (!Ishasdot())
             {
@@ -1319,18 +1316,18 @@ public class TI_LCD_Programmer extends JFrame
 
     private void judgeOverflow()
     {
-        if ((answer.compareTo(BigDecimal.valueOf(Integer.MAX_VALUE)) == 1) || (answer.compareTo(BigDecimal.valueOf(Integer.MIN_VALUE)) == -1))
+        if ((answer.compareTo(BigDecimal.valueOf(Integer.MAX_VALUE)) > 0) || (answer.compareTo(BigDecimal.valueOf(Integer.MIN_VALUE)) < 0))
         {
             isOverflow = true;
             long MAX = (long) Integer.MAX_VALUE - (long) Integer.MIN_VALUE + 1;
             OverFlow.setText("WARNING:INTEGER OVERFLOW");
             do
             {
-                if (answer.compareTo(BigDecimal.valueOf(0)) == 1)
+                if (answer.compareTo(BigDecimal.valueOf(0)) > 0)
                     answer = answer.subtract(BigDecimal.valueOf(MAX));
-                else if (answer.compareTo(BigDecimal.valueOf(0)) == -1)
+                else if (answer.compareTo(BigDecimal.valueOf(0)) < 0)
                     answer = answer.add(BigDecimal.valueOf(MAX));
-            } while ((answer.compareTo(BigDecimal.valueOf(Integer.MAX_VALUE)) == 1) || (answer.compareTo(BigDecimal.valueOf(Integer.MIN_VALUE)) == -1));
+            } while ((answer.compareTo(BigDecimal.valueOf(Integer.MAX_VALUE)) > 0) || (answer.compareTo(BigDecimal.valueOf(Integer.MIN_VALUE)) < 0));
         }
         setAnswerScale();//对answer最终保留位数进行调整
         processOver8bits();//
@@ -1628,18 +1625,15 @@ public class TI_LCD_Programmer extends JFrame
                     {
                         if (tmp.length() < 10)
                             tmp = tmp + s;
-                        if (tmp.charAt(1) == '0' && tmp.length() > 2)
-                            tmp="-"+tmp.substring(2);
-                        IOput.setText(tmp);
                     }
                     else
                     {
                         if (tmp.length() < 9)
                             tmp = tmp + s;
-                        if (tmp.charAt(1) == '0' && tmp.length() > 2)
-                            tmp="-"+tmp.substring(2);
-                        IOput.setText(tmp);
                     }
+                    if (tmp.charAt(1) == '0' && tmp.length() > 2)
+                        tmp="-"+tmp.substring(2);
+                    IOput.setText(tmp);
                 }
                 else
                 {
@@ -1648,18 +1642,15 @@ public class TI_LCD_Programmer extends JFrame
                     {
                         if (tmp.length() < 9)
                             tmp = tmp + s;
-                        if (tmp.charAt(0) == '0' && tmp.length() > 1)
-                            tmp = tmp.substring(1);
-                        IOput.setText(tmp);
                     }
                     else
                     {
                         if (tmp.length() < 8)
                             tmp = tmp + s;
-                        if (tmp.charAt(0) == '0' && tmp.length() > 1)
-                            tmp = tmp.substring(1);
-                        IOput.setText(tmp);
                     }
+                    if (tmp.charAt(0) == '0' && tmp.length() > 1)
+                        tmp = tmp.substring(1);
+                    IOput.setText(tmp);
                 }
             }
             else if (OperatingMode == 1)
@@ -1828,7 +1819,6 @@ public class TI_LCD_Programmer extends JFrame
         setDigitalButton();
         setLabel();
         setText();
-        setPanel();
     }
 
     private void initKeyboard()
@@ -2129,13 +2119,6 @@ public class TI_LCD_Programmer extends JFrame
         MidSpacer.setBorder(BorderFactory.createEmptyBorder());
 //        IOput.setText("12345678");
         Separator.setForeground(new Color(0xFFFFFF));
-    }
-
-    public void setPanel()//对面板进行设置
-    {
-//        TextPanel1.setBackground(new Color(0xFFFFFF));
-//        TextPanel2.setBackground(new Color(0xFFFFFF));
-//        ButtonPanel.setBackground(new Color(0xFFFFFF));
     }
 
     private JPanel TextPanel1;
