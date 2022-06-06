@@ -51,8 +51,10 @@ public class TI_LCD_Programmer extends JFrame
         AddButton.addActionListener(e -> {
             if (isON)
             {
-                isDot=false;//小数点按钮可使用
-                showdotButton();
+                if(!isHEX) {
+                    isDot = false;//小数点按钮可使用
+                    showdotButton();
+                }
                 if(!Ishasdot())
                 showBitoperationButton();//位运算按钮可用
                 if (OperatingMode == 0)
@@ -88,8 +90,10 @@ public class TI_LCD_Programmer extends JFrame
             if (isON)
             {
 
-                isDot=false;//小数点按钮可使用
-                showdotButton();
+                if(!isHEX) {
+                    isDot = false;//小数点按钮可使用
+                    showdotButton();
+                }
                 if(!Ishasdot())
                 showBitoperationButton();//位运算按钮可用
                 if (OperatingMode == 0)
@@ -124,8 +128,10 @@ public class TI_LCD_Programmer extends JFrame
         MulButton.addActionListener(e -> {
             if (isON)
             {
-                isDot=false;//小数点按钮可使用
-                showdotButton();
+                if(!isHEX) {
+                    isDot = false;//小数点按钮可使用
+                    showdotButton();
+                }
                 if(!Ishasdot())
                 showBitoperationButton();//位运算按钮可用
                 if (OperatingMode == 0)
@@ -160,8 +166,10 @@ public class TI_LCD_Programmer extends JFrame
         DivButton.addActionListener(e -> {
             if (isON)
             {
-                isDot=false;//小数点按钮可使用
-                showdotButton();
+                if(!isHEX) {
+                    isDot = false;//小数点按钮可使用
+                    showdotButton();
+                }
                 if(!Ishasdot())
                 showBitoperationButton();//位运算按钮可用
                 if (OperatingMode == 0)
@@ -1283,16 +1291,20 @@ public class TI_LCD_Programmer extends JFrame
                     if (!isOverflow)//Overflow优先显示
                         OverFlow.setText("WARNING:ONLY HEX");
                     HEXButton.doClick();
-                } else
+                } else {
                     isOver8bits = false;
+                    OverFlow.setText("");
+                }
             } else {
                 if (String.valueOf(answer).length() > 8 && isDEC) {
                     isOver8bits = true;
                     if (!isOverflow)
                         OverFlow.setText("WARNING:ONLY HEX");
                     HEXButton.doClick();
-                } else
+                } else {
                     isOver8bits = false;
+                    OverFlow.setText("");
+                }
             }
         }
     }
@@ -1705,7 +1717,7 @@ public class TI_LCD_Programmer extends JFrame
                         if (tmp.length() < 10)
                             tmp = tmp + s;
                         if(tmp.charAt(1)=='0'&&tmp.length()>2)
-                            tmp=tmp.substring(2);
+                            tmp="-"+tmp.substring(2);
                         IOput.setText(tmp);
                     }
                     else
@@ -1713,7 +1725,7 @@ public class TI_LCD_Programmer extends JFrame
                         if (tmp.length() < 9)
                             tmp = tmp + s;
                         if(tmp.charAt(1)=='0'&&tmp.length()>2)
-                            tmp=tmp.substring(2);
+                            tmp="-"+tmp.substring(2);
                         IOput.setText(tmp);
                     }
                 }
