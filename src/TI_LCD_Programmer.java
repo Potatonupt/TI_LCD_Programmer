@@ -185,6 +185,7 @@ public class TI_LCD_Programmer extends JFrame
                     displayIOput(".");
                     isDotted = true;
                     dotButton.setEnabled(false);
+                    HEXButton.setEnabled(false);
 //                    HEXButton.setEnabled(false);//有小数封锁HEX
                     hidedotButton();
                     hideBitoperationsButton();
@@ -265,6 +266,7 @@ public class TI_LCD_Programmer extends JFrame
                     isDotted = false;
                     istmpdotted=false;
                     dotButton.setEnabled(true);
+                    HEXButton.setEnabled(true);
 //                    HEXButton.setEnabled(true);
                     showdotButton();
                     showBitoperationButton();//位运算按钮可用
@@ -606,6 +608,7 @@ public class TI_LCD_Programmer extends JFrame
             if (isON)
             {
                 //if(isEqualOperator==true)
+                dotButton.setEnabled(false);
                 showBitoperationButton();
                 if (OperatingMode == 0)
                 {
@@ -1105,7 +1108,7 @@ public class TI_LCD_Programmer extends JFrame
     //====================================================================================
     private void getOperatorNumber()           //获取当前操作数
     {
-        operatorNumber = "" + tmp;
+            operatorNumber = "" + tmp;
         if (!operatorNumber.isEmpty())
         {
             if (isDEC)
@@ -1188,7 +1191,6 @@ public class TI_LCD_Programmer extends JFrame
 
     private void displayAnswer()   //显示结果
     {
-//        System.out.println(answer);
         if (isDEC)
             displayIOput(answer.toPlainString());
         if (isHEX)
@@ -1616,6 +1618,8 @@ public class TI_LCD_Programmer extends JFrame
             if(s.equals("-"))
                 s="0";
             Integer temp = Integer.decode(s);
+            if(!isOperator&&OperatingMode==0)
+            tmp=Integer.toHexString(temp).toUpperCase(Locale.ROOT);
             return Integer.toHexString(temp).toUpperCase(Locale.ROOT);
 
         }
@@ -1681,8 +1685,8 @@ public class TI_LCD_Programmer extends JFrame
                     break;
             }
         }
-//        tmp=""+DECcalculate;
-//        System.out.println(answer);
+        if(!isOperator&&OperatingMode==0)//先+后转进制条件下不可用
+        tmp=""+DECcalculate;
         return DECcalculate + "";
 
     }
@@ -2193,6 +2197,7 @@ public class TI_LCD_Programmer extends JFrame
         if (isDEC)
             showdotButton();
         showBitoperationButton();
+        HEXButton.setEnabled(true);
 //        HEXButton.setEnabled(true);
         operatorNumber = "";            //操作数2
         tmp = "";                  //用于在ioput中显示
