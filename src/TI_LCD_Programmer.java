@@ -179,7 +179,7 @@ public class TI_LCD_Programmer extends JFrame
         dotButton.addActionListener(e -> {
             if (isON)
             {
-                if (!isHEX && !isDotted&&OperatingMode==0)        //是十进制且没有输入过小数点
+                if (!isHEX && !isDotted && OperatingMode == 0)        //是十进制且没有输入过小数点
                 {
                     isOperator = false;
                     displayIOput(".");
@@ -193,14 +193,14 @@ public class TI_LCD_Programmer extends JFrame
         OPButton.addActionListener(e -> {
             if (OperatingMode != 0)
             {
-                isOperator = true;
+                isOperator = false;
                 displayIOput("(");
             }
         });
         CPButton.addActionListener(e -> {
             if (OperatingMode != 0)
             {
-                isOperator = true;
+                isOperator = false;
                 displayIOput(")");
             }
         });
