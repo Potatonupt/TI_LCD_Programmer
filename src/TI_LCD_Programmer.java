@@ -94,7 +94,10 @@ public class TI_LCD_Programmer extends JFrame
                 }
             }
             else if (OperatingMode == 1)
+            {
+                isOperator = false;
                 displayIOput("A");
+            }
         });
         bButton.addActionListener(e -> {
             if (OperatingMode == 0)
@@ -106,7 +109,10 @@ public class TI_LCD_Programmer extends JFrame
                 }
             }
             else if (OperatingMode == 1)
+            {
+                isOperator = false;
                 displayIOput("B");
+            }
         });
         CButton.addActionListener(e -> {
             if (OperatingMode == 0)
@@ -118,7 +124,10 @@ public class TI_LCD_Programmer extends JFrame
                 }
             }
             else if (OperatingMode == 1)
+            {
+                isOperator = false;
                 displayIOput("C");
+            }
         });
         dButton.addActionListener(e -> {
             if (OperatingMode == 0)
@@ -130,7 +139,10 @@ public class TI_LCD_Programmer extends JFrame
                 }
             }
             else if (OperatingMode == 1)
+            {
+                isOperator = false;
                 displayIOput("D");
+            }
         });
         EButton.addActionListener(e -> {
             if (OperatingMode == 0)
@@ -142,7 +154,10 @@ public class TI_LCD_Programmer extends JFrame
                 }
             }
             else if (OperatingMode == 1)
+            {
+                isOperator = false;
                 displayIOput("E");
+            }
         });
         FButton.addActionListener(e -> {
             if (OperatingMode == 0)
@@ -154,14 +169,17 @@ public class TI_LCD_Programmer extends JFrame
                 }
             }
             else if (OperatingMode == 1)
+            {
+                isOperator = false;
                 displayIOput("F");
+            }
         });
         //因为一个数只能有一个小数点，如果已经输入过小数点则不能再次输入
         //并且位运算不适用于带小数点的数，所以按钮变灰
         dotButton.addActionListener(e -> {
             if (isON)
             {
-                if (!isHEX && !isDotted&&OperatingMode==0)        //是十进制且没有输入过小数点
+                if (!isHEX && !isDotted && OperatingMode == 0)        //是十进制且没有输入过小数点
                 {
                     isOperator = false;
                     displayIOput(".");
@@ -176,14 +194,14 @@ public class TI_LCD_Programmer extends JFrame
         OPButton.addActionListener(e -> {
             if (OperatingMode != 0)
             {
-                isOperator = true;
+                isOperator = false;
                 displayIOput("(");
             }
         });
         CPButton.addActionListener(e -> {
             if (OperatingMode != 0)
             {
-                isOperator = true;
+                isOperator = false;
                 displayIOput(")");
             }
         });
@@ -726,15 +744,15 @@ public class TI_LCD_Programmer extends JFrame
                         second = second.negate();
                         if (isDEC)
                         {//修改了一下补反运算的显示
-                                if(second.toString().charAt(0)=='-') {
-                                    if (second.toString().charAt(1) == '0')
-                                        IOput.setText("-" + second.toString().substring(2));
-                                    else
-                                        IOput.setText(second.toString());
-                                }
+                            if(second.toString().charAt(0)=='-') {
+                                if (second.toString().charAt(1) == '0')
+                                    IOput.setText("-" + second.toString().substring(2));
                                 else
-                                if (second.toString().charAt(0) == '0')
-                                    IOput.setText( second.toString().substring(1));
+                                    IOput.setText(second.toString());
+                            }
+                            else
+                            if (second.toString().charAt(0) == '0')
+                                IOput.setText( second.toString().substring(1));
                             tmp = "" + second.toString();
                         }
                         else if (isHEX)
@@ -863,42 +881,42 @@ public class TI_LCD_Programmer extends JFrame
                 AddButton, CEButton, EqualButton, ModeButton, a1SCButton, a2SCButton, ORButton, ANDButton, XORButton, SHFButton, SkinButton, KButton};
         for (int i = 0; i < ToolButton.length; i++)
         {
-                ToolButton[i].setBorderPainted(false);//取消边框
-                ToolButton[i].setFocusPainted(false);//取消聚焦
-                ToolButton[i].setFont(buttonFont);
-                if(!isModern) {
-                    ToolButton[i].setBackground(new Color(62, 68, 79));//设置背景颜色
-                    ToolButton[i].setForeground(new Color(255, 255, 255));//设置按钮上的字体颜色
-                }
-                else
-                {
-                    ToolButton[i].setBackground(new Color(248, 248, 249));//设置背景颜色
-                    ToolButton[i].setForeground(Color.BLACK);//设置按钮上的字体颜色
-                }
-                int finalI = i;
-                ToolButton[i].addMouseListener(new MouseAdapter()
-                {
-                    @Override
-                    public void mouseEntered(MouseEvent e)
-                    {
-                        super.mouseEntered(e);
-                        if(!isModern)
-                        ToolButton[finalI].setBackground(new Color(32, 38, 49));
-                        else
-                            ToolButton[finalI].setBackground(new Color(0xD3D3D4));
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e)
-                    {
-                        super.mouseExited(e);
-                        if(!isModern)
-                        ToolButton[finalI].setBackground(new Color(62, 68, 79));
-                        else
-                            ToolButton[finalI].setBackground(new Color(248, 248, 249));
-                    }
-                });
+            ToolButton[i].setBorderPainted(false);//取消边框
+            ToolButton[i].setFocusPainted(false);//取消聚焦
+            ToolButton[i].setFont(buttonFont);
+            if(!isModern) {
+                ToolButton[i].setBackground(new Color(62, 68, 79));//设置背景颜色
+                ToolButton[i].setForeground(new Color(255, 255, 255));//设置按钮上的字体颜色
             }
+            else
+            {
+                ToolButton[i].setBackground(new Color(248, 248, 249));//设置背景颜色
+                ToolButton[i].setForeground(Color.BLACK);//设置按钮上的字体颜色
+            }
+            int finalI = i;
+            ToolButton[i].addMouseListener(new MouseAdapter()
+            {
+                @Override
+                public void mouseEntered(MouseEvent e)
+                {
+                    super.mouseEntered(e);
+                    if(!isModern)
+                        ToolButton[finalI].setBackground(new Color(32, 38, 49));
+                    else
+                        ToolButton[finalI].setBackground(new Color(0xD3D3D4));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e)
+                {
+                    super.mouseExited(e);
+                    if(!isModern)
+                        ToolButton[finalI].setBackground(new Color(62, 68, 79));
+                    else
+                        ToolButton[finalI].setBackground(new Color(248, 248, 249));
+                }
+            });
+        }
         ModeButton.setFont(new Font("Times New Romans", Font.BOLD, 20));//设置字体);
         SkinButton.setFont(new Font("Times New Romans", Font.BOLD, 17));//设置字体);
         if(isModern)
