@@ -167,6 +167,7 @@ public class TI_LCD_Programmer extends JFrame
                     displayIOput(".");
                     isDotted = true;
                     dotButton.setEnabled(false);
+//                    HEXButton.setEnabled(false);//有小数封锁HEX
                     hidedotButton();
                     hideBitoperationsButton();
                 }
@@ -246,6 +247,7 @@ public class TI_LCD_Programmer extends JFrame
                     isDotted = false;
                     istmpdotted=false;
                     dotButton.setEnabled(true);
+//                    HEXButton.setEnabled(true);
                     showdotButton();
                     showBitoperationButton();//位运算按钮可用
                 }
@@ -283,13 +285,7 @@ public class TI_LCD_Programmer extends JFrame
         AddButton.addActionListener(e -> {
             if (isON)
             {
-                if(!isHEX) {
-                    isDotted = false;//小数点按钮可使用
-                    dotButton.setEnabled(true);
-                    showdotButton();
-                }
-                if (Nothasdot())
-                    showBitoperationButton();//位运算按钮可用
+                onDotandBit();
                 if (OperatingMode == 0)
                 {
                     OperationLabel.setText("+");
@@ -322,13 +318,7 @@ public class TI_LCD_Programmer extends JFrame
         SubButton.addActionListener(e -> {
             if (isON)
             {
-                if(!isHEX) {
-                    isDotted = false;//小数点按钮可使用
-                    dotButton.setEnabled(true);
-                    showdotButton();
-                }
-                if (Nothasdot())
-                    showBitoperationButton();//位运算按钮可用
+                onDotandBit();
                 if (OperatingMode == 0)
                 {
                     OperationLabel.setText("-");
@@ -361,13 +351,7 @@ public class TI_LCD_Programmer extends JFrame
         MulButton.addActionListener(e -> {
             if (isON)
             {
-                if(!isHEX) {
-                    isDotted = false;//小数点按钮可使用
-                    dotButton.setEnabled(true);
-                    showdotButton();
-                }
-                if (Nothasdot())
-                    showBitoperationButton();//位运算按钮可用
+                onDotandBit();
                 if (OperatingMode == 0)
                 {
                     OperationLabel.setText("×");
@@ -400,13 +384,7 @@ public class TI_LCD_Programmer extends JFrame
         DivButton.addActionListener(e -> {
             if (isON)
             {
-                if(!isHEX) {
-                    isDotted = false;//小数点按钮可使用
-                    dotButton.setEnabled(true);
-                    showdotButton();
-                }
-                if (Nothasdot())
-                    showBitoperationButton();//位运算按钮可用
+                onDotandBit();
                 if (OperatingMode == 0)
                 {
                     OperationLabel.setText("÷");
@@ -610,6 +588,7 @@ public class TI_LCD_Programmer extends JFrame
             if (isON)
             {
                 //if(isEqualOperator==true)
+                showBitoperationButton();
                 if (OperatingMode == 0)
                 {
                     if (!isHEX)
@@ -737,7 +716,6 @@ public class TI_LCD_Programmer extends JFrame
                             calculate();
                         }
                         answer = answer.negate();
-//                        System.out.println(answer);
                         displayAnswer();
                         updateAnswer();
                     }
@@ -758,7 +736,6 @@ public class TI_LCD_Programmer extends JFrame
                                 if (second.toString().charAt(0) == '0')
                                     IOput.setText( second.toString().substring(1));
                             tmp = "" + second.toString();
-                            System.out.println(tmp);
                         }
                         else if (isHEX)
                         {
@@ -1111,7 +1088,6 @@ public class TI_LCD_Programmer extends JFrame
     private void getOperatorNumber()           //获取当前操作数
     {
         operatorNumber = "" + tmp;
-//        System.out.println(operatorNumber);
         if (!operatorNumber.isEmpty())
         {
             if (isDEC)
@@ -1181,6 +1157,9 @@ public class TI_LCD_Programmer extends JFrame
 
     private void updateAnswer()    //将结果保存到first，以便下一次运算
     {
+        istmpdotted=false;
+        dotButton.setEnabled(true);
+        showdotButton();
         if (tmp.length() != 0 && tmp.charAt(0) == '.')
             tmp = "0" + "";
         else
@@ -1193,9 +1172,9 @@ public class TI_LCD_Programmer extends JFrame
     {
 //        System.out.println(answer);
         if (isDEC)
-            displayIOput(answer.toString());
+            displayIOput(answer.toPlainString());
         if (isHEX)
-            displayIOput(radix10to16(answer.toString()));
+            displayIOput(radix10to16(answer.toPlainString()));
     }
 
     //位运算
@@ -1629,7 +1608,6 @@ public class TI_LCD_Programmer extends JFrame
     private String radix16to10(String s)
     {
         int DECcalculate = 0;
-//        System.out.println(s);
         for (int i = 0; i < s.length(); i++)
         {
             int num = (int) Math.pow(16, (s.length() - 1 - i));
@@ -1685,10 +1663,21 @@ public class TI_LCD_Programmer extends JFrame
                     break;
             }
         }
+//        tmp=""+DECcalculate;
+//        System.out.println(answer);
         return DECcalculate + "";
 
     }
-
+    private void onDotandBit()
+    {
+        if(!isHEX) {
+            isDotted = false;//小数点按钮可使用
+            dotButton.setEnabled(true);
+            showdotButton();
+        }
+        if (Nothasdot())
+            showBitoperationButton();//位运算按钮可用
+    }
     private void hidedotButton()
     {
         dotButton.setEnabled(false);
@@ -1976,10 +1965,10 @@ public class TI_LCD_Programmer extends JFrame
         {
             if (String.valueOf(answer).charAt(0) == '-')
             {
-                if (String.valueOf(answer).length() > 9 && isDEC)
+                if (String.valueOf(answer).length() > 9 )//&& isDEC
                 {
                     isOver8bits = true;
-                    if (!isOverflow)//Overflow优先显示
+                    if (!isOverflow&&isDEC)//Overflow优先显示
                         OverFlow.setText("WARNING:ONLY HEX");
                     HEXButton.doClick();
                 }
@@ -1991,10 +1980,10 @@ public class TI_LCD_Programmer extends JFrame
             }
             else
             {
-                if (String.valueOf(answer).length() > 8 && isDEC)
+                if (String.valueOf(answer).length() > 8 )//&& isDEC
                 {
                     isOver8bits = true;
-                    if (!isOverflow)
+                    if (!isOverflow&&isDEC)
                         OverFlow.setText("WARNING:ONLY HEX");
                     HEXButton.doClick();
                 }
@@ -2032,8 +2021,7 @@ public class TI_LCD_Programmer extends JFrame
 
     private void setAnswerScale()//对answer位数进行限制，如果超过8位则直接保留整数部分
     {
-        String temp = answer.toString();
-        System.out.println(temp);
+        String temp = answer.toPlainString();
         int ceil1 = Math.min((temp.length() - 1), 9);
         int ceil2 = Math.min((temp.length() - 1), 8);
         int location = 0;
@@ -2099,17 +2087,6 @@ public class TI_LCD_Programmer extends JFrame
     {
         if (isON)
         {
-            for (int i = 0; i < tmp.length(); i++) {//tmp是否还有小数点
-                if (tmp.charAt(i) == '.') {
-                    istmpdotted = true;
-                    break;
-                }
-            }
-            if(!isDotted &&tmp.length()==8)//没有小数点且输入长度已8位，说明输入的是整数，此时dotbutton被封锁
-            {
-                dotButton.setEnabled(false);
-                hidedotButton();
-            }
             if (OperatingMode == 0)//由于负号和小数点不占用显示位置，故分开处理
             {
 
@@ -2149,7 +2126,17 @@ public class TI_LCD_Programmer extends JFrame
                         tmp = tmp.substring(1);
                     IOput.setText(tmp);
                 }
-
+                for (int i = 0; i < tmp.length(); i++) {//tmp是否还有小数点
+                    if (tmp.charAt(i) == '.') {
+                        istmpdotted = true;
+                        break;
+                    }
+                }
+                if(!istmpdotted &&tmp.length()==8)//没有小数点且输入长度已8位，说明输入的是整数，此时dotbutton被封锁
+                {
+                    dotButton.setEnabled(false);
+                    hidedotButton();
+                }
             }
             else if (OperatingMode == 1)
             {
@@ -2188,6 +2175,7 @@ public class TI_LCD_Programmer extends JFrame
         if (isDEC)
             showdotButton();
         showBitoperationButton();
+//        HEXButton.setEnabled(true);
         operatorNumber = "";            //操作数2
         tmp = "";                  //用于在ioput中显示
         first = new BigDecimal(0);
@@ -2324,5 +2312,5 @@ public class TI_LCD_Programmer extends JFrame
     private boolean resetIndex = false;
     private boolean isModern = true;
     private boolean isDotted = false;//表示已经输入过小数点
-    private boolean istmpdotted = false;
+    private boolean istmpdotted = false;//输入的文本是否有小数点
 }
