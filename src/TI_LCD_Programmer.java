@@ -718,6 +718,7 @@ public class TI_LCD_Programmer extends JFrame
                         calculate();
                     }
                     answer = answer.negate().subtract(new BigDecimal(1));
+                    judgeOverflow();
                     displayAnswer();
                     updateAnswer();
                 }
@@ -746,6 +747,7 @@ public class TI_LCD_Programmer extends JFrame
                             calculate();
                         }
                         answer = answer.negate();
+                        judgeOverflow();
                         displayAnswer();
                         updateAnswer();
                     }
