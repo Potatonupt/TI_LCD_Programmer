@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="TI_LCD_Programmer" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="441" height="791"/>
+      <xy x="20" y="20" width="441" height="841"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -44,8 +44,8 @@
               </grid>
             </constraints>
             <properties>
-              <horizontalAlignment value="2"/>
-              <horizontalTextPosition value="2"/>
+              <horizontalAlignment value="4"/>
+              <horizontalTextPosition value="4"/>
               <text value=""/>
             </properties>
           </component>

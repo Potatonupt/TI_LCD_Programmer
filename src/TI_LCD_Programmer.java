@@ -1997,8 +1997,10 @@ public class TI_LCD_Programmer extends JFrame
                 {
                     isOver8bits = true;
                     if (!isOverflow&&isDEC)//Overflow优先显示
+                    {
                         OverFlow.setText("WARNING:ONLY HEX");
-                    HEXButton.doClick();
+                        HEXButton.doClick();
+                    }
                 }
                 else
                 {
@@ -2011,9 +2013,10 @@ public class TI_LCD_Programmer extends JFrame
                 if (String.valueOf(answer).length() > 8 )//&& isDEC
                 {
                     isOver8bits = true;
-                    if (!isOverflow&&isDEC)
+                    if (!isOverflow&&isDEC) {
                         OverFlow.setText("WARNING:ONLY HEX");
-                    HEXButton.doClick();
+                        HEXButton.doClick();
+                    }
                 }
                 else
                 {
