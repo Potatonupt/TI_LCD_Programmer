@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.security.Key;
 import java.util.Stack;
 import java.util.Locale;
 
@@ -803,7 +804,16 @@ public class TI_LCD_Programmer extends JFrame
     //键盘关联
     private void initKeyboard()
     {
-
+//                a3Button.addKeyListener(new KeyAdapter()
+//        {
+//            @Override
+//            public void keyReleased(KeyEvent e)
+//            {
+//                super.keyReleased(e);
+//                int keycode=e.getKeyCode();
+//                System.out.println(KeyStroke.getKeyStroke(keycode,0,false));
+//            }
+//        });
         JButton[] DIGIT = {a0Button, a1Button, a2Button, a3Button, a4Button, a5Button,
                 a6Button, a7Button, a8Button, a9Button, AddButton, SubButton,
                 MulButton, DivButton, dotButton, EqualButton};//,AddButton,SubButton,MulButton,DivButton,dotButton,EqualButton,CEButton
@@ -846,6 +856,12 @@ public class TI_LCD_Programmer extends JFrame
         OPButton.registerKeyboardAction(e -> CPButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_0, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
         ModeButton.registerKeyboardAction(e -> ModeButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
         SkinButton.registerKeyboardAction(e -> SkinButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
+        SHFButton.registerKeyboardAction(e->SHFButton.doClick(),KeyStroke.getKeyStroke(KeyEvent.VK_S,0),JComponent.WHEN_IN_FOCUSED_WINDOW);
+        a1SCButton.registerKeyboardAction(e->a1SCButton.doClick(),KeyStroke.getKeyStroke(KeyEvent.VK_1,InputEvent.SHIFT_MASK),JComponent.WHEN_IN_FOCUSED_WINDOW);
+        a2SCButton.registerKeyboardAction(e->a2SCButton.doClick(),KeyStroke.getKeyStroke(KeyEvent.VK_2,InputEvent.SHIFT_MASK),JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ANDButton.registerKeyboardAction(e->ANDButton.doClick(),KeyStroke.getKeyStroke(KeyEvent.VK_7,InputEvent.SHIFT_MASK),JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ORButton.registerKeyboardAction(e->ORButton.doClick(),KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SLASH,InputEvent.SHIFT_MASK),JComponent.WHEN_IN_FOCUSED_WINDOW);
+        XORButton.registerKeyboardAction(e->XORButton.doClick(),KeyStroke.getKeyStroke(KeyEvent.VK_6,InputEvent.SHIFT_MASK),JComponent.WHEN_IN_FOCUSED_WINDOW);
         KButton.registerKeyboardAction(e -> KButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_K, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
         IOput.registerKeyboardAction(e ->
         {
@@ -989,23 +1005,32 @@ public class TI_LCD_Programmer extends JFrame
                 a0Button, dotButton
         };
         Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);
-        if (!isModern)
-        {
             for (int i = 0; i < DigitalButton.length; i++)
             {
                 DigitalButton[i].setBorderPainted(false);
-                DigitalButton[i].setBackground(new Color(188, 189, 194));
                 DigitalButton[i].setFocusPainted(false);
-                DigitalButton[i].setForeground(new Color(26, 23, 23));
                 DigitalButton[i].setFont(buttonFont);
+                if(!isModern) {
+                    DigitalButton[i].setBackground(new Color(188, 189, 194));
+                    DigitalButton[i].setForeground(new Color(26, 23, 23));
+                }
+                else
+                {
+                        DigitalButton[i].setBackground(new Color(248, 248, 249));
+                        DigitalButton[i].setForeground(Color.BLACK);
+                }
                 int finalI = i;
                 DigitalButton[i].addMouseListener(new MouseAdapter()
                 {
                     @Override
                     public void mouseEntered(MouseEvent e)
                     {
+
                         super.mouseEntered(e);
+                        if(!isModern)
                         DigitalButton[finalI].setBackground(new Color(138, 138, 138));
+                        else
+                            DigitalButton[finalI].setBackground(new Color(0xD3D3D4));
 
                     }
 
@@ -1013,40 +1038,13 @@ public class TI_LCD_Programmer extends JFrame
                     public void mouseExited(MouseEvent e)
                     {
                         super.mouseExited(e);
+                        if(!isModern)
                         DigitalButton[finalI].setBackground(new Color(188, 189, 194));
+                        else
+                            DigitalButton[finalI].setBackground(new Color(248, 248, 249));
                     }
                 });
             }
-        }
-        else
-        {
-            for (int i = 0; i < DigitalButton.length; i++)
-            {
-                DigitalButton[i].setBorderPainted(false);
-                DigitalButton[i].setBackground(new Color(248, 248, 249));
-                DigitalButton[i].setFocusPainted(false);
-                DigitalButton[i].setForeground(Color.BLACK);
-                DigitalButton[i].setFont(buttonFont);
-                int finalI = i;
-                DigitalButton[i].addMouseListener(new MouseAdapter()
-                {
-                    @Override
-                    public void mouseEntered(MouseEvent e)
-                    {
-                        super.mouseEntered(e);
-                        DigitalButton[finalI].setBackground(new Color(0xD3D3D4));
-
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e)
-                    {
-                        super.mouseExited(e);
-                        DigitalButton[finalI].setBackground(new Color(248, 248, 249));
-                    }
-                });
-            }
-        }
     }
 
     public void setLabel()//对标签进行设置
