@@ -458,13 +458,15 @@ public class TI_LCD_Programmer extends JFrame
                     judgeOverflow();
                     displayAnswer();
                     updateAnswer();
-
+                    isDotted = true;
+                    hidedotButton();
                 }
                 else if (OperatingMode == 1)
                 {
                     isOperator = true;
                     displayIOput("&");
                 }
+
             }
         });
 
@@ -492,7 +494,8 @@ public class TI_LCD_Programmer extends JFrame
                     judgeOverflow();
                     displayAnswer();
                     updateAnswer();
-
+                    isDotted = true;
+                    hidedotButton();
                 }
                 else if (OperatingMode == 1)
                 {
@@ -505,8 +508,7 @@ public class TI_LCD_Programmer extends JFrame
         XORButton.addActionListener(e -> {
             if (isON && Nothasdot())
             {
-                isDotted = true;
-                hidedotButton();
+
                 if (OperatingMode == 0)
                 {
                     OperationLabel.setText("^");
@@ -527,6 +529,8 @@ public class TI_LCD_Programmer extends JFrame
                     judgeOverflow();
                     displayAnswer();
                     updateAnswer();
+                    isDotted = true;
+                    hidedotButton();
 
                 }
                 else if (OperatingMode == 1)
@@ -540,8 +544,7 @@ public class TI_LCD_Programmer extends JFrame
         SHFButton.addActionListener(e -> {
             if (isON && Nothasdot())
             {
-                isDotted = true;
-                hidedotButton();
+
                 if (OperatingMode == 0)
                 {
                     OperationLabel.setText("<<");
@@ -561,7 +564,8 @@ public class TI_LCD_Programmer extends JFrame
                     judgeOverflow();
                     displayAnswer();
                     updateAnswer();
-
+                    isDotted = true;
+                    hidedotButton();
                 }
                 else if (OperatingMode == 1)
                 {
@@ -576,6 +580,10 @@ public class TI_LCD_Programmer extends JFrame
             {
                 if (OperatingMode == 0)
                 {
+                    if(lastOperator==4) {//除法后结果必带小数点，直接关闭位运算功能和转HEX功能
+                        hideBitoperationsButton();
+                        HEXButton.setEnabled(false);
+                    }
                     OperationLabel.setText("=");
                     isNotEqualOperator = false;
                     getCurrentText();
@@ -640,24 +648,21 @@ public class TI_LCD_Programmer extends JFrame
                 if (OperatingMode == 0)
                 {
                     ONLYjudge=true;
-                    if (radix16to10(IOput.getText()).charAt(0) == '-')
-                    {//确保负数也可以输出8位
-                        if (radix16to10(IOput.getText()).length() <= 9)
-                            isOver8bits = false;
-                        else
-                        {
-                            isOver8bits = true;
-                            OverFlow.setText("WARNING:ONLY HEX");
-                        }
-                    }
-                    else
-                    {
-                        if (radix16to10(IOput.getText()).length() <= 8)
-                            isOver8bits = false;
-                        else
-                        {
-                            isOver8bits = true;
-                            OverFlow.setText("WARNING:ONLY HEX");
+                    if(isHEX) {
+                        if (radix16to10(IOput.getText()).charAt(0) == '-') {//确保负数也可以输出8位
+                            if (radix16to10(IOput.getText()).length() <= 9)
+                                isOver8bits = false;
+                            else {
+                                isOver8bits = true;
+                                OverFlow.setText("WARNING:ONLY HEX");
+                            }
+                        } else {
+                            if (radix16to10(IOput.getText()).length() <= 8)
+                                isOver8bits = false;
+                            else {
+                                isOver8bits = true;
+                                OverFlow.setText("WARNING:ONLY HEX");
+                            }
                         }
                     }
                     ONLYjudge=false;
@@ -693,7 +698,7 @@ public class TI_LCD_Programmer extends JFrame
             System.out.println(isOver8bits);
         });
         a1SCButton.addActionListener(e -> {
-            if (isON && Nothasdot())
+            if (isON )//&& Nothasdot()
             {
                 isDotted = true;
                 hidedotButton();
@@ -1763,7 +1768,7 @@ public class TI_LCD_Programmer extends JFrame
     private void hideBitoperationsButton()//改变位运算符的显示
     {
         Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
-        JButton[] HexButton = {a1SCButton, ORButton, ANDButton, XORButton, SHFButton};//,a2SCButton
+        JButton[] HexButton = { ORButton, ANDButton, XORButton, SHFButton};//,a2SCButton，a1SCButton,
         for (JButton hexBUtton : HexButton)
         {
             hexBUtton.setEnabled(false);
@@ -1808,7 +1813,7 @@ public class TI_LCD_Programmer extends JFrame
     private void showBitoperationButton()
     {
         Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
-        JButton[] HexButton = {a1SCButton, ORButton, ANDButton, XORButton, SHFButton};//a2SCButton,
+        JButton[] HexButton = { ORButton, ANDButton, XORButton, SHFButton};//a2SCButton,a1SCButton,
         for (JButton hexBUtton : HexButton)
         {
             hexBUtton.setEnabled(true);
