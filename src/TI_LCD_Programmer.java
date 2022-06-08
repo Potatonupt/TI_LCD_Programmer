@@ -594,12 +594,7 @@ public class TI_LCD_Programmer extends JFrame
             {
                 if (OperatingMode == 0)
                 {
-                    if(lastOperator==4) {//除法后结果必带小数点，直接关闭位运算功能和转HEX功能
-                        if(first.compareTo(answer)!=0) {
-                            hideBitoperationsButton();
-                            HEXButton.setEnabled(false);
-                        }
-                    }
+
                     OperationLabel.setText("=");
                     isNotEqualOperator = false;
                     getCurrentText();
@@ -607,6 +602,17 @@ public class TI_LCD_Programmer extends JFrame
                     judgeOverflow();
                     displayAnswer();
                     updateAnswer();
+                    System.out.println(operatorNumber);
+                    System.out.println(operatorNumber.equals("0."));
+                    if(!Nothasdot()) {//除法后结果必带小数点，直接关闭位运算功能和转HEX功能
+                        hideBitoperationsButton();
+                        HEXButton.setEnabled(false);
+                    }
+                    if(operatorNumber.equals("0."))
+                    {
+                        showBitoperationButton();
+                        HEXButton.setEnabled(true);
+                    }
                 }
                 else if (OperatingMode == 1)
                 {
