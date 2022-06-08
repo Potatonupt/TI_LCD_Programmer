@@ -1187,8 +1187,10 @@ public class TI_LCD_Programmer extends JFrame
     private void updateAnswer()    //将结果保存到first，以便下一次运算
     {
         istmpdotted=false;
-        dotButton.setEnabled(true);
-        showdotButton();
+        if(!isHEX) {
+            dotButton.setEnabled(true);
+            showdotButton();
+        }
         if (tmp.length() != 0 && tmp.charAt(0) == '.')
             tmp = "0" + "";
         else
@@ -2233,7 +2235,7 @@ public class TI_LCD_Programmer extends JFrame
     //====================================================================================
     //====================================================================================
     private JPanel TextPanel1;
-    private JTextField IOput;
+    private JLabel IOput;
     private JLabel TEXAS;
     private JSeparator Separator;
     private JLabel DECLabel;
