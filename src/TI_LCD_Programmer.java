@@ -306,6 +306,8 @@ public class TI_LCD_Programmer extends JFrame
         AddButton.addActionListener(e -> {
             if (isON)
             {
+                if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
+                    OverFlow.setText("");
                 onDotandBit();
                 if (OperatingMode == 0)
                 {
@@ -339,6 +341,8 @@ public class TI_LCD_Programmer extends JFrame
         SubButton.addActionListener(e -> {
             if (isON)
             {
+                if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
+                    OverFlow.setText("");
                 onDotandBit();
                 if (OperatingMode == 0)
                 {
@@ -372,6 +376,8 @@ public class TI_LCD_Programmer extends JFrame
         MulButton.addActionListener(e -> {
             if (isON)
             {
+                if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
+                    OverFlow.setText("");
                 onDotandBit();
                 if (OperatingMode == 0)
                 {
@@ -405,6 +411,8 @@ public class TI_LCD_Programmer extends JFrame
         DivButton.addActionListener(e -> {
             if (isON)
             {
+                if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
+                    OverFlow.setText("");
                 onDotandBit();
                 if (OperatingMode == 0)
                 {
@@ -437,6 +445,8 @@ public class TI_LCD_Programmer extends JFrame
         ANDButton.addActionListener(e -> {
             if (isON && Nothasdot())
             {
+                if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
+                    OverFlow.setText("");
                 isDotted = true;
                 hidedotButton();
                 if (OperatingMode == 0)
@@ -473,6 +483,8 @@ public class TI_LCD_Programmer extends JFrame
         ORButton.addActionListener(e -> {//仅限整数
             if (isON && Nothasdot())
             {
+                if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
+                    OverFlow.setText("");
                 isDotted = true;
                 hidedotButton();
                 if (OperatingMode == 0)
@@ -508,7 +520,8 @@ public class TI_LCD_Programmer extends JFrame
         XORButton.addActionListener(e -> {
             if (isON && Nothasdot())
             {
-
+                if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
+                    OverFlow.setText("");
                 if (OperatingMode == 0)
                 {
                     OperationLabel.setText("^");
@@ -544,7 +557,8 @@ public class TI_LCD_Programmer extends JFrame
         SHFButton.addActionListener(e -> {
             if (isON && Nothasdot())
             {
-
+                if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
+                    OverFlow.setText("");
                 if (OperatingMode == 0)
                 {
                     OperationLabel.setText("<<");
@@ -581,8 +595,10 @@ public class TI_LCD_Programmer extends JFrame
                 if (OperatingMode == 0)
                 {
                     if(lastOperator==4) {//除法后结果必带小数点，直接关闭位运算功能和转HEX功能
-                        hideBitoperationsButton();
-                        HEXButton.setEnabled(false);
+                        if(first.compareTo(answer)!=0) {
+                            hideBitoperationsButton();
+                            HEXButton.setEnabled(false);
+                        }
                     }
                     OperationLabel.setText("=");
                     isNotEqualOperator = false;
@@ -700,6 +716,8 @@ public class TI_LCD_Programmer extends JFrame
         a1SCButton.addActionListener(e -> {
             if (isON )//&& Nothasdot()
             {
+                if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
+                    OverFlow.setText("");
                 isDotted = true;
                 hidedotButton();
                 if (OperatingMode == 0)
@@ -727,6 +745,8 @@ public class TI_LCD_Programmer extends JFrame
         a2SCButton.addActionListener(e -> {
             if (isON)
             {
+                if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
+                    OverFlow.setText("");
                 hidedotButton();
                 if (OperatingMode == 0)
                 {
@@ -1116,6 +1136,9 @@ public class TI_LCD_Programmer extends JFrame
     //====================================================================================
     private void getOperatorNumber()           //获取当前操作数
     {
+        if(tmp.equals("."))
+            operatorNumber = "0" + tmp;
+        else
             operatorNumber = "" + tmp;
         if (!operatorNumber.isEmpty())
         {
@@ -1164,7 +1187,15 @@ public class TI_LCD_Programmer extends JFrame
                 answer = first.multiply(second);
                 break;
             case 4:
-                answer = first.divide(second, 8, RoundingMode.HALF_UP);
+                if(second.compareTo(BigDecimal.valueOf(0))==0)
+                {
+                    OverFlow.setText("WARNING:CANNOT DIVIDE 0");
+                    break;
+                }
+                else {
+                    OverFlow.setText("");
+                    answer = first.divide(second, 8, RoundingMode.HALF_UP);
+                }
                 break;
             case 0:
                 answer = second;
@@ -2005,7 +2036,7 @@ public class TI_LCD_Programmer extends JFrame
                 else
                 {
                     isOver8bits = false;
-                    OverFlow.setText("");
+//                    OverFlow.setText("");
                 }
             }
             else
@@ -2021,7 +2052,7 @@ public class TI_LCD_Programmer extends JFrame
                 else
                 {
                     isOver8bits = false;
-                    OverFlow.setText("");
+//                    OverFlow.setText("");
                 }
             }
         }
