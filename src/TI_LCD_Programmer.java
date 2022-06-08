@@ -42,7 +42,6 @@ public class TI_LCD_Programmer extends JFrame
         initControlButton();
         initOperatorButton();
     }
-
     private void initNumberButton()
     {
         a0Button.addActionListener(e -> {
@@ -90,6 +89,7 @@ public class TI_LCD_Programmer extends JFrame
             {
                 if (isHEX)
                 {
+
                     isOperator = false;
                     displayIOput("A");
                 }
@@ -639,6 +639,7 @@ public class TI_LCD_Programmer extends JFrame
             {
                 if (OperatingMode == 0)
                 {
+                    ONLYjudge=true;
                     if (radix16to10(IOput.getText()).charAt(0) == '-')
                     {//确保负数也可以输出8位
                         if (radix16to10(IOput.getText()).length() <= 9)
@@ -659,6 +660,7 @@ public class TI_LCD_Programmer extends JFrame
                             OverFlow.setText("WARNING:ONLY HEX");
                         }
                     }
+                    ONLYjudge=false;
                     if (!isDEC && !isOver8bits)//DEC超过8位后，DEC被封锁，只能在HEX下进行运算。
                     {
                         SHIFT_HEXtoDEC_DISPLAY();
@@ -688,6 +690,7 @@ public class TI_LCD_Programmer extends JFrame
                     }
                 }
             }
+            System.out.println(isOver8bits);
         });
         a1SCButton.addActionListener(e -> {
             if (isON && Nothasdot())
@@ -1625,14 +1628,11 @@ public class TI_LCD_Programmer extends JFrame
             return "";
     }
 
-    private String radix16to10(String s)
-    {
+    private String radix16to10(String s) {
         int DECcalculate = 0;
-        for (int i = 0; i < s.length(); i++)
-        {
+        for (int i = 0; i < s.length(); i++) {
             int num = (int) Math.pow(16, (s.length() - 1 - i));
-            switch (s.charAt(i))
-            {
+            switch (s.charAt(i)) {
                 case '0':
                     DECcalculate += 0;
                     break;
@@ -1683,10 +1683,9 @@ public class TI_LCD_Programmer extends JFrame
                     break;
             }
         }
-        if(!isOperator&&OperatingMode==0)//先+后转进制条件下不可用
-        tmp=""+DECcalculate;
+        if (!isOperator && OperatingMode == 0 && !isOver8bits&&!ONLYjudge)//先+后转进制条件下不可用
+            tmp = "" + DECcalculate;
         return DECcalculate + "";
-
     }
     private void onDotandBit()
     {
@@ -2334,4 +2333,5 @@ public class TI_LCD_Programmer extends JFrame
     private boolean isModern = true;
     private boolean isDotted = false;//表示已经输入过小数点
     private boolean istmpdotted = false;//输入的文本是否有小数点
+    private boolean ONLYjudge=false;
 }
