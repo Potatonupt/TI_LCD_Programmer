@@ -1130,12 +1130,10 @@ public class TI_LCD_Programmer extends JFrame
         IOput.setFont(IOputFont);//设置字体样式
         IOput.setBackground(new Color(0xECECED));//设置背景颜色
         IOput.setForeground(Color.BLACK);
-//        IOput.setDocument(new JTextFieldLimit(8));//设置JTextField输入文本长度不超过8位
         IOput.setBorder(BorderFactory.createEmptyBorder());//文本框不带边框
         EmptySpacer1.setBorder(BorderFactory.createEmptyBorder());
         EmptySpacer2.setBorder(BorderFactory.createEmptyBorder());
         MidSpacer.setBorder(BorderFactory.createEmptyBorder());
-//        IOput.setText("12345678");
         Separator.setForeground(new Color(0xFFFFFF));
     }
     //=====================================
@@ -2248,7 +2246,7 @@ public class TI_LCD_Programmer extends JFrame
 //        isShasdot = false;
         isDotted = false;
         istmpdotted=false;
-        if (isDEC)
+        if (isDEC&&OperatingMode==0)
             showdotButton();
         showBitoperationButton();
         HEXButton.setEnabled(true);
