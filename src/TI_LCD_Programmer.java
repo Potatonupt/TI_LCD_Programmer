@@ -42,6 +42,7 @@ public class TI_LCD_Programmer extends JFrame
         initControlButton();
         initOperatorButton();
     }
+
     private void initNumberButton()
     {
         a0Button.addActionListener(e -> {
@@ -254,18 +255,18 @@ public class TI_LCD_Programmer extends JFrame
         CEButton.addActionListener(e -> {
             if (!tmp.isEmpty())
             {
-                boolean flag=false;
+                boolean flag = false;
                 tmp = tmp.substring(0, tmp.length() - 1);
-                for(int i=0;i<tmp.length();i++)
-                    if(tmp.charAt(i)=='.')
+                for (int i = 0; i < tmp.length(); i++)
+                    if (tmp.charAt(i) == '.')
                     {
-                        flag=true;
+                        flag = true;
                         break;
                     }
-                if(!flag)
+                if (!flag)
                 {
                     isDotted = false;
-                    istmpdotted=false;
+                    istmpdotted = false;
                     dotButton.setEnabled(true);
                     HEXButton.setEnabled(true);
 //                    HEXButton.setEnabled(true);
@@ -306,9 +307,9 @@ public class TI_LCD_Programmer extends JFrame
         AddButton.addActionListener(e -> {
             if (isON)
             {
-                if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
+                if (OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
                     OverFlow.setText("");
-                if(OperatingMode==0)
+                if (OperatingMode == 0)
                     onDotandBit();
                 if (OperatingMode == 0)
                 {
@@ -342,9 +343,9 @@ public class TI_LCD_Programmer extends JFrame
         SubButton.addActionListener(e -> {
             if (isON)
             {
-                if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
+                if (OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
                     OverFlow.setText("");
-                if(OperatingMode==0)
+                if (OperatingMode == 0)
                     onDotandBit();
                 if (OperatingMode == 0)
                 {
@@ -378,9 +379,9 @@ public class TI_LCD_Programmer extends JFrame
         MulButton.addActionListener(e -> {
             if (isON)
             {
-                if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
+                if (OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
                     OverFlow.setText("");
-                if(OperatingMode==0)
+                if (OperatingMode == 0)
                     onDotandBit();
                 if (OperatingMode == 0)
                 {
@@ -414,9 +415,9 @@ public class TI_LCD_Programmer extends JFrame
         DivButton.addActionListener(e -> {
             if (isON)
             {
-                if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
+                if (OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
                     OverFlow.setText("");
-                if(OperatingMode==0)
+                if (OperatingMode == 0)
                     onDotandBit();
                 if (OperatingMode == 0)
                 {
@@ -449,7 +450,7 @@ public class TI_LCD_Programmer extends JFrame
         ANDButton.addActionListener(e -> {
             if (isON && Nothasdot())
             {
-                if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
+                if (OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
                     OverFlow.setText("");
                 isDotted = true;
                 hidedotButton();
@@ -487,7 +488,7 @@ public class TI_LCD_Programmer extends JFrame
         ORButton.addActionListener(e -> {//仅限整数
             if (isON && Nothasdot())
             {
-                if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
+                if (OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
                     OverFlow.setText("");
                 isDotted = true;
                 hidedotButton();
@@ -524,7 +525,7 @@ public class TI_LCD_Programmer extends JFrame
         XORButton.addActionListener(e -> {
             if (isON && Nothasdot())
             {
-                if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
+                if (OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
                     OverFlow.setText("");
                 if (OperatingMode == 0)
                 {
@@ -561,7 +562,7 @@ public class TI_LCD_Programmer extends JFrame
         SHFButton.addActionListener(e -> {
             if (isON && Nothasdot())
             {
-                if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
+                if (OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
                     OverFlow.setText("");
                 if (OperatingMode == 0)
                 {
@@ -608,11 +609,12 @@ public class TI_LCD_Programmer extends JFrame
                     updateAnswer();
                     System.out.println(operatorNumber);
                     System.out.println(operatorNumber.equals("0."));
-                    if(!Nothasdot()) {//除法后结果必带小数点，直接关闭位运算功能和转HEX功能
+                    if (!Nothasdot())
+                    {//除法后结果必带小数点，直接关闭位运算功能和转HEX功能
                         hideBitoperationsButton();
                         HEXButton.setEnabled(false);
                     }
-                    if(operatorNumber.equals("0."))
+                    if (operatorNumber.equals("0."))
                     {
                         showBitoperationButton();
                         HEXButton.setEnabled(true);
@@ -673,25 +675,31 @@ public class TI_LCD_Programmer extends JFrame
             {
                 if (OperatingMode == 0)
                 {
-                    ONLYjudge=true;
-                    if(isHEX) {
-                        if (radix16to10(IOput.getText()).charAt(0) == '-') {//确保负数也可以输出8位
+                    ONLYjudge = true;
+                    if (isHEX)
+                    {
+                        if (radix16to10(IOput.getText()).charAt(0) == '-')
+                        {//确保负数也可以输出8位
                             if (radix16to10(IOput.getText()).length() <= 9)
                                 isOver8bits = false;
-                            else {
+                            else
+                            {
                                 isOver8bits = true;
                                 OverFlow.setText("WARNING:ONLY HEX");
                             }
-                        } else {
+                        }
+                        else
+                        {
                             if (radix16to10(IOput.getText()).length() <= 8)
                                 isOver8bits = false;
-                            else {
+                            else
+                            {
                                 isOver8bits = true;
                                 OverFlow.setText("WARNING:ONLY HEX");
                             }
                         }
                     }
-                    ONLYjudge=false;
+                    ONLYjudge = false;
                     if (!isDEC && !isOver8bits)//DEC超过8位后，DEC被封锁，只能在HEX下进行运算。
                     {
                         SHIFT_HEXtoDEC_DISPLAY();
@@ -724,9 +732,9 @@ public class TI_LCD_Programmer extends JFrame
             System.out.println(isOver8bits);
         });
         a1SCButton.addActionListener(e -> {
-            if (isON )//&& Nothasdot()
+            if (isON)//&& Nothasdot()
             {
-                if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
+                if (OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
                     OverFlow.setText("");
                 isDotted = true;
                 hidedotButton();
@@ -755,7 +763,7 @@ public class TI_LCD_Programmer extends JFrame
         a2SCButton.addActionListener(e -> {
             if (isON)
             {
-                if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
+                if (OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
                     OverFlow.setText("");
                 hidedotButton();
                 if (OperatingMode == 0)
@@ -788,15 +796,15 @@ public class TI_LCD_Programmer extends JFrame
                         second = second.negate();
                         if (isDEC)
                         {//修改了一下补反运算的显示
-                            if(second.toString().charAt(0)=='-') {
+                            if (second.toString().charAt(0) == '-')
+                            {
                                 if (second.toString().charAt(1) == '0')
                                     IOput.setText("-" + second.toString().substring(2));
                                 else
                                     IOput.setText(second.toString());
                             }
-                            else
-                            if (second.toString().charAt(0) == '0')
-                                IOput.setText( second.toString().substring(1));
+                            else if (second.toString().charAt(0) == '0')
+                                IOput.setText(second.toString().substring(1));
                             tmp = "" + second.toString();
                         }
                         else if (isHEX)
@@ -896,16 +904,17 @@ public class TI_LCD_Programmer extends JFrame
         OPButton.registerKeyboardAction(e -> CPButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_0, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
         ModeButton.registerKeyboardAction(e -> ModeButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
         SkinButton.registerKeyboardAction(e -> SkinButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
-        SHFButton.registerKeyboardAction(e->SHFButton.doClick(),KeyStroke.getKeyStroke(KeyEvent.VK_S,0),JComponent.WHEN_IN_FOCUSED_WINDOW);
-        a1SCButton.registerKeyboardAction(e->a1SCButton.doClick(),KeyStroke.getKeyStroke(KeyEvent.VK_1,InputEvent.SHIFT_MASK),JComponent.WHEN_IN_FOCUSED_WINDOW);
-        a2SCButton.registerKeyboardAction(e->a2SCButton.doClick(),KeyStroke.getKeyStroke(KeyEvent.VK_2,InputEvent.SHIFT_MASK),JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ANDButton.registerKeyboardAction(e->ANDButton.doClick(),KeyStroke.getKeyStroke(KeyEvent.VK_7,InputEvent.SHIFT_MASK),JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ORButton.registerKeyboardAction(e->ORButton.doClick(),KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SLASH,InputEvent.SHIFT_MASK),JComponent.WHEN_IN_FOCUSED_WINDOW);
-        XORButton.registerKeyboardAction(e->XORButton.doClick(),KeyStroke.getKeyStroke(KeyEvent.VK_6,InputEvent.SHIFT_MASK),JComponent.WHEN_IN_FOCUSED_WINDOW);
+        SHFButton.registerKeyboardAction(e -> SHFButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_S, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+        a1SCButton.registerKeyboardAction(e -> a1SCButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_1, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
+        a2SCButton.registerKeyboardAction(e -> a2SCButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_2, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ANDButton.registerKeyboardAction(e -> ANDButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_7, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ORButton.registerKeyboardAction(e -> ORButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SLASH, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
+        XORButton.registerKeyboardAction(e -> XORButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_6, InputEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
         KButton.registerKeyboardAction(e -> KButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_K, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
         IOput.registerKeyboardAction(e ->
         {
-            if(OperatingMode==1) {
+            if (OperatingMode == 1)
+            {
                 if (tmp.length() - 8 - index > 0)
                     index++;
                 resetIndex = true;
@@ -915,13 +924,14 @@ public class TI_LCD_Programmer extends JFrame
         }, KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
         IOput.registerKeyboardAction(e ->
         {
-            if (OperatingMode == 1){
+            if (OperatingMode == 1)
+            {
                 if (index > 0)
                     index--;
-            resetIndex = true;
-            isEqualOperator = false;
-            displayIOput("");
-        }
+                resetIndex = true;
+                isEqualOperator = false;
+                displayIOput("");
+            }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
     }
@@ -947,7 +957,8 @@ public class TI_LCD_Programmer extends JFrame
             ToolButton[i].setBorderPainted(false);//取消边框
             ToolButton[i].setFocusPainted(false);//取消聚焦
             ToolButton[i].setFont(buttonFont);
-            if(!isModern) {
+            if (!isModern)
+            {
                 ToolButton[i].setBackground(new Color(62, 68, 79));//设置背景颜色
                 ToolButton[i].setForeground(new Color(255, 255, 255));//设置按钮上的字体颜色
             }
@@ -963,7 +974,7 @@ public class TI_LCD_Programmer extends JFrame
                 public void mouseEntered(MouseEvent e)
                 {
                     super.mouseEntered(e);
-                    if(!isModern)
+                    if (!isModern)
                         ToolButton[finalI].setBackground(new Color(32, 38, 49));
                     else
                         ToolButton[finalI].setBackground(new Color(0xD3D3D4));
@@ -973,7 +984,7 @@ public class TI_LCD_Programmer extends JFrame
                 public void mouseExited(MouseEvent e)
                 {
                     super.mouseExited(e);
-                    if(!isModern)
+                    if (!isModern)
                         ToolButton[finalI].setBackground(new Color(62, 68, 79));
                     else
                         ToolButton[finalI].setBackground(new Color(248, 248, 249));
@@ -982,10 +993,11 @@ public class TI_LCD_Programmer extends JFrame
         }
         ModeButton.setFont(new Font("Times New Romans", Font.BOLD, 20));//设置字体);
         SkinButton.setFont(new Font("Times New Romans", Font.BOLD, 17));//设置字体);
-        if(isModern)
+        if (isModern)
             setUniqueModernButton();//带颜色的
         hideHEXrelatedButton();
     }
+
     private void setUniqueModernButton()
     {
         EqualButton.setBackground(new Color(185, 160, 212));
@@ -1040,6 +1052,7 @@ public class TI_LCD_Programmer extends JFrame
             }
         });
     }
+
     public void setDigitalButton()//对数字按钮进行设置
     {
         JButton[] DigitalButton = {
@@ -1049,46 +1062,47 @@ public class TI_LCD_Programmer extends JFrame
                 a0Button, dotButton
         };
         Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);
-            for (int i = 0; i < DigitalButton.length; i++)
+        for (int i = 0; i < DigitalButton.length; i++)
+        {
+            DigitalButton[i].setBorderPainted(false);
+            DigitalButton[i].setFocusPainted(false);
+            DigitalButton[i].setFont(buttonFont);
+            if (!isModern)
             {
-                DigitalButton[i].setBorderPainted(false);
-                DigitalButton[i].setFocusPainted(false);
-                DigitalButton[i].setFont(buttonFont);
-                if(!isModern) {
-                    DigitalButton[i].setBackground(new Color(188, 189, 194));
-                    DigitalButton[i].setForeground(new Color(26, 23, 23));
-                }
-                else
-                {
-                        DigitalButton[i].setBackground(new Color(248, 248, 249));
-                        DigitalButton[i].setForeground(Color.BLACK);
-                }
-                int finalI = i;
-                DigitalButton[i].addMouseListener(new MouseAdapter()
-                {
-                    @Override
-                    public void mouseEntered(MouseEvent e)
-                    {
-
-                        super.mouseEntered(e);
-                        if(!isModern)
-                        DigitalButton[finalI].setBackground(new Color(138, 138, 138));
-                        else
-                            DigitalButton[finalI].setBackground(new Color(0xD3D3D4));
-
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e)
-                    {
-                        super.mouseExited(e);
-                        if(!isModern)
-                        DigitalButton[finalI].setBackground(new Color(188, 189, 194));
-                        else
-                            DigitalButton[finalI].setBackground(new Color(248, 248, 249));
-                    }
-                });
+                DigitalButton[i].setBackground(new Color(188, 189, 194));
+                DigitalButton[i].setForeground(new Color(26, 23, 23));
             }
+            else
+            {
+                DigitalButton[i].setBackground(new Color(248, 248, 249));
+                DigitalButton[i].setForeground(Color.BLACK);
+            }
+            int finalI = i;
+            DigitalButton[i].addMouseListener(new MouseAdapter()
+            {
+                @Override
+                public void mouseEntered(MouseEvent e)
+                {
+
+                    super.mouseEntered(e);
+                    if (!isModern)
+                        DigitalButton[finalI].setBackground(new Color(138, 138, 138));
+                    else
+                        DigitalButton[finalI].setBackground(new Color(0xD3D3D4));
+
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e)
+                {
+                    super.mouseExited(e);
+                    if (!isModern)
+                        DigitalButton[finalI].setBackground(new Color(188, 189, 194));
+                    else
+                        DigitalButton[finalI].setBackground(new Color(248, 248, 249));
+                }
+            });
+        }
     }
 
     public void setLabel()//对标签进行设置
@@ -1148,7 +1162,7 @@ public class TI_LCD_Programmer extends JFrame
     //====================================================================================
     private void getOperatorNumber()           //获取当前操作数
     {
-        if(tmp.equals("."))
+        if (tmp.equals("."))
             operatorNumber = "0" + tmp;
         else
             operatorNumber = "" + tmp;
@@ -1199,12 +1213,13 @@ public class TI_LCD_Programmer extends JFrame
                 answer = first.multiply(second);
                 break;
             case 4:
-                if(second.compareTo(BigDecimal.valueOf(0))==0)
+                if (second.compareTo(BigDecimal.valueOf(0)) == 0)
                 {
                     OverFlow.setText("WARNING:CANNOT DIVIDE 0");
                     break;
                 }
-                else {
+                else
+                {
                     OverFlow.setText("");
                     answer = first.divide(second, 8, RoundingMode.HALF_UP);
                 }
@@ -1229,8 +1244,9 @@ public class TI_LCD_Programmer extends JFrame
 
     private void updateAnswer()    //将结果保存到first，以便下一次运算
     {
-        istmpdotted=false;
-        if(!isHEX) {
+        istmpdotted = false;
+        if (!isHEX)
+        {
             dotButton.setEnabled(true);
             showdotButton();
         }
@@ -1668,11 +1684,11 @@ public class TI_LCD_Programmer extends JFrame
         }
         if (s.length() > 0)
         {
-            if(s.equals("-"))
-                s="0";
+            if (s.equals("-"))
+                s = "0";
             Integer temp = Integer.decode(s);
-            if(!isOperator&&OperatingMode==0)
-            tmp=Integer.toHexString(temp).toUpperCase(Locale.ROOT);
+            if (!isOperator && OperatingMode == 0)
+                tmp = Integer.toHexString(temp).toUpperCase(Locale.ROOT);
             return Integer.toHexString(temp).toUpperCase(Locale.ROOT);
 
         }
@@ -1680,11 +1696,14 @@ public class TI_LCD_Programmer extends JFrame
             return "";
     }
 
-    private String radix16to10(String s) {
+    private String radix16to10(String s)
+    {
         int DECcalculate = 0;
-        for (int i = 0; i < s.length(); i++) {
+        for (int i = 0; i < s.length(); i++)
+        {
             int num = (int) Math.pow(16, (s.length() - 1 - i));
-            switch (s.charAt(i)) {
+            switch (s.charAt(i))
+            {
                 case '0':
                     DECcalculate += 0;
                     break;
@@ -1735,13 +1754,15 @@ public class TI_LCD_Programmer extends JFrame
                     break;
             }
         }
-        if (!isOperator && OperatingMode == 0 && !isOver8bits&&!ONLYjudge)//先+后转进制条件下不可用
+        if (!isOperator && OperatingMode == 0 && !isOver8bits && !ONLYjudge)//先+后转进制条件下不可用
             tmp = "" + DECcalculate;
         return DECcalculate + "";
     }
+
     private void onDotandBit()
     {
-        if(!isHEX) {
+        if (!isHEX)
+        {
             isDotted = false;//小数点按钮可使用
             dotButton.setEnabled(true);
             showdotButton();
@@ -1749,6 +1770,7 @@ public class TI_LCD_Programmer extends JFrame
         if (Nothasdot())
             showBitoperationButton();//位运算按钮可用
     }
+
     private void hidedotButton()
     {
         dotButton.setEnabled(false);
@@ -1815,7 +1837,7 @@ public class TI_LCD_Programmer extends JFrame
     private void hideBitoperationsButton()//改变位运算符的显示
     {
         Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
-        JButton[] HexButton = { ORButton, ANDButton, XORButton, SHFButton};//,a2SCButton，a1SCButton,
+        JButton[] HexButton = {ORButton, ANDButton, XORButton, SHFButton};//,a2SCButton，a1SCButton,
         for (JButton hexBUtton : HexButton)
         {
             hexBUtton.setEnabled(false);
@@ -1860,7 +1882,7 @@ public class TI_LCD_Programmer extends JFrame
     private void showBitoperationButton()
     {
         Font buttonFont = new Font("Times New Romans", Font.BOLD, 25);//设置字体
-        JButton[] HexButton = { ORButton, ANDButton, XORButton, SHFButton};//a2SCButton,a1SCButton,
+        JButton[] HexButton = {ORButton, ANDButton, XORButton, SHFButton};//a2SCButton,a1SCButton,
         for (JButton hexBUtton : HexButton)
         {
             hexBUtton.setEnabled(true);
@@ -2036,10 +2058,10 @@ public class TI_LCD_Programmer extends JFrame
         {
             if (String.valueOf(answer).charAt(0) == '-')
             {
-                if (String.valueOf(answer).length() > 9 )//&& isDEC
+                if (String.valueOf(answer).length() > 9)//&& isDEC
                 {
                     isOver8bits = true;
-                    if (!isOverflow&&isDEC)//Overflow优先显示
+                    if (!isOverflow && isDEC)//Overflow优先显示
                     {
                         OverFlow.setText("WARNING:ONLY HEX");
                         HEXButton.doClick();
@@ -2053,10 +2075,11 @@ public class TI_LCD_Programmer extends JFrame
             }
             else
             {
-                if (String.valueOf(answer).length() > 8 )//&& isDEC
+                if (String.valueOf(answer).length() > 8)//&& isDEC
                 {
                     isOver8bits = true;
-                    if (!isOverflow&&isDEC) {
+                    if (!isOverflow && isDEC)
+                    {
                         OverFlow.setText("WARNING:ONLY HEX");
                         HEXButton.doClick();
                     }
@@ -2073,20 +2096,25 @@ public class TI_LCD_Programmer extends JFrame
     private boolean Nothasdot()//判断现在输入以及过往输入是否有小数
     {
 
-        for (int i = 0; i < IOput.getText().length(); i++) {
+        for (int i = 0; i < IOput.getText().length(); i++)
+        {
             if (IOput.getText().charAt(i) == '.')
                 return false;
         }
-        for (int i = 0; i < String.valueOf(first).length(); i++) {
+        for (int i = 0; i < String.valueOf(first).length(); i++)
+        {
             if (String.valueOf(first).charAt(i) == '.')
                 return false;
         }
-        for (int i = 0; i < String.valueOf(second).length(); i++) {
+        for (int i = 0; i < String.valueOf(second).length(); i++)
+        {
             if (String.valueOf(second).charAt(i) == '.')
                 return false;
         }
-        for (int i = 0; i < String.valueOf(answer).length(); i++) {
-            if (String.valueOf(answer).charAt(i) == '.') {
+        for (int i = 0; i < String.valueOf(answer).length(); i++)
+        {
+            if (String.valueOf(answer).charAt(i) == '.')
+            {
                 return false;
             }
         }
@@ -2200,13 +2228,15 @@ public class TI_LCD_Programmer extends JFrame
                         tmp = tmp.substring(1);
                     IOput.setText(tmp);
                 }
-                for (int i = 0; i < tmp.length(); i++) {//tmp是否还有小数点
-                    if (tmp.charAt(i) == '.') {
+                for (int i = 0; i < tmp.length(); i++)
+                {//tmp是否还有小数点
+                    if (tmp.charAt(i) == '.')
+                    {
                         istmpdotted = true;
                         break;
                     }
                 }
-                if(!istmpdotted &&tmp.length()==8)//没有小数点且输入长度已8位，说明输入的是整数，此时dotbutton被封锁
+                if (!istmpdotted && tmp.length() == 8)//没有小数点且输入长度已8位，说明输入的是整数，此时dotbutton被封锁
                 {
                     dotButton.setEnabled(false);
                     hidedotButton();
@@ -2216,12 +2246,12 @@ public class TI_LCD_Programmer extends JFrame
             {
                 if (isEqualOperator)
                     tmp = "";
-                if(isEqualOperator&&isOperator)
+                if (isEqualOperator && isOperator)
                 {
                     tmp = "" + result.toString();
-                    isEqualOperator=false;
-                    infix="";
-                    postfix="";
+                    isEqualOperator = false;
+                    infix = "";
+                    postfix = "";
                 }
                 tmp = tmp + s;
                 if (!resetIndex)
@@ -2245,8 +2275,8 @@ public class TI_LCD_Programmer extends JFrame
         isOver8bits = false;
 //        isShasdot = false;
         isDotted = false;
-        istmpdotted=false;
-        if (isDEC&&OperatingMode==0)
+        istmpdotted = false;
+        if (isDEC && OperatingMode == 0)
             showdotButton();
         showBitoperationButton();
         HEXButton.setEnabled(true);
@@ -2271,7 +2301,7 @@ public class TI_LCD_Programmer extends JFrame
         tmp1 = new BigDecimal(0);
         tmp2 = new BigDecimal(0);
         isNotEqualOperator = false;
-        result=new BigDecimal(0);
+        result = new BigDecimal(0);
     }
 
 
@@ -2388,5 +2418,5 @@ public class TI_LCD_Programmer extends JFrame
     private boolean isModern = true;
     private boolean isDotted = false;//表示已经输入过小数点
     private boolean istmpdotted = false;//输入的文本是否有小数点
-    private boolean ONLYjudge=false;
+    private boolean ONLYjudge = false;
 }
