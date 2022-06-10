@@ -308,7 +308,8 @@ public class TI_LCD_Programmer extends JFrame
             {
                 if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
                     OverFlow.setText("");
-                onDotandBit();
+                if(OperatingMode==0)
+                    onDotandBit();
                 if (OperatingMode == 0)
                 {
                     OperationLabel.setText("+");
@@ -343,7 +344,8 @@ public class TI_LCD_Programmer extends JFrame
             {
                 if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
                     OverFlow.setText("");
-                onDotandBit();
+                if(OperatingMode==0)
+                    onDotandBit();
                 if (OperatingMode == 0)
                 {
                     OperationLabel.setText("-");
@@ -378,7 +380,8 @@ public class TI_LCD_Programmer extends JFrame
             {
                 if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
                     OverFlow.setText("");
-                onDotandBit();
+                if(OperatingMode==0)
+                    onDotandBit();
                 if (OperatingMode == 0)
                 {
                     OperationLabel.setText("×");
@@ -413,7 +416,8 @@ public class TI_LCD_Programmer extends JFrame
             {
                 if(OverFlow.getText().equals("WARNING:CANNOT DIVIDE 0"))
                     OverFlow.setText("");
-                onDotandBit();
+                if(OperatingMode==0)
+                    onDotandBit();
                 if (OperatingMode == 0)
                 {
                     OperationLabel.setText("÷");
@@ -901,19 +905,23 @@ public class TI_LCD_Programmer extends JFrame
         KButton.registerKeyboardAction(e -> KButton.doClick(), KeyStroke.getKeyStroke(KeyEvent.VK_K, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
         IOput.registerKeyboardAction(e ->
         {
-            if (tmp.length() - 8 - index > 0)
-                index++;
-            resetIndex = true;
-            isEqualOperator = false;
-            displayIOput("");
+            if(OperatingMode==1) {
+                if (tmp.length() - 8 - index > 0)
+                    index++;
+                resetIndex = true;
+                isEqualOperator = false;
+                displayIOput("");
+            }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
         IOput.registerKeyboardAction(e ->
         {
-            if (index > 0)
-                index--;
+            if (OperatingMode == 1){
+                if (index > 0)
+                    index--;
             resetIndex = true;
             isEqualOperator = false;
             displayIOput("");
+        }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
     }
@@ -1122,12 +1130,10 @@ public class TI_LCD_Programmer extends JFrame
         IOput.setFont(IOputFont);//设置字体样式
         IOput.setBackground(new Color(0xECECED));//设置背景颜色
         IOput.setForeground(Color.BLACK);
-//        IOput.setDocument(new JTextFieldLimit(8));//设置JTextField输入文本长度不超过8位
         IOput.setBorder(BorderFactory.createEmptyBorder());//文本框不带边框
         EmptySpacer1.setBorder(BorderFactory.createEmptyBorder());
         EmptySpacer2.setBorder(BorderFactory.createEmptyBorder());
         MidSpacer.setBorder(BorderFactory.createEmptyBorder());
-//        IOput.setText("12345678");
         Separator.setForeground(new Color(0xFFFFFF));
     }
     //=====================================
@@ -2240,7 +2246,7 @@ public class TI_LCD_Programmer extends JFrame
 //        isShasdot = false;
         isDotted = false;
         istmpdotted=false;
-        if (isDEC)
+        if (isDEC&&OperatingMode==0)
             showdotButton();
         showBitoperationButton();
         HEXButton.setEnabled(true);
