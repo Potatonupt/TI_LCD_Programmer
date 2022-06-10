@@ -516,7 +516,7 @@ private void getInfix()
 
 中缀表达式转后缀表达式用到了我们数据结构课所学的算法，利用栈的结构特性实现。首先根据运算优先级排好次序：
 
-<img src="C:\Users\17419\Desktop\images\media\clip_image001.png" alt="img"  />
+![](.\images\media\clip_image001.png)
 
 注意第一行这里是负号，与减号区分，用的是连字符符号实现
 
