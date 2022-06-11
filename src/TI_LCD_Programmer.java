@@ -629,6 +629,8 @@ public class TI_LCD_Programmer extends JFrame
                         isEqualOperator = true;
                         getInfix();
                         translate();
+                        System.out.println(infix);
+                        System.out.println(postfix);
                         calculate_with_Parentheses();
                         displayIOput(result.toString());
                     }
